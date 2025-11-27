@@ -1,14 +1,11 @@
 const loginForm = document.getElementById('loginForm');
 const messageElement = document.getElementById('message');
 
-// ⭐️ TÀI KHOẢN ADMIN CỐ ĐỊNH ⭐️
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin1"; // Bạn nên đổi mật khẩu này
-
 loginForm.addEventListener('submit', function(event) {
     event.preventDefault(); 
     
     // 1. Thu thập dữ liệu form
+    // Lấy giá trị từ trường "Tên hiển thị"
     const inputUsername = document.getElementById('username').value;
     const inputPassword = document.getElementById('login-password').value;
     
@@ -18,28 +15,7 @@ loginForm.addEventListener('submit', function(event) {
     let userFound = false;
     let successfulLogin = false;
 
-    // =======================================================
-    // 2. BƯỚC 1: KIỂM TRA TÀI KHOẢN ADMIN CỐ ĐỊNH
-    // =======================================================
-    if (inputUsername === ADMIN_USERNAME && inputPassword === ADMIN_PASSWORD) {
-        successfulLogin = true;
-        
-        // Chuyển hướng đến trang Admin Dashboard
-        messageElement.textContent = 'Đăng nhập Admin thành công! Đang chuyển hướng...';
-        messageElement.style.color = 'green';
-        
-        setTimeout(() => {
-            // Chuyển hướng đến file Admin Dashboard (ví dụ: admin_dashboard.html)
-            window.location.href = 'admin_dashboard.html'; 
-        }, 1000);
-        return; // Dừng xử lý ngay lập tức sau khi Admin đăng nhập
-    }
-
-    // =======================================================
-    // 3. BƯỚC 2: KIỂM TRA TÀI KHOẢN NGƯỜI DÙNG BÌNH THƯỜNG (DÙNG localStorage)
-    // =======================================================
-    
-    // LẶP QUA TẤT CẢ DỮ LIỆU ĐÃ LƯU TRONG localStorage (dành cho người dùng thường)
+    // 2. LẶP QUA TẤT CẢ DỮ LIỆU ĐÃ LƯU TRONG localStorage
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         
@@ -48,32 +24,34 @@ loginForm.addEventListener('submit', function(event) {
             const storedUserJSON = localStorage.getItem(key);
             const storedUserData = JSON.parse(storedUserJSON);
             
-            // SO SÁNH: Tên hiển thị (fullname) có khớp không?
+            // 3. SO SÁNH: Tên hiển thị (fullname) có khớp không?
             if (storedUserData.fullname === inputUsername) {
                 userFound = true;
                 
-                // SO SÁNH: Mật khẩu có khớp không?
+                // 4. SO SÁNH: Mật khẩu có khớp không?
                 if (storedUserData.password === inputPassword) {
                     successfulLogin = true;
-                    
-                    // Chuyển hướng đến trang chính của người dùng
-                    messageElement.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
-                    messageElement.style.color = 'green';
-                    setTimeout(() => {
-                        window.location.href = 'index.html'; 
-                    }, 1000);
-                    return; // Dừng xử lý và thoát
+                    break; // Thoát vòng lặp ngay khi tìm thấy và đăng nhập thành công
                 } else {
                     // Tìm thấy tên người dùng nhưng mật khẩu sai
                     messageElement.textContent = 'Mật khẩu không đúng. Vui lòng thử lại.';
-                    return; 
+                    return; // Dừng xử lý
                 }
             }
         }
     }
 
-    // 4. Kết quả cuối cùng (Nếu không phải admin và không phải người dùng thường)
-    if (!successfulLogin && !userFound) {
+    // 5. Kết quả cuối cùng
+    if (successfulLogin) {
+        messageElement.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
+        messageElement.style.color = 'green';
+        
+        // Chuyển hướng đến trang chính
+        setTimeout(() => {
+            window.location.href = 'index.html'; 
+        }, 1000); 
+    } else if (!userFound) {
+        // Sau khi lặp hết mà không tìm thấy tên hiển thị
         messageElement.textContent = 'Tài khoản không tồn tại. Vui lòng kiểm tra lại Tên hiển thị.';
     }
 });

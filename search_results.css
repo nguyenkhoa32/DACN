@@ -1,0 +1,97 @@
+/* Container kết quả */
+.main-content-results {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.main-content-results h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #1a7d30;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Bố cục lưới cho danh sách sân */
+.court-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* Định dạng thẻ sân */
+.court-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex; /* Dùng flex cho nội dung bên trong */
+    transition: transform 0.3s;
+}
+
+.court-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Hình ảnh sân */
+.court-img {
+    width: 150px; /* Kích thước hình nhỏ */
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+/* Thông tin sân */
+.court-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.court-name {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.court-location {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.court-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+}
+
+.court-time {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+/* Nút đặt sân */
+.book-btn {
+    background: #ffc107; /* Màu vàng nổi bật */
+    color: #333;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.book-btn:hover {
+    background: #e0a800;
+}
