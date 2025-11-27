@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Quản Lý</title>
+    <link rel="stylesheet" href="admin_style.css"> 
+    </head>
+<body>
+    <div class="app-wrapper">
+        
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span>ADMINDEK</span> 
+            </div>
+            
+            <nav class="navigation">
+                <ul class="nav-list">
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">
+                            <i class="icon-dashboard"></i> 
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quanlysan.html" class="nav-link">
+                            <i class="icon-yard"></i> 
+                            Quản lý Sân
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quanlynhanvien.html" class="nav-link">
+                            <i class="icon-staff"></i> 
+                            Quản lý Nhân Viên
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="doanhthu.html" class="nav-link">
+                            <i class="icon-revenue"></i> 
+                            Doanh thu & Thống kê
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quanlynguoidung.html" class="nav-link">
+                            <i class="icon-user"></i> 
+                            Quản lý Người dùng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="khuyenmai.html" class="nav-link">
+                            <i class="icon-promo"></i> 
+                            Quản lý Khuyến mãi
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            
+            <header class="top-header">
+                <div class="breadcrumb">Dashboard</div>
+                <div class="user-profile">
+                    <span class="user-name">Admin</span>
+                    <img src="avatar.jpg" alt="User Avatar" class="avatar">
+                    
+                    <button id="logoutBtn" class="logout-btn">Đăng Xuất</button>
+                </div>
+            </header>
+
+            <div class="dashboard-body">
+                
+                <div class="quick-access-panel">
+                    <div class="feature-buttons-container">
+                        
+                        <a href="quanlysan.html" class="feature-btn btn-san">
+                            <i class="icon-yard">🏟️</i> 
+                            <span>Quản lý Sân</span>
+                        </a>
+                        
+                        <a href="quanlynhanvien.html" class="feature-btn btn-nhanvien">
+                            <i class="icon-staff">🧑‍💼</i> 
+                            <span>Quản lý Nhân Viên</span>
+                        </a>
+                        
+                        <a href="doanhthu.html" class="feature-btn btn-doanhthu">
+                            <i class="icon-revenue">📈</i> 
+                            <span>Doanh thu & Thống kê</span>
+                        </a>
+                        
+                        <a href="quanlynguoidung.html" class="feature-btn btn-user">
+                            <i class="icon-user">👥</i> 
+                            <span>Quản lý Người dùng</span>
+                        </a>
+                        
+                        <a href="khuyenmai.html" class="feature-btn btn-promo">
+                            <i class="icon-promo">🎁</i> 
+                            <span>Quản lý Khuyến mãi</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <h2>Tổng quan doanh thu</h2>
+                <div class="analytics-row">
+                    <div class="chart-panel">
+                        
+                        
+                        <canvas id="revenueChart"></canvas> 
+                        
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="task-summary">
+                    </div>
+            </div>
+
+        </main>
+        
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    
+    <script src="admin_script.js"></script>
+</body>
+</html>

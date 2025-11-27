@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ Với Chúng Tôi</title>
+    <style>
+        /* CSS được nhúng trực tiếp ở đây */
+        /* Mục 2: CSS cơ bản */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .contact-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            box-sizing: border-box; /* Quan trọng để padding không làm thay đổi chiều rộng */
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-group button,
+        .button-group a {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn {
+            background-color: #2ecc71; /* Xanh lá cây */
+            color: white;
+            flex-grow: 1; /* Choán hết không gian còn lại */
+            margin-right: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+
+        .back-btn {
+            background-color: #95a5a6; /* Xám */
+            color: white;
+            flex-grow: 1; 
+            margin-left: 10px;
+        }
+        
+        /* Chuyển nút Quay lại sang màu xanh dương để làm rõ hành động */
+        .back-btn {
+            background-color: #3498db; /* Xanh dương */
+        }
+        .back-btn:hover {
+            background-color: #2980b9;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <h2>📧 Liên Hệ Với Chúng Tôi</h2>
+        
+        <form action="/submit_contact" method="POST"> 
+            
+            <div class="form-group">
+                <label for="name">👤 Tên của bạn:</label>
+                <input type="text" id="name" name="name" placeholder="Ví dụ: Nguyễn Văn A" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">📞 Số Điện Thoại:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Ví dụ: 0901 234 567" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">📍 Địa Chỉ:</label>
+                <input type="text" id="address" name="address" placeholder="Ví dụ: 123 Đường ABC, Quận XYZ, TP Đà Nẵng" required>
+            </div>
+
+            <div class="form-group">
+                <label for="message">✉️ Nội Dung Tin Nhắn:</label>
+                <textarea id="message" name="message" placeholder="Xin vui lòng nhập tin nhắn hoặc câu hỏi của bạn tại đây..." required></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Gửi Liên Hệ</button>
+                <a href="index.html" class="back-btn">Quay Lại Trang Chủ</a>
+            </div>
+            
+        </form>
+    </div>
+</body>
+</html>

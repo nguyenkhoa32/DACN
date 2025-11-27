@@ -1,0 +1,132 @@
+
+        /* Biến CSS cho màu sắc */
+        :root {
+            --primary-green: #007d3b; /* Màu xanh lá đậm cho nền và nút */
+            --light-green-bg: #007d3b; /* Màu xanh lá nhạt cho background */
+            --text-color: #333333;
+            --border-color: #cccccc;
+        }
+
+        /* Thiết lập chung */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            /* Tạo hiệu ứng dải màu xanh lá cây đậm nhạt ở nền */
+            background: linear-gradient(to bottom, var(--primary-green) 150px, var(--light-green-bg) 150px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px; /* Khoảng cách từ trên xuống */
+            min-height: 100vh;
+        }
+
+        /* Thanh tiêu đề Đăng Ký */
+        .header-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            width: 100%;
+            position: absolute; /* Đặt tuyệt đối để nằm trên nền xanh */
+            top: 15px;
+            left: 0;
+        }
+
+        /* Container chứa form */
+        .registration-form-container {
+            background-color: white;
+            padding: 20px 30px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px; /* Độ rộng của form */
+            margin-top: 40px;
+        }
+
+        /* Nhóm form */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        /* Container cho input */
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0; /* Loại bỏ padding ở input-wrapper */
+            background-color: white;
+        }
+
+        .input-wrapper input {
+            flex-grow: 1;
+            border: none;
+            padding: 12px 10px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Biểu tượng (Icon) bên trong input */
+        .input-icon {
+            padding: 0 10px;
+            cursor: pointer;
+            color: #777;
+            font-size: 18px;
+        }
+        
+        /* Màu cho icon Xóa và icon Mắt */
+        .clear-icon { color: var(--primary-green); font-size: 20px; }
+        .password-icon { color: #888; font-size: 18px; }
+
+
+        /* Phần Số điện thoại */
+        .phone-input-group {
+            display: flex;
+            width: 100%;
+        }
+
+        .country-code-select {
+            display: flex;
+            align-items: center;
+            border-right: 1px solid var(--border-color);
+            padding: 0 10px;
+            background-color: #f7f7f7;
+        }
+
+        .country-code-select span {
+            margin-left: 5px;
+            font-size: 16px;
+            color: var(--text-color);
+        }
+
+        /* Nút Đăng Ký */
+        .submit-btn {
+            background-color: var(--primary-green);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #006b32;
+        }
+        
+        /* Hiệu ứng focus */
+        .form-group:focus-within .input-wrapper {
+            border-color: var(--primary-green);
+        }
+

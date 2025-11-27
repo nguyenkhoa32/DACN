@@ -1,0 +1,66 @@
+/* NỀN */
+body {
+    margin: 0;
+    padding: 0;
+    background: #0c713a;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* KHUNG CHỮ */
+.splash-container {
+    text-align: center;
+    color: white;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* CHỮ LOGO */
+.logo {
+    font-size: 40px;
+    letter-spacing: 12px;
+    font-weight: 600;
+    opacity: 0;
+    animation: showText 1.8s ease forwards;
+}
+
+/* GẠCH */
+.line {
+    width: 60%;
+    height: 2px;
+    background: #ffffffb4;
+    margin: 15px auto 10px;
+    opacity: 0;
+    animation: fadeLine 2s ease forwards;
+}
+
+/* DÒNG TEXT NHỎ */
+.subtitle {
+    font-size: 18px;
+    margin-top: 15px;
+    opacity: 0;
+    animation: fadeSubtitle 2.6s ease forwards;
+}
+
+/* ANIMATION */
+@keyframes showText {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeLine {
+    0% { opacity: 0; width: 0%; }
+    100% { opacity: 1; width: 60%; }
+}
+
+@keyframes fadeSubtitle {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

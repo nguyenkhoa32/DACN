@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập Tài Khoản</title>
+    <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+    
+    <div class="header-title"><h3>Đăng Nhập</h3></div>
+    
+    <div class="login-form-container">
+        <form id="loginForm" class="login-form">
+            
+            <div class="form-group">
+                <label for="username">Tên hiển thị(*)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="Nhập tên hiển thị(*)" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Mật khẩu (*)</label>
+                <div class="input-wrapper">
+                    <input type="password" id="login-password" name="password" placeholder="Nhập mật khẩu (*)" required>
+                    <span class="input-icon password-icon">👁️‍🗨️</span>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">ĐĂNG NHẬP</button>
+
+            <div id="message" style="margin-top: 15px; text-align: center; font-weight: bold; color: red;"></div>
+            
+            <div class="forgot-password">
+                Bạn quên mật khẩu? <a href="#" class="forgot-link">Quên mật khẩu</a>
+            </div>
+
+            <div class="register-link">
+                Bạn chưa có tài khoản? <a href="register.html" class="register-link">Đăng ký</a>
+            </div>
+            
+        </form>
+    </div>
+    
+    <script src="login.js"></script> 
+
+</body>
+</html>

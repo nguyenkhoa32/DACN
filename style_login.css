@@ -1,0 +1,207 @@
+/* Biến CSS cho màu sắc */
+:root {
+    --primary-green: #007d3b; /* Màu xanh lá đậm */
+    --light-green-bg: #007d3b; /* Màu xanh lá nhạt */
+    --text-color: #333333;
+    --border-color: #cccccc;
+    --white: #ffffff;
+}
+
+/* Thiết lập chung */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    /* Tạo hiệu ứng dải màu xanh lá cây đậm nhạt ở nền (150px là chiều cao của header) */
+    background: linear-gradient(to bottom, var(--primary-green) 150px, var(--light-green-bg) 150px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px; 
+    min-height: 100vh;
+}
+
+/* Mũi tên Quay lại */
+.back-arrow {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: var(--white);
+    font-size: 28px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Thanh tiêu đề Đăng Nhập */
+.header-title {
+    color: var(--white);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    position: absolute; 
+    top: 15px;
+    left: 0;
+}
+
+/* Container chứa form */
+.login-form-container {
+    background-color: var(--white);
+    padding: 20px 30px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-top: 40px;
+}
+
+/* --- Tab Chuyển đổi --- */
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+    padding-bottom: 5px; 
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #666;
+    border-radius: 5px 5px 0 0;
+    position: relative;
+    top: 1px; /* Dịch lên nhẹ để tách khỏi đường line */
+}
+
+/* Tab đang hoạt động */
+.tab-button.active {
+    color: var(--primary-green);
+    font-weight: bold;
+    background-color: var(--white);
+}
+
+/* Màu viền cho tab Email (trông như một phần tử 3D) */
+.email-tab {
+    background-color: #f7f7f7; 
+    border: 1px solid #e0e0e0;
+    border-bottom: none;
+    margin-left: -1px; /* Dịch sang trái để dính vào tab kia */
+}
+
+/* --- Form Input --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden; 
+}
+
+.input-wrapper input {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-group:focus-within .input-wrapper {
+    border-color: var(--primary-green);
+}
+
+/* Phần Số điện thoại */
+.country-code-select {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--border-color);
+    padding: 0 10px;
+    background-color: #f7f7f7; 
+}
+
+.country-code-select span {
+    margin-left: 5px;
+    font-size: 16px;
+    color: var(--text-color);
+}
+
+.password-icon { 
+    padding: 0 10px;
+    cursor: pointer;
+    color: #888; 
+    font-size: 18px; 
+}
+
+/* Nút ĐĂNG NHẬP */
+.submit-btn {
+    background-color: var(--primary-green);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #006b32;
+}
+
+/* Quên Mật Khẩu & Đăng Ký */
+.forgot-password, .register-link {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+    color: #666;
+}
+
+.forgot-link, .register-link a {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Nút Đăng nhập bằng Google */
+.google-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--white);
+    font-size: 16px;
+    color: #4285f4; /* Màu chữ Google */
+    cursor: pointer;
+    margin-top: 25px;
+}
+
+.google-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    /* Lưu ý: Bạn cần phải có file "google_logo.png" trong thư mục */
+}
+
+.google-login-btn:hover {
+    background-color: #f7f7f7;
+}

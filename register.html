@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Tài Khoản</title>
+    <link rel="stylesheet" href="register.css"> 
+</head>
+<body>
+    
+    <div class="header-title"><h3>Đăng Ký</h3></div>
+    
+    <div class="registration-form-container">
+        
+        <form id="registrationForm"> 
+            
+            <div class="form-group">
+                <label for="phone">Số điện thoại của bạn:</label>
+                <div class="input-wrapper">
+                    <div class="country-code-select">
+                        <span class="flag">🇻🇳</span>
+                        <span class="code">VN +84 ▼</span>
+                    </div>
+                    <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email của bạn?</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Nhập email của bạn (*)" required>
+                    <span class="input-icon clear-icon">✖</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Tên đầy đủ</label>
+                <div class="input-wrapper">
+                    <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên" required>
+                    <span class="input-icon clear-icon">✖</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu (*)</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu (*)" required>
+                    <span class="input-icon password-icon">👁️‍🗨️</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Nhập mật khẩu (*)</label>
+                <div class="input-wrapper">
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Nhập lại mật khẩu (*)" required>
+                    <span class="input-icon password-icon">👁️‍🗨️</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">ĐĂNG KÝ</button>
+
+        </form>
+        
+        <div id="message" style="margin-top: 15px; text-align: center; font-weight: bold;"></div>
+        
+    </div>
+
+    <script src="register.js"></script>
+
+</body>
+</html>
