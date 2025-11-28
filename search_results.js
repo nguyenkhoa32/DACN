@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 15, name: "Sân Đông", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/san_dong.jpg", district: "Sơn Trà" },
         
         // --- SÂN QUẬN LIÊN CHIỂU (5 SÂN) ---
-        { id: 16, name: "Sân Bách Khoa", type: "Thảm PVC", tickets: 7, open: "05:00", close: "23:00", image: "img/san_bk.jpg", district: "Liên Chiểu" },
-        { id: 17, name: "Sân Nguyễn Lương Bằng", type: "Sàn Gỗ", tickets: 4, open: "06:00", close: "22:00", image: "img/san_nlb.jpg", district: "Liên Chiểu" },
-        { id: 18, name: "Sân Kinh Doanh", type: "Thảm Cao Su", tickets: 8, open: "04:30", close: "21:00", image: "img/san_kinhdoanh.jpg", district: "Liên Chiểu" },
-        { id: 19, name: "Sân Hòa Khánh", type: "Thảm PVC", tickets: 2, open: "05:30", close: "23:00", image: "img/san_hoakhanh.jpg", district: "Liên Chiểu" },
-        { id: 20, name: "Sân Đà Nẵng Tây", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/san_dntay.jpg", district: "Liên Chiểu" },
+        { id: 16, name: "Sân Bách Khoa", type: "Thảm PVC", tickets: 7, open: "05:00", close: "23:00", image: "img/lienchieu1.png", district: "Liên Chiểu" },
+        { id: 17, name: "Sân Nguyễn Lương Bằng", type: "Sàn Gỗ", tickets: 4, open: "06:00", close: "22:00", image: "img/lienchieu2.png", district: "Liên Chiểu" },
+        { id: 18, name: "Sân Kinh Doanh", type: "Thảm Cao Su", tickets: 8, open: "04:30", close: "21:00", image: "img/lienchieu6.png", district: "Liên Chiểu" },
+        { id: 19, name: "Sân Hòa Khánh", type: "Thảm PVC", tickets: 2, open: "05:30", close: "23:00", image: "img/lienchieu4.png", district: "Liên Chiểu" },
+        { id: 20, name: "Sân Đà Nẵng Tây", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/lienchieu7.png", district: "Liên Chiểu" },
         
         // --- SÂN QUẬN CẨM LỆ (5 SÂN) ---
         { id: 21, name: "Sân Cẩm Lệ Mới", type: "Thảm PVC", tickets: 6, open: "05:00", close: "22:00", image: "img/san_camle_moi.jpg", district: "Cẩm Lệ" },
