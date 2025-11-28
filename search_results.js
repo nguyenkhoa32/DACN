@@ -16,11 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. Dữ liệu các sân (MỞ RỘNG - 5 SÂN CHO MỖI QUẬN)
     const allCourts = [
         // --- SÂN QUẬN HẢI CHÂU (5 SÂN) ---
-        { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/san_haichau_pre.jpg", district: "Hải Châu" },
-        { id: 2, name: "Sân Bồ Đề", type: "Thảm Cao Su", tickets: 5, open: "05:00", close: "23:00", image: "img/san_bode.jpg", district: "Hải Châu" },
-        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 8, open: "06:00", close: "21:00", image: "img/san_nvl.jpg", district: "Hải Châu" },
-        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 3, open: "05:30", close: "23:30", image: "img/san_29.jpg", district: "Hải Châu" },
-        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Cao Su", tickets: 6, open: "05:00", close: "22:30", image: "img/san_dn_center.jpg", district: "Hải Châu" },
+        { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu" },
+        { id: 2, name: "Sân Bồ Đề", type: "Thảm Cao Su", tickets: 5, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu" },
+        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 8, open: "06:00", close: "21:00", image: "img/haichau3.png", district: "Hải Châu" },
+        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 3, open: "05:30", close: "23:30", image: "img/haichau4.png", district: "Hải Châu" },
+        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Cao Su", tickets: 6, open: "05:00", close: "22:30", image: "img/haichau5.png", district: "Hải Châu" },
 
         // --- SÂN QUẬN THANH KHÊ (5 SÂN) ---
         { id: 6, name: "Sân Thanh Khê 1", type: "Thảm PVC", tickets: 5, open: "05:00", close: "22:00", image: "img/san_thanhkhe_1.jpg", district: "Thanh Khê" },
