@@ -14,9 +14,17 @@
             <ul>
                 <li><a href="index.html" class="active">Trang chủ</a></li>
                 <li><a href="news.html">Tin Tức</a></li>
-                <li><a href="register.html">Đăng ký</a></li>
-                <li><a href="login.html">Đăng nhập</a></li>
                 <li><a href="contact.html">Liên hệ</a></li>
+
+                <li id="register-link"><a href="register.html">Đăng ký</a></li>
+                <li id="login-link"><a href="login.html">Đăng nhập</a></li>
+
+                <li id="welcome-message-container" style="display: none;">
+                    <span id="welcome-message-text" style="font-weight: bold;"></span>
+                </li>
+                <li id="logout-link-container" style="display: none;">
+                    <button id="logout-button" class="logout-btn">Đăng xuất</button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -31,36 +39,36 @@
         <form class="search-form-container" action="search_results.html" method="GET">
             
              <div class="input-wrapper location-input">
-                <input type="text" 
-                       id="location-input" 
-                       name="location" 
-                       list="locations" 
-                       placeholder="Nhập địa điểm..."
-                       required>
-            </div>
+                 <input type="text" 
+                        id="location-input" 
+                        name="location" 
+                        list="locations" 
+                        placeholder="Nhập địa điểm..."
+                        required>
+             </div>
             
-            <datalist id="locations">
-                <option value="Hải Châu">
-                <option value="Thanh Khê">
-                <option value="Sơn Trà">
-                <option value="Liên Chiểu">
-                <option value="Cẩm Lệ">
-                <option value="Ngũ Hành Sơn">
-            </datalist>
+             <datalist id="locations">
+                 <option value="Hải Châu">
+                 <option value="Thanh Khê">
+                 <option value="Sơn Trà">
+                 <option value="Liên Chiểu">
+                 <option value="Cẩm Lệ">
+                 <option value="Ngũ Hành Sơn">
+             </datalist>
             
-            <div class="input-wrapper date-input">
-                <input type="date" id="searchDate" name="date" required>
-            </div>
+             <div class="input-wrapper date-input">
+                 <input type="date" id="searchDate" name="date" required>
+             </div>
             
-            <div class="input-wrapper time-input">
-                <input type="time" name="time" required>
-            </div>
+             <div class="input-wrapper time-input">
+                 <input type="time" name="time" required>
+             </div>
             
-            <button type="submit" class="search-btn">
-                🔍 Tìm sân
-            </button>
-            
-        </form>
+             <button type="submit" class="search-btn">
+                 🔍 Tìm sân
+             </button>
+             
+         </form>
     </section>
 
     <section class="intro"> 
@@ -118,6 +126,7 @@
     </footer>
 
     <script src="script.js"></script> 
+    <script src="auth_ui.js"></script> 
 
 </body>
 </html>

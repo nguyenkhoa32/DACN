@@ -458,3 +458,42 @@ footer {
 .search-form-container .search-btn:hover {
     background-color: #2e7d32;
 }
+
+/* Đảm bảo các thành phần trong menu hiển thị ngang hàng */
+.home-header nav ul {
+    list-style: none;
+    display: flex; /* Dùng flexbox để căn chỉnh tốt hơn */
+    padding: 0;
+    margin: 0;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: flex-end;
+}
+
+/* Đảm bảo các span điều khiển hiển thị nội tuyến */
+#auth-links,
+#user-controls {
+    display: flex; /* Thay thế 'inline' bằng 'flex' để sắp xếp các li con */
+    align-items: center;
+    margin-left: 10px; /* Thêm khoảng cách nếu cần */
+}
+
+/* Đảm bảo nút đăng xuất trông giống các link */
+.logout-btn {
+    background: none;
+    border: none;
+    color: white; /* Hoặc màu link của bạn */
+    cursor: pointer;
+    font-size: 1em; /* Kích thước chữ như các link khác */
+    text-decoration: underline; /* Tạo gạch chân như link */
+    padding: 0;
+}
+
+.logout-btn:hover {
+    color: #ccc; /* Hiệu ứng hover */
+    opacity: 0.8;
+}
+
+/* Đảm bảo các li bên trong user-controls hiển thị ngang hàng */
+#user-controls li {
+    margin-left: 15px; 
+}
