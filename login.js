@@ -1,57 +1,84 @@
-const loginForm = document.getElementById('loginForm');
-const messageElement = document.getElementById('message');
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const messageElement = document.getElementById('message'); 
 
-loginForm.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    
-    // 1. Thu thập dữ liệu form
-    // Lấy giá trị từ trường "Tên hiển thị"
-    const inputUsername = document.getElementById('username').value;
-    const inputPassword = document.getElementById('login-password').value;
-    
-    messageElement.textContent = '';
-    messageElement.style.color = 'red';
-    
-    let userFound = false;
-    let successfulLogin = false;
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-    // 2. LẶP QUA TẤT CẢ DỮ LIỆU ĐÃ LƯU TRONG localStorage
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        
-        // Chỉ xử lý các Key liên quan đến người dùng
-        if (key.startsWith('user_')) {
-            const storedUserJSON = localStorage.getItem(key);
-            const storedUserData = JSON.parse(storedUserJSON);
+            const inputUsername = document.getElementById('username').value.trim(); 
+            const inputPassword = document.getElementById('password').value.trim(); 
             
-            // 3. SO SÁNH: Tên hiển thị (fullname) có khớp không?
-            if (storedUserData.fullname === inputUsername) {
-                userFound = true;
+            if (messageElement) {
+                messageElement.textContent = '';
+                messageElement.style.color = 'red';
+            }
+
+            let successfullLogin = false;
+            let userFound = false;
+
+            const keys = Object.keys(localStorage);
+            
+            for (let i = 0; i < keys.length; i++) {
+                const key = keys[i];
                 
-                // 4. SO SÁNH: Mật khẩu có khớp không?
-                if (storedUserData.password === inputPassword) {
-                    successfulLogin = true;
-                    break; // Thoát vòng lặp ngay khi tìm thấy và đăng nhập thành công
-                } else {
-                    // Tìm thấy tên người dùng nhưng mật khẩu sai
-                    messageElement.textContent = 'Mật khẩu không đúng. Vui lòng thử lại.';
-                    return; // Dừng xử lý
+                if (key.startsWith('user_')) {
+                    try { 
+                        const storedValue = localStorage.getItem(key);
+                        const storedUserData = JSON.parse(storedValue); 
+                        
+                        // ⭐️ Đã sửa: dùng storedUserData.fullname (chữ thường) ⭐️
+                        if (storedUserData.fullname === inputUsername) {
+                            userFound = true;
+                            
+                            if (storedUserData.password === inputPassword) {
+                                successfullLogin = true;
+                                
+                                // Lấy role trực tiếp
+                                const role = storedUserData.role || 'user'; 
+                                
+                                // ⭐️ Đã sửa: dùng storedUserData.fullname (chữ thường) ⭐️
+                                localStorage.setItem('currentUser', storedUserData.fullname);
+                                localStorage.setItem('currentUserRole', role);
+                                
+                                break; 
+                            } else {
+                                if (messageElement) {
+                                    messageElement.textContent = 'Mật khẩu không đúng. Vui lòng thử lại.';
+                                }
+                                return; 
+                            }
+                        }
+                    } catch (e) { 
+                        console.error("Lỗi khi phân tích dữ liệu từ Local Storage:", e);
+                        continue; 
+                    }
                 }
             }
-        }
-    }
 
-    // 5. Kết quả cuối cùng
-    if (successfulLogin) {
-        messageElement.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
-        messageElement.style.color = 'green';
-        
-        // Chuyển hướng đến trang chính
-        setTimeout(() => {
-            window.location.href = 'index.html'; 
-        }, 1000); 
-    } else if (!userFound) {
-        // Sau khi lặp hết mà không tìm thấy tên hiển thị
-        messageElement.textContent = 'Tài khoản không tồn tại. Vui lòng kiểm tra lại Tên hiển thị.';
+            if (successfullLogin) {
+                if (messageElement) {
+                    messageElement.textContent = 'Đăng nhập thành công! Đang chuyển hướng...';
+                    messageElement.style.color = 'green';
+                }
+                
+                setTimeout(() => {
+                    const userRole = localStorage.getItem('currentUserRole');
+                    
+                    if (userRole === 'admin') {
+                        // Chuyển hướng đến trang Admin Dashboard
+                        window.location.href = 'admin_dashboard.html'; 
+                    } else {
+                        // Chuyển hướng đến trang người dùng thường
+                        window.location.href = 'index.html';
+                    }
+                }, 1000); 
+                
+            } else if (!userFound) {
+                if (messageElement) {
+                    messageElement.textContent = 'Tài khoản không tồn tại. Vui lòng kiểm tra lại Tên hiển thị.';
+                }
+            }
+        });
     }
 });
