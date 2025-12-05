@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Người Dùng & Lịch Đặt - Admin</title>
+    <link rel="stylesheet" href="admin_style.css"> 
+    
+    
+</head>
+<body>
+
+    <header>
+        <h1>Trang Quản Trị Hệ Thống</h1>
+    </header>
+
+    <main>
+        <section id="manage-users-section">
+            <div style="margin-bottom: 20px;">
+            <button id="backToAdminDashboard" class="back-button">
+                ⬅️ Quay Lại 
+            </button>
+        </div>
+            <h2>👥 Quản Lý Danh Sách Người Dùng</h2>
+            
+            <table id="user-list-table">
+                <thead>
+                    <tr>
+                        <th>Tên Hiển Thị</th>
+                        <th>Email</th>
+                        <th>Điện Thoại</th>
+                        <th>Vai Trò</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+
+            <div id="user-booking-details" style="display: none;">
+                <h3>Lịch Đặt Của Khách Hàng: <span id="current-user-name"></span></h3>
+                
+                <table id="booking-details-table">
+                    <thead>
+                        <tr>
+                            <th>Tên Sân</th>
+                            <th>Địa Điểm</th>
+                            <th>Ngày Đặt</th>
+                            <th>Thời Gian</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+                <p id="no-bookings-message" style="display: none; color: gray; font-style: italic;">Khách hàng này chưa có lịch đặt nào.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="admin_script.js"></script>
+</body>
+</html>

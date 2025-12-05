@@ -218,3 +218,31 @@ body {
     
     /* Thiết lập này thường được sử dụng cho các biểu đồ trong container có chiều cao cố định */
 }
+
+ body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        main { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #007bff; color: white; }
+        .view-bookings-btn { background-color: #28a745; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; }
+        .view-bookings-btn:hover { background-color: #218838; }
+        #user-booking-details { border: 1px solid #ccc; padding: 20px; border-radius: 6px; background-color: #f9f9f9; }
+        #current-user-name { color: #007bff; font-weight: bold; }
+
+
+        /* Trong file admin_style.css */
+.back-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
