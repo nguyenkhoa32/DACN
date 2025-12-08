@@ -17,38 +17,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const allCourts = [
         // --- SÂN QUẬN HẢI CHÂU (5 SÂN) ---
         { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu" },
-        { id: 2, name: "Sân Bồ Đề", type: "Thảm Su", tickets: 5, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu" },
-        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 8, open: "06:00", close: "21:00", image: "img/haichau3.png", district: "Hải Châu" },
-        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 3, open: "05:30", close: "23:30", image: "img/haichau4.png", district: "Hải Châu" },
-        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Su", tickets: 6, open: "05:00", close: "22:30", image: "img/haichau5.png", district: "Hải Châu" },
+        { id: 2, name: "Sân Bồ Đề", type: "Thảm Su", tickets: 10, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu" },
+        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "21:00", image: "img/haichau3.png", district: "Hải Châu" },
+        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/haichau4.png", district: "Hải Châu" },
+        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Su", tickets: 10, open: "05:00", close: "22:30", image: "img/haichau5.png", district: "Hải Châu" },
 
         // --- SÂN QUẬN THANH KHÊ (5 SÂN) ---
-        { id: 6, name: "Sân Thanh Khê 1", type: "Thảm PVC", tickets: 5, open: "05:00", close: "22:00", image: "img/thanhkhe1.png", district: "Thanh Khê" },
-        { id: 7, name: "Sân Thanh Khê 2", type: "Sàn Gỗ", tickets: 2, open: "06:00", close: "23:00", image: "img/thanhkhe2.png", district: "Thanh Khê" },
-        { id: 8, name: "Sân Hà Huy Tập", type: "Thảm Su", tickets: 7, open: "04:30", close: "21:30", image: "img/thanhkhe3.png", district: "Thanh Khê" },
-        { id: 9, name: "Sân Điện Biên Phủ", type: "Thảm PVC", tickets: 4, open: "05:30", close: "22:30", image: "img/thanhkhe4.png", district: "Thanh Khê" },
-        { id: 10, name: "Sân Sỹ Quan", type: "Sàn Gỗ", tickets: 1, open: "06:30", close: "23:00", image: "img/thanhkhe5.png", district: "Thanh Khê" },
+        { id: 6, name: "Sân Thanh Khê 1", type: "Thảm PVC", tickets: 10, open: "05:00", close: "22:00", image: "img/thanhkhe1.png", district: "Thanh Khê" },
+        { id: 7, name: "Sân Thanh Khê 2", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "23:00", image: "img/thanhkhe2.png", district: "Thanh Khê" },
+        { id: 8, name: "Sân Hà Huy Tập", type: "Thảm Su", tickets: 10, open: "04:30", close: "21:30", image: "img/thanhkhe3.png", district: "Thanh Khê" },
+        { id: 9, name: "Sân Điện Biên Phủ", type: "Thảm PVC", tickets: 10, open: "05:30", close: "22:30", image: "img/thanhkhe4.png", district: "Thanh Khê" },
+        { id: 10, name: "Sân Sỹ Quan", type: "Sàn Gỗ", tickets: 10, open: "06:30", close: "23:00", image: "img/thanhkhe5.png", district: "Thanh Khê" },
 
         // --- SÂN QUẬN SƠN TRÀ (5 SÂN) ---
-        { id: 11, name: "Sân Sơn Trà Star", type: "Sàn Gỗ", tickets: 2, open: "06:00", close: "23:00", image: "img/sontra1.png", district: "Sơn Trà" },
-        { id: 12, name: "Sân Hoàng Sa", type: "Thảm PVC", tickets: 9, open: "05:00", close: "22:00", image: "img/sontra2.png", district: "Sơn Trà" },
-        { id: 13, name: "Sân Mân Thái", type: "Thảm Su", tickets: 6, open: "04:30", close: "21:00", image: "img/sontra3.png", district: "Sơn Trà" },
-        { id: 14, name: "Sân Phạm Văn Đồng", type: "Thảm PVC", tickets: 3, open: "05:30", close: "23:30", image: "img/sontra4.png", district: "Sơn Trà" },
-        { id: 15, name: "Sân Đông", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/sontra5.png", district: "Sơn Trà" },
+        { id: 11, name: "Sân Sơn Trà Star", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "23:00", image: "img/sontra1.png", district: "Sơn Trà" },
+        { id: 12, name: "Sân Hoàng Sa", type: "Thảm PVC", tickets: 10, open: "05:00", close: "22:00", image: "img/sontra2.png", district: "Sơn Trà" },
+        { id: 13, name: "Sân Mân Thái", type: "Thảm Su", tickets: 10, open: "04:30", close: "21:00", image: "img/sontra3.png", district: "Sơn Trà" },
+        { id: 14, name: "Sân Phạm Văn Đồng", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/sontra4.png", district: "Sơn Trà" },
+        { id: 15, name: "Sân Đông", type: "Sàn Gỗ", tickets: 10, open: "05:00", close: "22:30", image: "img/sontra5.png", district: "Sơn Trà" },
         
         // --- SÂN QUẬN LIÊN CHIỂU (5 SÂN) ---
-        { id: 16, name: "Sân Bách Khoa", type: "Thảm PVC", tickets: 7, open: "05:00", close: "23:00", image: "img/lienchieu1.png", district: "Liên Chiểu" },
-        { id: 17, name: "Sân Nguyễn Lương Bằng", type: "Sàn Gỗ", tickets: 4, open: "06:00", close: "22:00", image: "img/lienchieu2.png", district: "Liên Chiểu" },
-        { id: 18, name: "Sân Kinh Doanh", type: "Thảm Su", tickets: 8, open: "04:30", close: "21:00", image: "img/lienchieu6.png", district: "Liên Chiểu" },
-        { id: 19, name: "Sân Hòa Khánh", type: "Thảm PVC", tickets: 2, open: "05:30", close: "23:00", image: "img/lienchieu4.png", district: "Liên Chiểu" },
-        { id: 20, name: "Sân Đà Nẵng Tây", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/lienchieu7.png", district: "Liên Chiểu" },
+        { id: 16, name: "Sân Bách Khoa", type: "Thảm PVC", tickets: 10, open: "05:00", close: "23:00", image: "img/lienchieu1.png", district: "Liên Chiểu" },
+        { id: 17, name: "Sân Nguyễn Lương Bằng", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "22:00", image: "img/lienchieu2.png", district: "Liên Chiểu" },
+        { id: 18, name: "Sân Kinh Doanh", type: "Thảm Su", tickets: 10, open: "04:30", close: "21:00", image: "img/lienchieu6.png", district: "Liên Chiểu" },
+        { id: 19, name: "Sân Hòa Khánh", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:00", image: "img/lienchieu4.png", district: "Liên Chiểu" },
+        { id: 20, name: "Sân Đà Nẵng Tây", type: "Sàn Gỗ", tickets: 10, open: "05:00", close: "22:30", image: "img/lienchieu7.png", district: "Liên Chiểu" },
         
         // --- SÂN QUẬN CẨM LỆ (5 SÂN) ---
-        { id: 21, name: "Sân Cẩm Lệ Mới", type: "Thảm PVC", tickets: 6, open: "05:00", close: "22:00", image: "img/camle1.png", district: "Cẩm Lệ" },
-        { id: 22, name: "Sân Tuyên Sơn", type: "Sàn Gỗ", tickets: 3, open: "06:00", close: "23:00", image: "img/camle5.png", district: "Cẩm Lệ" },
-        { id: 23, name: "Sân Phan Đăng Lưu", type: "Thảm Su", tickets: 9, open: "04:30", close: "21:00", image: "img/camle6.png", district: "Cẩm Lệ" },
-        { id: 24, name: "Sân Nguyễn Hữu Thọ", type: "Thảm PVC", tickets: 4, open: "05:30", close: "23:30", image: "img/camle2.png", district: "Cẩm Lệ" },
-        { id: 25, name: "Sân Hòa Xuân", type: "Sàn Gỗ", tickets: 7, open: "05:00", close: "22:30", image: "img/camle3.png", district: "Cẩm Lệ" },
+        { id: 21, name: "Sân Cẩm Lệ Mới", type: "Thảm PVC", tickets: 10, open: "05:00", close: "22:00", image: "img/camle1.png", district: "Cẩm Lệ" },
+        { id: 22, name: "Sân Tuyên Sơn", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "23:00", image: "img/camle5.png", district: "Cẩm Lệ" },
+        { id: 23, name: "Sân Phan Đăng Lưu", type: "Thảm Su", tickets: 10, open: "04:30", close: "21:00", image: "img/camle6.png", district: "Cẩm Lệ" },
+        { id: 24, name: "Sân Nguyễn Hữu Thọ", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/camle2.png", district: "Cẩm Lệ" },
+        { id: 25, name: "Sân Hòa Xuân", type: "Sàn Gỗ", tickets: 10, open: "05:00", close: "22:30", image: "img/camle3.png", district: "Cẩm Lệ" },
     ];
 
     // 3. Lọc sân theo địa điểm tìm kiếm
