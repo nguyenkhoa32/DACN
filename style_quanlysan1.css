@@ -75,6 +75,7 @@ body {
     margin-bottom: 4px;
 }
 
+<<<<<<< HEAD
 /* ========================================================= */
 /* 1. CSS cho Thanh chứa nút Quay lại và Chỉnh sửa thông tin */
 /* ========================================================= */
@@ -306,3 +307,59 @@ body {
 .input-group-half input {
     margin-bottom: 0;
 }
+=======
+
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+}
+
+.popup-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 330px;
+    border-radius: 10px;
+    display: none;
+}
+
+.popup-box h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.popup-box label {
+    font-weight: bold;
+}
+
+.popup-box input,
+.popup-box select {
+    width: 100%;
+    padding: 7px;
+    margin: 5px 0 12px;
+}
+
+.btn {
+    width: 48%;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+}
+
+.save { background: #28a745; color: white; }
+.cancel { background: #6c757d; color: white; }
+.danger { background: #dc3545; color: white; }
+
+.hidden {
+    display: none !important;
+}
+
+>>>>>>> c2d2b89b1701433777d599dd4b55426a947f4ebb
