@@ -111,3 +111,88 @@
     background-color: #1a7d30;
     color: white;
 }
+
+
+/* POPUP OVERLAY */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* POPUP BOX */
+.popup-box {
+    background: #fff;
+    padding: 25px;
+    width: 350px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.popup-box h2 {
+    margin-bottom: 15px;
+}
+
+.ticket-counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
+
+.ticket-counter button {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.map-box {
+    width: 100%;
+    height: 120px;
+    background: #dfe9ff;
+    border-radius: 10px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-actions {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.popup-actions button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.payment-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+
+.ticket-counter {
+    margin-top: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.ticket-counter span {
+    font-size: 18px;
+    min-width: 24px;
+    text-align: center;
+}

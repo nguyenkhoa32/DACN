@@ -100,4 +100,70 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(card);
         });
     }
+// ====== POPUP ĐẶT SÂN ======
+let currentCourt = null;
+let currentTickets = 1;
+
+document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("book-btn")) {
+        const card = e.target.closest(".court-card");
+        const name = card.querySelector(".court-name").textContent;
+        const tickets = Number(card.querySelector(".detail-item b").textContent);
+
+        currentCourt = card;
+        currentTickets = 1;
+
+        document.getElementById("courtTitle").textContent = name;
+        document.getElementById("ticketCount").textContent = "1";
+        document.getElementById("remainingTickets").textContent = tickets;
+       
+
+        document.getElementById("bookingPopup").style.display = "flex";
+    }
+});
+
+// Đóng popup
+document.getElementById("closePopup").onclick = function () {
+    document.getElementById("bookingPopup").style.display = "none";
+};
+
+// Nút +
+document.getElementById("plusBtn").onclick = function () {
+    let remain = Number(document.getElementById("remainingTickets").textContent);
+    if (remain > 0) {
+        currentTickets++;
+        document.getElementById("ticketCount").textContent = currentTickets;
+        document.getElementById("remainingTickets").textContent = remain - 1;
+    }
+};
+
+// Nút –
+document.getElementById("minusBtn").onclick = function () {
+    if (currentTickets > 1) {
+        currentTickets--;
+        let remain = Number(document.getElementById("remainingTickets").textContent);
+        document.getElementById("ticketCount").textContent = currentTickets;
+        document.getElementById("remainingTickets").textContent = remain + 1;
+    }
+};
+
+// ====== THANH TOÁN ======
+
+   
+document.getElementById("payNow").onclick = function () {
+    const type = document.getElementById("ticketType").value;
+    const sub = document.getElementById("subCourt").value;
+
+    document.getElementById("pay_ticketType").textContent = type;
+    document.getElementById("pay_subCourt").textContent = sub;
+    document.getElementById("pay_ticketCount").textContent = currentTickets;
+
+    document.getElementById("paymentPopup").style.display = "flex";
+};
+
+// Đóng popup thanh toán
+document.getElementById("closePayment").onclick = function () {
+    document.getElementById("paymentPopup").style.display = "none";
+};
+
 });

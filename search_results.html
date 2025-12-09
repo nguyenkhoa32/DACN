@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết Quả Tìm Kiếm Sân</title>
     <link rel="stylesheet" href="style.css"> 
-    <link rel="stylesheet" href="search_results.css"> </head>
+    <link rel="stylesheet" href="search_results.css"> 
+</head>
 <body>
     
     <header class="home-header">
@@ -29,16 +30,76 @@
         <h2>Kết Quả Sân Tại <span id="location-display">...</span></h2>
         
         <div id="court-list-container" class="court-list-grid">
-            </div>
+        </div>
 
-        <p id="no-results-message" style="display:none; text-align: center; margin-top: 50px; font-size: 18px; color: #555;">
+        <p id="no-results-message" style="display:none; text-align:center; margin-top:50px; font-size:18px; color:#555;">
             Rất tiếc, không tìm thấy sân nào phù hợp với tiêu chí tìm kiếm.
         </p>
     </main>
 
-    <footer class="footer">
-        </footer>
+    <footer class="footer"></footer>
+
+
+    <!-- POPUP ĐẶT SÂN -->
+    <div id="bookingPopup" class="popup-overlay">
+
+        <div id="paymentPopup" class="popup-overlay">
+    <div class="popup-box">
+        <h2>Thanh toán</h2>
+
+        <p>Loại vé: <span id="pay_ticketType"></span></p>
+        <p>Sân số: <span id="pay_subCourt"></span></p>
+        <p>Số vé: <span id="pay_ticketCount"></span></p>
+
+        <div class="popup-actions">
+            <button id="closePayment">Đóng</button>
+            <button id="confirmPayment">Xác nhận thanh toán</button>
+        </div>
+    </div>
+</div>
+
+        <div class="popup-box">
+            <h2 id="courtTitle">Đặt sân</h2>
+
+            <!-- LOẠI VÉ -->
+            <label>Loại vé:</label>
+            <select id="ticketType">
+                <option value="social">Vé Social</option>
+                <option value="month">Vé Tháng</option>
+            </select>
+
+            <!-- CHỌN SÂN CON -->
+            <label for="subCourt" >Chọn sân số:</label>
+            <select id="subCourt">
+                <option value="1">Sân 1</option>
+                <option value="2">Sân 2</option>
+                <option value="3">Sân 3</option>
+                <option value="4">Sân 4</option>
+                <option value="5">Sân 5</option>
+            </select>
+
+            <!-- SỐ LƯỢNG VÉ -->
+            <div class="ticket-counter" style="margin-top:12px;">
+                <label>Số vé:</label>
+                <button id="minusBtn">–</button>
+                <span id="ticketCount">1</span>
+                <button id="plusBtn">+</button>
+            </div>
+
+            <p style="margin-top: 5px;">Vé còn lại: <b id="remainingTickets"></b></p>
+
+            <!-- MAP -->
+            <h3 style="margin-top: 12px;">Bản đồ:</h3>
+            <div class="map-box">🗺️ Bản đồ vị trí sân (tượng trưng)</div>
+
+            <div class="popup-actions">
+                <button id="closePopup">Hủy</button>
+                <button id="payNow">Thanh toán</button>
+            </div>
+        </div>
+    </div>
 
     <script src="search_results.js"></script>
+
 </body>
 </html>
