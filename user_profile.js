@@ -136,4 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Cập nhật thông tin thành công!");
         });
     }
+    document.getElementById("back-btn").addEventListener("click", function () {
+    window.location.href = "index.html";  // Hoặc trang bạn muốn quay về
+});
+
 });
