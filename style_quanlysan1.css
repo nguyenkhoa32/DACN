@@ -74,3 +74,235 @@ body {
     color: #444;
     margin-bottom: 4px;
 }
+
+/* ========================================================= */
+/* 1. CSS cho Thanh chứa nút Quay lại và Chỉnh sửa thông tin */
+/* ========================================================= */
+.header-controls {
+    display: flex; /* Sắp xếp các nút ngang hàng */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-bottom: 25px; /* Khoảng cách với phần Thêm/Xóa/Sửa sân */
+    padding-bottom: 15px; /* Padding phía dưới để tách biệt */
+    border-bottom: 1px solid #ddd; /* Đường kẻ mỏng phía dưới */
+}
+
+/* ========================================================= */
+/* 2. CSS cho các Nút điều khiển chung (.control-btn) */
+/* ========================================================= */
+.control-btn {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Nút Quay lại (Làm cho nó đơn giản hơn, không màu nền) */
+#backButton {
+    background-color: #f8f8f8;
+    color: #333;
+    border-color: #b0b0b0;
+    font-weight: 500;
+}
+
+#backButton:hover {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
+/* Nút Chỉnh sửa thông tin (Làm cho nó có màu xanh nhạt hoặc màu trung tính) */
+#editInfoButton {
+    background-color: #fff;
+    color: #555;
+    border-color: #ccc;
+}
+
+#editInfoButton:hover {
+    background-color: #f0f0f0;
+    border-color: #b0b0b0;
+}
+
+/* ========================================================= */
+/* 3. Tối ưu hóa các Nút Thêm/Xóa/Sửa Sân (action-button) */
+/* ========================================================= */
+.action-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: opacity 0.3s;
+}
+
+.action-button.primary {
+    background-color: #007bff; /* Xanh dương cho Thêm */
+    color: white;
+}
+.action-button.danger {
+    background-color: #dc3545; /* Đỏ cho Xóa */
+    color: white;
+}
+.action-button.fix {
+    background-color: #28a745; /* Xanh lá cho Sửa */
+    color: white;
+}
+
+.action-button:hover {
+    opacity: 0.9;
+}
+/* ========================================================= */
+/* 1. Container chứa các nút Sửa/Xóa mini */
+/* ========================================================= */
+.court-actions-mini {
+    display: flex;
+    justify-content: flex-end; /* Đẩy các nút sang phải */
+    gap: 8px; /* Khoảng cách giữa nút Sửa và Xóa */
+    padding-top: 10px;
+    margin-top: auto; /* Đảm bảo các nút luôn nằm cuối thẻ nếu thẻ có chiều cao khác nhau */
+    border-top: 1px dashed #eee;
+}
+
+/* ========================================================= */
+/* 2. Thiết lập chung cho các nút mini */
+/* ========================================================= */
+.mini-action-btn {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+/* ========================================================= */
+/* 3. CSS cho nút SỬA (Màu xanh dương/xanh lá cây) */
+/* ========================================================= */
+.edit-court-btn {
+    background-color: #007bff; /* Màu xanh dương */
+    color: white;
+}
+
+.edit-court-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================================= */
+/* 4. CSS cho nút XÓA (Màu đỏ) */
+/* ========================================================= */
+.delete-court-btn {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+}
+
+.delete-court-btn:hover {
+    background-color: #c82333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Tùy chỉnh thêm: CSS cho thẻ court-item để chứa các nút tốt hơn */
+.court-item {
+    /* Đảm bảo flexbox trong court-item để push các nút xuống dưới */
+    display: flex;
+    flex-direction: column; 
+    /* ... các thuộc tính CSS hiện có của court-item ... */
+}
+
+/* ========================================================= */
+/* MODAL (Popup) CSS */
+/* ========================================================= */
+/* Nền tối bao phủ toàn màn hình */
+.modal {
+    display: none; /* Ẩn theo mặc định */
+    position: fixed; 
+    z-index: 1000; /* Luôn hiển thị trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); /* Nền đen mờ */
+}
+
+/* Hộp nội dung bên trong modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* Đặt modal ở giữa theo chiều dọc */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 500px; /* Chiều rộng tối đa */
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Nút đóng (X) */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Định dạng Form bên trong Modal */
+#addCourtForm label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+#addCourtForm input[type="text"], 
+#addCourtForm input[type="number"], 
+#addCourtForm input[type="time"],
+#addCourtForm select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Nút Cập nhật/Submit */
+#updateCourtBtn {
+    background-color: #28a745; 
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    width: 100%;
+}
+
+#updateCourtBtn:hover {
+    background-color: #218838;
+}
+
+.input-group-half {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.input-group-half > div {
+    flex: 1;
+}
+.input-group-half input {
+    margin-bottom: 0;
+}

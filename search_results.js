@@ -1,3 +1,29 @@
+//=========================================================
+// CẬP NHẬT FILE search_results.js (Phía Khách Hàng)
+// =========================================================
+
+// Hàm hợp nhất dữ liệu gốc và dữ liệu Local Storage
+function loadCustomCourts(originalCourts) {
+    const storedCourts = localStorage.getItem('customCourts');
+    if (!storedCourts) {
+        return originalCourts;
+    }
+    
+    try {
+        const customCourts = JSON.parse(storedCourts);
+        
+        // Tránh trùng lặp ID (chỉ giữ lại các sân mới)
+        const originalIds = originalCourts.map(c => c.id);
+        const newCourts = customCourts.filter(c => !originalIds.includes(c.id));
+        
+        return originalCourts.concat(newCourts);
+        
+    } catch (e) {
+        console.error("Lỗi khi tải Local Storage:", e);
+        return originalCourts;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const backBtn = document.getElementById('backToHome');
@@ -21,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 2. Dữ liệu các sân
-    const allCourts = [
+    const originalAllCourts = [
         // --- SÂN QUẬN HẢI CHÂU (5 SÂN) ---
         { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu", price: "80.000" },
         { id: 2, name: "Sân Bồ Đề", type: "Thảm Su", tickets: 10, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu", price: "80.000" },
@@ -57,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 24, name: "Sân Nguyễn Hữu Thọ", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/camle2.png", district: "Cẩm Lệ", price: "80.000" },
         { id: 25, name: "Sân Hòa Xuân", type: "Sàn Gỗ", tickets: 10, open: "05:00", close: "22:30", image: "img/camle3.png", district: "Cẩm Lệ", price: "100.000" },
     ];
+
+    const allCourts = loadCustomCourts(originalAllCourts);
 
     // 3. Lọc sân theo địa điểm tìm kiếm (Không thay đổi)
     const filteredCourts = allCourts.filter(court => {
