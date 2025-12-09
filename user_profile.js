@@ -64,14 +64,6 @@ document.getElementById("logout-btn").addEventListener("click", () => {
     window.location.href = "index.html";
 });
 
-
-// ----- EDIT BUTTON (TÙY Ý LÀM SAU) -----
-document.getElementById("edit-btn").addEventListener("click", () => {
-    alert("Trang chỉnh sửa thông tin sẽ được thêm sau.");
-});
-
-
-
 // ====== HIỂN THỊ THÔNG TIN NGƯỜI DÙNG ======
 document.getElementById("username-display").innerText =
     localStorage.getItem("username") || "User";

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý đặt sân - My Football Pitch</title>
-    <link rel="stylesheet" href="style_quanlysan.css">
+    <link rel="stylesheet" href="style_quanlysan1.css">
 </head>
 <body>
     <div class="container">
@@ -13,11 +13,21 @@
         </header>
 
         <h1 class="main-title">Quản Lý Sân</h1>
+
         <div class="info-action-section">
-                <div class="info-controls">
-                    <button class="action-button primary">Thêm sân</button>
-                    <button class="action-button danger">Xóa sân</button>
-                </div>
+            <div class="info-controls">
+                <button class="action-button primary">Thêm sân</button>
+                <button class="action-button danger">Xóa sân</button>
+                <button class="action-button danger">Sửa sân</button>
+            </div>
         </div>
+
+        <!-- 🟩 LIST SÂN SẼ HIỂN THỊ TẠI ĐÂY -->
+        <div id="courtList" class="court-list"></div>
+
+    </div>
+
+    <script src="data_courts.js"></script>
+    <script src="quanlysan.js"></script>
 </body>
 </html>
