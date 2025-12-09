@@ -1,3 +1,29 @@
+//=========================================================
+// CẬP NHẬT FILE search_results.js (Phía Khách Hàng)
+// =========================================================
+
+// Hàm hợp nhất dữ liệu gốc và dữ liệu Local Storage
+function loadCustomCourts(originalCourts) {
+    const storedCourts = localStorage.getItem('customCourts');
+    if (!storedCourts) {
+        return originalCourts;
+    }
+    
+    try {
+        const customCourts = JSON.parse(storedCourts);
+        
+        // Tránh trùng lặp ID (chỉ giữ lại các sân mới)
+        const originalIds = originalCourts.map(c => c.id);
+        const newCourts = customCourts.filter(c => !originalIds.includes(c.id));
+        
+        return originalCourts.concat(newCourts);
+        
+    } catch (e) {
+        console.error("Lỗi khi tải Local Storage:", e);
+        return originalCourts;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     const backBtn = document.getElementById('backToHome');
@@ -18,16 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
         locationDisplay.textContent = location || 'Tất Cả Các Quận';
     }
 
-    // ============================
-    // 2. Dữ liệu các sân (THÊM monthPrice)
-    // ============================
-    const allCourts = [
-        // Hải Châu
-        { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu", price: "80.000", monthPrice: 300000 },
-        { id: 2, name: "Sân Bồ Đề", type: "Thảm Su", tickets: 10, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu", price: "80.000", monthPrice: 350000 },
-        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "21:00", image: "img/haichau3.png", district: "Hải Châu", price: "100.000", monthPrice: 750000 },
-        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/haichau4.png", district: "Hải Châu", price: "80.000", monthPrice: 650000 },
-        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Su", tickets: 10, open: "05:00", close: "22:30", image: "img/haichau5.png", district: "Hải Châu", price: "80.000", monthPrice: 620000 },
+
+    // 2. Dữ liệu các sân
+    const originalAllCourts = [
+        // --- SÂN QUẬN HẢI CHÂU (5 SÂN) ---
+        { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu", price: "80.000" },
+        { id: 2, name: "Sân Bồ Đề", type: "Thảm Su", tickets: 10, open: "05:00", close: "23:00", image: "img/haichau2.png", district: "Hải Châu", price: "80.000" },
+        { id: 3, name: "Sân Nguyễn Văn Linh", type: "Sàn Gỗ", tickets: 10, open: "06:00", close: "21:00", image: "img/haichau3.png", district: "Hải Châu", price: "100.000" },
+        { id: 4, name: "Sân 2/9 Club", type: "Thảm PVC", tickets: 10, open: "05:30", close: "23:30", image: "img/haichau4.png", district: "Hải Châu", price: "80.000" },
+        { id: 5, name: "Sân Đà Nẵng Centre", type: "Thảm Su", tickets: 10, open: "05:00", close: "22:30", image: "img/haichau5.png", district: "Hải Châu", price: "80.000" },
 
         // Thanh Khê
         { id: 6, name: "Sân Thanh Khê 1", type: "Thảm PVC", tickets: 10, open: "05:00", close: "22:00", image: "img/thanhkhe1.png", district: "Thanh Khê", price: "80.000", monthPrice: 500000 },

@@ -10,11 +10,15 @@
     <div class="container">    
         <h1 class="main-title">Quản Lý Sân</h1>
 
+    <div class="header-controls">
+        <button id="backButton" class="control-btn">Quay lại</button>
+        
+    </div>
+
         <div class="info-action-section">
             <div class="info-controls">
                 <button class="action-button primary">Thêm sân</button>
-                <button class="action-button danger">Xóa sân</button>
-                <button class="action-button fix">Sửa sân</button>
+                
             </div>
         </div>
 
@@ -97,6 +101,60 @@
         <button class="btn save" id="saveEdit">Lưu thay đổi</button>
         <button class="btn cancel" onclick="closePopup()">Hủy</button>
     </div>
+
+
+
+    <div id="addCourtModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="closeAddCourtModal">&times;</span>
+        <h2>Thêm Sân Cầu Lông Mới</h2>
+
+        <form id="addCourtForm">
+            <label for="courtName">Tên Sân:</label>
+            <input type="text" id="courtName" required>
+
+            <label for="courtType">Loại Sân:</label>
+            <select id="courtType" required>
+                <option value="Thảm PVC">Thảm PVC</option>
+                <option value="Thảm Su">Thảm Su</option>
+                <option value="Sàn Gỗ">Sàn Gỗ</option>
+            </select>
+
+            <label for="courtDistrict">Quận:</label>
+            <select id="courtDistrict" required>
+                <option value="Hải Châu">Hải Châu</option>
+                <option value="Thanh Khê">Thanh Khê</option>
+                <option value="Sơn Trà">Sơn Trà</option>
+                <option value="Liên Chiểu">Liên Chiểu</option>
+                <option value="Cẩm Lệ">Cẩm Lệ</option>
+                <option value="Ngũ Hành Sơn">Ngũ Hành Sơn</option>
+            </select>
+            
+            <div class="input-group-half">
+                <div>
+                    <label for="courtOpen">Giờ Mở Cửa:</label>
+                    <input type="time" id="courtOpen" required value="05:00">
+                </div>
+                <div>
+                    <label for="courtClose">Giờ Đóng Cửa:</label>
+                    <input type="time" id="courtClose" required value="22:00">
+                </div>
+            </div>
+
+            <label for="courtTickets">Số Lượng Vé (Sân):</label>
+            <input type="number" id="courtTickets" min="1" required value="10">
+
+            <label for="courtImage">URL Hình Ảnh (Tạm thời):</label>
+            <input type="text" id="courtImage" value="img/default.png">
+            
+            <label for="courtPrice">Giá Tiền (VNĐ/Giờ):</label>
+            <input type="number" id="courtPrice" min="50000" required value="80000">
+
+            <button type="submit" id="updateCourtBtn">Cập Nhật & Hiển Thị</button>
+        </form>
+    </div>
+</div>
+
 
     <script src="data_courts.js"></script>
     <script src="quanlysan.js"></script>
