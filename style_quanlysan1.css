@@ -37,6 +37,10 @@ body {
     background: #e53935;
     color: white;
 }
+.fix {
+    background: green;
+    color: white;
+}
 
 /* --- DANH SÁCH SÂN --- */
 .court-list {
