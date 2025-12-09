@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 1. Lấy dữ liệu đăng nhập bằng Email
             const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
-            
+
             // ⭐️ CẬP NHẬT: Lấy giá trị email và mật khẩu ⭐️
             const inputEmail = emailInput.value.trim(); 
             const inputPassword = passwordInput.value.trim();

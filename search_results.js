@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    const backBtn = document.getElementById('backToHome');
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+    }
+
     // 1. Lấy thông tin tìm kiếm từ URL
     const urlParams = new URLSearchParams(window.location.search);
     const location = urlParams.get('location') || ''; // Lấy địa điểm, nếu không có thì là chuỗi rỗng
