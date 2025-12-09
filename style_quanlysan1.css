@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    margin: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.main-title {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.info-controls {
+    margin-bottom: 20px;
+}
+
+.action-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 15px;
+}
+
+.primary {
+    background: #2196f3;
+    color: white;
+}
+
+.danger {
+    background: #e53935;
+    color: white;
+}
+.fix {
+    background: green;
+    color: white;
+}
+
+/* --- DANH SÁCH SÂN --- */
+.court-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.court-item {
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.court-item img {
+    width: 100%;
+    border-radius: 8px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.court-name {
+    font-size: 17px;
+    font-weight: bold;
+    margin: 8px 0 6px;
+}
+
+.court-info {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 4px;
+}
