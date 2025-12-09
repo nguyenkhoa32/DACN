@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     if (foundUser.role === 'admin') {
                         window.location.href = 'admin_dashboard.html';
+                        } else if (foundUser.role === 'staff') {
+                             window.location.href = 'staff_dashboard.html';
                     } else {
                         window.location.href = 'index.html';
                     }

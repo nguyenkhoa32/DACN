@@ -65,10 +65,7 @@ document.getElementById("logout-btn").addEventListener("click", () => {
 });
 
 
-// ----- EDIT BUTTON (TÙY Ý LÀM SAU) -----
-document.getElementById("edit-btn").addEventListener("click", () => {
-    alert("Trang chỉnh sửa thông tin sẽ được thêm sau.");
-});
+
 
 
 

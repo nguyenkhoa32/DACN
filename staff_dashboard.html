@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Nhân Viên | Quản Lý Sân</title>
+    <link rel="stylesheet" href="staff_dashboard.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>👨‍🔧 </h3>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#" class="active">📊 Lịch Đặt & Doanh Thu</a></li>
+                    
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Xin chào, <span id="staffNameDisplay">Nhân Viên</span></p>
+                <button id="logoutBtn" class="btn-logout">Đăng Xuất</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>Tổng Quan Hoạt Động Hôm Nay</h1>
+
+            <div class="date-filter-section">
+                <label for="revenueDateSelect">Xem dữ liệu ngày:</label>
+                <input type="date" id="revenueDateSelect" class="date-input">
+            </div>
+
+            <section class="kpi-cards-container">
+                <div class="kpi-card revenue-kpi">
+                    <h4>💰 Tổng Doanh Thu Ngày</h4>
+                    <p class="kpi-value" id="totalRevenueToday">0 VNĐ</p>
+                </div>
+                <div class="kpi-card booking-kpi">
+                    <h4>📅 Tổng Lịch Đặt Ngày</h4>
+                    <p class="kpi-value" id="totalBookingsToday">0</p>
+                </div>
+                <div class="kpi-card avg-price-kpi">
+                    <h4>💸 Giá Trị Đơn TB (Giả định)</h4>
+                    <p class="kpi-value" id="avgPriceToday">N/A</p>
+                </div>
+            </section>
+            
+            <section class="dashboard-card chart-card">
+                <h2>📈 Doanh Thu Theo Khung Giờ</h2>
+                <canvas id="dailyRevenueChart" style="max-height: 250px;"></canvas>
+            </section>
+            
+            <section class="dashboard-card full-width-card">
+                <h2>📋 Danh Sách Lịch Đặt Chi Tiết</h2>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tên KH</th>
+                                <th>Liên Hệ</th>
+                                <th>Tên Sân</th>
+                                <th>Ngày Đặt</th>
+                                <th>Khung Giờ</th>
+                                <th>Tổng Tiền</th>
+                                <th>Trạng Thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsListBody">
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="staff_script.js"></script>
+</body>
+</html>
