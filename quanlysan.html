@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">    
-    <h1 class="main-title">Quản Lý Sân</h1>
+        <h1 class="main-title">Quản Lý Sân</h1>
 
         <div class="info-action-section">
             <div class="info-controls">
@@ -18,9 +18,84 @@
             </div>
         </div>
 
-        <!-- 🟩 LIST SÂN SẼ HIỂN THỊ TẠI ĐÂY -->
+        <!-- DANH SÁCH SÂN -->
         <div id="courtList" class="court-list"></div>
+    </div>
 
+    <!-- OVERLAY -->
+    <div id="popupOverlay" class="popup-overlay hidden"></div>
+
+    <!-- POPUP THÊM SÂN -->
+    <div id="addPopup" class="popup-box hidden">
+        <h2>Thêm Sân</h2>
+
+        <label>Ảnh sân (bắt buộc):</label>
+        <input type="file" id="addImage" accept="image/*">
+
+        <label>Tên sân:</label>
+        <input type="text" id="addName">
+
+        <label>Loại sân:</label>
+        <select id="addType">
+            <option value="Thảm PVC">Thảm PVC</option>
+            <option value="Thảm Su">Thảm Su</option>
+            <option value="Sàn Gỗ">Sàn Gỗ</option>
+        </select>
+
+        <label>Giờ mở cửa:</label>
+        <input type="time" id="addOpen">
+
+        <label>Giờ đóng cửa:</label>
+        <input type="time" id="addClose">
+
+        <label>Số lượng vé sân:</label>
+        <input type="number" id="addTickets" min="1">
+
+        <button class="btn save" id="saveAdd">Lưu</button>
+        <button class="btn cancel" onclick="closePopup()">Hủy</button>
+    </div>
+
+    
+    <!-- POPUP XÓA SÂN -->
+    <div id="deletePopup" class="popup-box hidden">
+        <h2>Xóa Sân</h2>
+        <label>Chọn sân cần xóa:</label>
+        <select id="deleteSelect"></select>
+
+        <button class="btn danger" id="confirmDelete">Xóa</button>
+        <button class="btn cancel" onclick="closePopup()">Hủy</button>
+    </div>
+
+    <!-- POPUP SỬA SÂN -->
+    <div id="editPopup" class="popup-box hidden">
+        <h2>Sửa Sân</h2>
+        <label>Chọn sân:</label>
+        <select id="editSelect"></select>
+
+        <label>Ảnh sân (để trống nếu không đổi):</label>
+        <input type="file" id="editImage" accept="image/*">
+
+        <label>Tên sân:</label>
+        <input type="text" id="editName">
+
+        <label>Loại sân:</label>
+        <select id="editType">
+            <option value="Thảm PVC">Thảm PVC</option>
+            <option value="Thảm Su">Thảm Su</option>
+            <option value="Sàn Gỗ">Sàn Gỗ</option>
+        </select>
+
+        <label>Giờ mở cửa:</label>
+        <input type="time" id="editOpen">
+
+        <label>Giờ đóng cửa:</label>
+        <input type="time" id="editClose">
+
+        <label>Số lượng vé sân:</label>
+        <input type="number" id="editTickets" min="1">
+
+        <button class="btn save" id="saveEdit">Lưu thay đổi</button>
+        <button class="btn cancel" onclick="closePopup()">Hủy</button>
     </div>
 
     <script src="data_courts.js"></script>
