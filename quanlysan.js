@@ -1,11 +1,11 @@
-<<<<<<< HEAD
+
 // =========================================================
 // FILE: quanlysan.js (Hoàn thiện Logic Thêm, Xóa và Sửa Sân)
 // =========================================================
 
 // Khởi tạo/Lấy dữ liệu sân. allCourts phải là biến toàn cục
 let allCourtsData = typeof allCourts !== 'undefined' ? allCourts : [];
-=======
+
 // =========================
 // POPUP FUNCTIONS
 // =========================
@@ -25,15 +25,14 @@ function closePopup() {
 function renderCourts() {
     const list = document.getElementById("courtList");
     list.innerHTML = "";
->>>>>>> c2d2b89b1701433777d599dd4b55426a947f4ebb
 
 document.addEventListener('DOMContentLoaded', function() {
 
-<<<<<<< HEAD
+ HEAD
     let currentEditId = null; // Biến lưu ID sân đang chỉnh sửa (nếu có)
     const addCourtModal = document.getElementById('addCourtModal');
     const closeAddCourtModal = document.getElementById('closeAddCourtModal');
-=======
+
         item.innerHTML = `
             <img src="${court.image}">
             <div class="court-name">${court.name}</div>
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="court-info"><b>Giờ mở:</b> ${court.open} - ${court.close}</div>
             <div class="court-info"><b>Số vé:</b> ${court.tickets}</div>
         `;
->>>>>>> c2d2b89b1701433777d599dd4b55426a947f4ebb
+
 
     // Hàm lưu toàn bộ mảng dữ liệu hiện tại vào Local Storage
     function saveCourtsToLocalStorage() {
@@ -152,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset form và trạng thái
         resetModalForAdd();
     });
-<<<<<<< HEAD
+
 
     // === 4. LOGIC HIỂN THỊ DANH SÁCH SÂN ===
 
@@ -267,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Chạy hàm hiển thị sân khi trang được tải
     renderCourts();
 });
-=======
+
 }
 renderCourts();
 
@@ -381,4 +380,4 @@ document.getElementById("saveEdit").onclick = () => {
         closePopup();
     }
 };
->>>>>>> c2d2b89b1701433777d599dd4b55426a947f4ebb
+
