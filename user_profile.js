@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ----- LOAD USER PROFILE (GIỮ NGUYÊN CODE CŨ) -----
+    // ======================================================
+    // 1) LOAD THÔNG TIN USER
+    // ======================================================
     const nameDisplay = document.getElementById("username-display");
     const emailDisplay = document.getElementById("email-display");
     const phoneDisplay = document.getElementById("phone-display");
@@ -18,51 +20,148 @@ document.addEventListener("DOMContentLoaded", function () {
     phoneDisplay.textContent = user.phone;
     addressDisplay.textContent = user.address;
 
-    // ----- LOAD CHAT LIÊN HỆ -----
+
+    // ======================================================
+    // 2) NÚT QUAY LẠI TRANG CHỦ
+    // ======================================================
+    const backBtn = document.getElementById("back-btn");
+    if (backBtn) {
+        backBtn.addEventListener("click", () => {
+            window.location.href = "index.html"; // ĐƯỜNG DẪN TRANG CHỦ
+        });
+    }
+
+
+    // ======================================================
+    // 3) LOAD DANH SÁCH ĐẶT SÂN
+    // ======================================================
+    const bookingBody = document.getElementById("booking-body");
+    const bookings = JSON.parse(localStorage.getItem("userBookings")) || [];
+
+    function loadBookings() {
+        bookingBody.innerHTML = "";
+
+        if (bookings.length === 0) {
+            bookingBody.innerHTML = "<tr><td colspan='6'>Chưa có lịch đặt sân.</td></tr>";
+            return;
+        }
+
+        bookings.forEach(b => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${b.date}</td>
+                <td>${b.time}</td>
+                <td>${b.courtName}</td>
+                <td>${b.courtNumber}</td>
+                <td>${b.ticketCount}</td>
+                <td>${b.payment}</td>
+            `;
+            bookingBody.appendChild(tr);
+        });
+    }
+
+    loadBookings();
+
+
+    // ======================================================
+    // 4) CHAT LIÊN HỆ
+    // ======================================================
+    const msgBox = document.getElementById("userChatMessages");
+    const msgInput = document.getElementById("userChatInput");
+    const sendBtn = document.getElementById("userSendBtn");
+
     let contacts = JSON.parse(localStorage.getItem("contactMessages")) || [];
 
-    // Chat phải lấy đúng email của user
-    const userContact = contacts.find(c => c.email === user.email);
+    // Tìm đúng chat theo email user
+    let userContact = contacts.find(c => c.email === user.email);
 
-    const userChatMessages = document.getElementById("userChatMessages");
-    const userChatInput = document.getElementById("userChatInput");
-    const userSendBtn = document.getElementById("userSendBtn");
+    // Nếu chưa có -> tạo mới
+    if (!userContact) {
+        userContact = {
+            email: user.email,
+            name: user.name,
+            chat: []
+        };
+        contacts.push(userContact);
+        localStorage.setItem("contactMessages", JSON.stringify(contacts));
+    }
 
-    function loadUserChat() {
-        userChatMessages.innerHTML = "";
+    // Hiển thị chat
+    function loadChat() {
+        if (!msgBox) return;
 
-        if (!userContact) {
-            userChatMessages.innerHTML = "<p>Chưa có tin nhắn nào.</p>";
+        msgBox.innerHTML = "";
+
+        if (userContact.chat.length === 0) {
+            msgBox.innerHTML = "<p>Chưa có tin nhắn nào.</p>";
             return;
         }
 
         userContact.chat.forEach(msg => {
             const div = document.createElement("div");
             div.className = msg.from === "staff" ? "chat-message-staff" : "chat-message-user";
-            div.innerText = msg.text;
-            userChatMessages.appendChild(div);
+            div.textContent = msg.text;
+            msgBox.appendChild(div);
+        });
+
+        msgBox.scrollTop = msgBox.scrollHeight; // Auto scroll
+    }
+
+    loadChat();
+
+    // Gửi tin nhắn
+    if (sendBtn) {
+        sendBtn.addEventListener("click", () => {
+            const text = msgInput.value.trim();
+            if (!text) return;
+
+            userContact.chat.push({
+                from: "user",
+                text: text,
+                time: new Date().toLocaleString()
+            });
+
+            localStorage.setItem("contactMessages", JSON.stringify(contacts));
+
+            msgInput.value = "";
+            loadChat();
         });
     }
 
-    loadUserChat();
 
-    // User gửi tin nhắn
-    userSendBtn.addEventListener("click", () => {
-        const text = userChatInput.value.trim();
-        if (!text) return;
+    // ======================================================
+    // 5) CHỈNH SỬA THÔNG TIN USER
+    // ======================================================
+    const editBtn = document.getElementById("edit-btn");
+    const modal = document.getElementById("edit-modal");
+    const saveBtn = document.getElementById("save-edit");
+    const closeBtn = document.getElementById("close-modal");
 
-        if (!userContact) return;
+    if (editBtn) {
+        editBtn.onclick = () => {
+            document.getElementById("edit-name").value = user.name;
+            document.getElementById("edit-email").value = user.email;
+            document.getElementById("edit-address").value = user.address;
+            document.getElementById("edit-phone").value = user.phone;
 
-        userContact.chat.push({
-            from: "user",
-            text: text,
-            time: new Date().toLocaleString()
-        });
+            modal.style.display = "flex";
+        };
+    }
 
-        localStorage.setItem("contactMessages", JSON.stringify(contacts));
+    if (closeBtn) {
+        closeBtn.onclick = () => modal.style.display = "none";
+    }
 
-        userChatInput.value = "";
-        loadUserChat();
-    });
+    if (saveBtn) {
+        saveBtn.onclick = () => {
+            user.name = document.getElementById("edit-name").value;
+            user.email = document.getElementById("edit-email").value;
+            user.address = document.getElementById("edit-address").value;
+            user.phone = document.getElementById("edit-phone").value;
+
+            localStorage.setItem("userProfile", JSON.stringify(user));
+            location.reload();
+        };
+    }
 
 });

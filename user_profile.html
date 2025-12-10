@@ -31,25 +31,35 @@
     </div>
 
         <div class="right-panel">
-        <h2>Thông tin đặt sân</h2>
+    <h2>Thông tin đặt sân</h2>
 
-        <table class="booking-table">
-            <thead>
-                <tr>
-                    <th>Ngày</th>
-                    <th>Giờ</th>
-                    <th>Tên sân</th>
-                    <th>Số sân</th>
-                    <th>Số vé</th>
-                    <th>Thanh toán</th>
-                </tr>
-            </thead>
-            <tbody id="booking-body">
-            </tbody>
-        </table>
+    <table class="booking-table">
+        <thead>
+            <tr>
+                <th>Ngày</th>
+                <th>Giờ</th>
+                <th>Tên sân</th>
+                <th>Số sân</th>
+                <th>Số vé</th>
+                <th>Thanh toán</th>
+            </tr>
+        </thead>
+        <tbody id="booking-body"></tbody>
+    </table>
+
+    <hr style="margin: 30px 0;">
+
+    <h2>Liên hệ hỗ trợ</h2>
+
+    <div class="chat-box">
+        <div id="userChatMessages" class="chat-messages"></div>
+
+        <div class="chat-input-area">
+            <input type="text" id="userChatInput" placeholder="Nhập tin nhắn...">
+            <button id="userSendBtn">Gửi</button>
+        </div>
     </div>
-
-
+</div>
 
 </div>
 
@@ -79,6 +89,5 @@
 </div>
 
 <script src="user_profile.js"></script>
-
 </body>
 </html>
