@@ -52,6 +52,29 @@
         <p>Sân số: <span id="pay_subCourt"></span></p>
         <p>Số vé: <span id="pay_ticketCount"></span></p>
         <h3 style="color: #2ecc71; margin-top: 15px;">Tổng tiền: <span id="pay_totalAmount">0 VNĐ</span></h3>
+<!-- CHỌN PHƯƠNG THỨC THANH TOÁN -->
+<h3 style="margin-top: 15px;">Phương thức thanh toán:</h3>
+
+<label class="pay-option">
+    <input type="radio" name="paymentMethod" value="cash" checked>
+    Thanh toán khi đến sân
+</label>
+<br>
+<label class="pay-option">
+    <input type="radio" name="paymentMethod" value="qr">
+    Thanh toán bằng mã QR
+</label>
+
+<!-- QR CODE (ẩn mặc định) -->
+<div id="qrBox" style="display:none; margin-top:10px; text-align:center;">
+    <h4>Quét mã QR để thanh toán</h4>
+    <img src="img/QR.png" alt="QR thanh toán" style="width:180px; border:1px solid #ddd; padding:10px; border-radius:10px;">
+</div>
+<div id="transferBox" style="display:none; margin-top:15px;">
+                <label for="transferFile">Tải ảnh hóa đơn chuyển khoản:</label>
+                <input type="file" id="transferFile" accept="image/*">
+                <p id="fileName" style="font-size: 13px; color:#555; margin-top:5px;">Chưa chọn file</p>
+            </div>
 
         <div class="popup-actions">
             <button id="closePayment">Đóng</button>

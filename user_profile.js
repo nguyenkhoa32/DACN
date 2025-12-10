@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const avatarInput = document.getElementById("upload-avatar");
     const avatarImg = document.getElementById("avatar-img");
     const bookingBody = document.getElementById("booking-body");
+    const addressDisplay = document.getElementById("address-display");
     
     // ===============================================
     // ----- LOAD USER INFORMATION & AVATAR -----
@@ -25,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if(emailDisplay) emailDisplay.innerText = localStorage.getItem("email") || "email@gmail.com";
     if(phoneDisplay) phoneDisplay.innerText = localStorage.getItem("phone") || "0123456789";
     if(joinDateDisplay) joinDateDisplay.innerText = localStorage.getItem("joinDate") || "10/12/2025";
+    if(addressDisplay) addressDisplay.innerText = localStorage.getItem("address") || "Chưa có";
+
 
     // Load avatar nếu stored
     if (localStorage.getItem("avatar") && avatarImg) {
@@ -131,6 +134,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if(usernameDisplay) usernameDisplay.innerText = newName;
             if(emailDisplay) emailDisplay.innerText = newEmail;
             if(phoneDisplay) phoneDisplay.innerText = newPhone;
+            if(addressDisplay) addressDisplay.innerText = newAddress;
+
 
             modal.style.display = "none";
             alert("Cập nhật thông tin thành công!");
