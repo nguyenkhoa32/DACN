@@ -150,6 +150,101 @@
             </div>
             
         </form>
+        <div class="chat-history" style="margin-top:30px;">
+    <h3>Lịch sử trao đổi</h3>
+    <div id="chatHistory" style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:auto; border-radius:8px; background-color:#f0f0f0;">
+        Chưa có tin nhắn.
     </div>
+</div>
+    </div>
+
+<script>
+function loadChatHistory(name) {
+    const chatHistory = document.getElementById("chatHistory");
+    chatHistory.innerHTML = "";
+
+    const contacts = JSON.parse(localStorage.getItem("contactMessages")) || [];
+    const contact = contacts.find(c => c.name === name);
+
+    if(!contact || contact.chat.length === 0){
+        chatHistory.innerHTML = "Chưa có tin nhắn.";
+        return;
+    }
+
+    contact.chat.forEach(msg => {
+        const bubble = document.createElement("div");
+        bubble.innerText = msg.text + " (" + msg.time + ")";
+        bubble.style.padding = "6px 10px";
+        bubble.style.margin = "5px 0";
+        bubble.style.borderRadius = "8px";
+        bubble.style.maxWidth = "80%";
+        bubble.style.backgroundColor = msg.from === "staff" ? "#3498db" : "#2ecc71";
+        bubble.style.color = "white";
+        bubble.style.alignSelf = msg.from === "staff" ? "flex-start" : "flex-end";
+        chatHistory.appendChild(bubble);
+    });
+
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
+
+document.querySelector(".submit-btn").addEventListener("click", function(e){
+    e.preventDefault(); // Ngăn form submit mặc định
+
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const recipient = document.getElementById("recipient").value;
+    const message = document.getElementById("message").value.trim();
+
+    if(!name || !phone || !address || !message){
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    let contacts = JSON.parse(localStorage.getItem("contactMessages")) || [];
+    let contact = contacts.find(c => c.name === name);
+    if(!contact){
+        contact = {
+            name: name,
+            phone: phone,
+            address: address,
+            recipient: recipient,
+            chat: []
+        };
+        contacts.push(contact);
+    }
+
+    contact.chat.push({
+        from: "user",
+        text: message,
+        time: new Date().toLocaleString()
+    });
+
+    localStorage.setItem("contactMessages", JSON.stringify(contacts));
+
+    alert("Tin nhắn đã gửi đến nhân viên!");
+    document.getElementById("message").value = "";
+
+    // Load lịch sử chat ngay sau khi gửi
+    loadChatHistory(name);
+});
+
+// Load lịch sử chat khi trang mở (nếu người dùng đã nhập tên trước đó)
+document.addEventListener("DOMContentLoaded", function(){
+    const name = document.getElementById("name").value.trim();
+    if(name) loadChatHistory(name);
+});
+// Tự động cập nhật lịch sử chat mỗi 5 giây
+setInterval(() => {
+    const name = document.getElementById("name").value.trim();
+    if(name) {
+        loadChatHistory(name);
+    }
+}, 5000);
+
+</script>
+
+
+
 </body>
 </html>
