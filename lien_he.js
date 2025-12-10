@@ -1,7 +1,3 @@
-// =========================================
-// GIẢ LẬP DỮ LIỆU TỪ TRANG CONTACT (form gửi)
-// =========================================
-// Format: { name, phone, address, message }
 let contacts = JSON.parse(localStorage.getItem("contactMessages")) || [];
 
 const contactList = document.getElementById("contactList");
@@ -20,7 +16,7 @@ function loadContacts() {
         div.className = "contact-card";
         div.innerHTML = `
             <strong>${c.name}</strong>
-            <p>${c.message.substring(0, 50)}...</p>
+            <p>${c.chat[0].text.substring(0, 40)}...</p>
         `;
         div.onclick = () => openChat(index);
         contactList.appendChild(div);
@@ -29,14 +25,12 @@ function loadContacts() {
 
 loadContacts();
 
-// Mở khung chat khi click 1 khách hàng
+// Mở hội thoại
 function openChat(index) {
     currentUserIndex = index;
+
     chatUser.innerText = "Trao đổi với: " + contacts[index].name;
-
     chatMessages.innerHTML = "";
-
-    if (!contacts[index].chat) contacts[index].chat = [];
 
     contacts[index].chat.forEach(msg => {
         const bubble = document.createElement("div");
@@ -48,13 +42,17 @@ function openChat(index) {
     chatBox.style.display = "block";
 }
 
-// Gửi câu trả lời
+// Gửi tin trả lời
 function sendReply() {
     const input = document.getElementById("replyInput");
     const text = input.value.trim();
     if (!text) return;
 
-    contacts[currentUserIndex].chat.push({ from: "staff", text });
+    contacts[currentUserIndex].chat.push({
+        from: "staff",
+        text: text,
+        time: new Date().toLocaleString()
+    });
 
     localStorage.setItem("contactMessages", JSON.stringify(contacts));
 

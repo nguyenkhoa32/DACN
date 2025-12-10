@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liên Hệ Nhân Viên</title>
-    <link rel="stylesheet" href="lien_he.css">
+    <title>Liên Hệ</title>
+    <link rel="stylesheet" href="nhanvien.css">
 </head>
 <body>
 
 <div class="dashboard-container">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <h2 class="brand">Quản Lý Sân</h2>
 
@@ -22,41 +21,17 @@
         </ul>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
+        <h1>Liên Hệ Quản Lý</h1>
 
-        <h1>Liên Hệ Nhân Viên</h1>
-
-        <!-- THÔNG TIN NHÂN VIÊN -->
-        <section class="staff-card">
-            <p><strong>Tên Nhân Viên:</strong> Trần Thị B</p>
-            <p><strong>Email:</strong> staff@sportcenter.com</p>
-            <p><strong>Hotline:</strong> 0900 123 456</p>
+        <section class="card">
+            <p>Quản lý: Trần Thị B</p>
+            <p>Email: admin@sportcenter.com</p>
+            <p>Hotline: 0900 123 456</p>
         </section>
-
-        <!-- TIÊU ĐỀ -->
-        <h2 class="section-title">Danh sách khách hàng gửi liên hệ</h2>
-
-        <!-- DANH SÁCH LIÊN HỆ -->
-        <div class="contact-list" id="contactList">
-            <!-- Tự động thêm từ localStorage -->
-        </div>
-
-        <!-- KHUNG CHAT TRAO ĐỔI -->
-        <div class="chat-box" id="chatBox">
-            <h3 id="chatUser">Trao đổi với khách hàng</h3>
-
-            <div class="chat-messages" id="chatMessages"></div>
-
-            <div class="chat-input">
-                <input type="text" id="replyInput" placeholder="Nhập tin nhắn phản hồi...">
-                <button onclick="sendReply()">Gửi</button>
-            </div>
-        </div>
-
     </main>
+
 </div>
 
-<script src="lien_he.js"></script>
 </body>
 </html>

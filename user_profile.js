@@ -1,16 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    // ============================
-    // NÚT QUAY LẠI TRANG TRƯỚC
-    // ============================
-    const backBtn = document.getElementById("back-btn");
-    backBtn.addEventListener("click", () => {
-        window.location.href = "index.html";
-    });
-
-    // ============================
-    // HIỂN THỊ THÔNG TIN NGƯỜI DÙNG
-    // ============================
+    // ----- LOAD USER PROFILE (GIỮ NGUYÊN CODE CŨ) -----
     const nameDisplay = document.getElementById("username-display");
     const emailDisplay = document.getElementById("email-display");
     const phoneDisplay = document.getElementById("phone-display");
@@ -28,83 +18,51 @@ document.addEventListener("DOMContentLoaded", function () {
     phoneDisplay.textContent = user.phone;
     addressDisplay.textContent = user.address;
 
-    // ============================
-    // HIỂN THỊ DANH SÁCH ĐẶT SÂN
-    // ============================
-    const bookingBody = document.getElementById("booking-body");
+    // ----- LOAD CHAT LIÊN HỆ -----
+    let contacts = JSON.parse(localStorage.getItem("contactMessages")) || [];
 
-    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+    // Chat phải lấy đúng email của user
+    const userContact = contacts.find(c => c.email === user.email);
 
-    if (bookings.length === 0) {
-        bookingBody.innerHTML = `
-            <tr>
-                <td colspan="6" style="text-align:center; color:#777;">
-                    Chưa có lịch đặt sân nào.
-                </td>
-            </tr>
-        `;
-    } else {
-        bookingBody.innerHTML = "";
-        bookings.forEach(item => {
-            const row = document.createElement("tr");
+    const userChatMessages = document.getElementById("userChatMessages");
+    const userChatInput = document.getElementById("userChatInput");
+    const userSendBtn = document.getElementById("userSendBtn");
 
-            row.innerHTML = `
-                <td>${item.date || "-"}</td>
-                <td>${item.time || "-"}</td>
-                <td>${item.fieldName}</td>
-                <td>${item.fieldNumber}</td>
-                <td>${item.ticket}</td>
-                <td>${item.payment}</td>
-            `;
+    function loadUserChat() {
+        userChatMessages.innerHTML = "";
 
-            bookingBody.appendChild(row);
+        if (!userContact) {
+            userChatMessages.innerHTML = "<p>Chưa có tin nhắn nào.</p>";
+            return;
+        }
+
+        userContact.chat.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = msg.from === "staff" ? "chat-message-staff" : "chat-message-user";
+            div.innerText = msg.text;
+            userChatMessages.appendChild(div);
         });
     }
 
-    // ============================
-    // CHỈNH SỬA THÔNG TIN NGƯỜI DÙNG
-    // ============================
-    const editBtn = document.getElementById("edit-btn");
-    const modal = document.getElementById("edit-modal");
-    const closeModal = document.getElementById("close-modal");
+    loadUserChat();
 
-    const editName = document.getElementById("edit-name");
-    const editEmail = document.getElementById("edit-email");
-    const editAddress = document.getElementById("edit-address");
-    const editPhone = document.getElementById("edit-phone");
-    const saveEdit = document.getElementById("save-edit");
+    // User gửi tin nhắn
+    userSendBtn.addEventListener("click", () => {
+        const text = userChatInput.value.trim();
+        if (!text) return;
 
-    editBtn.addEventListener("click", () => {
-        editName.value = user.name;
-        editEmail.value = user.email;
-        editAddress.value = user.address;
-        editPhone.value = user.phone;
+        if (!userContact) return;
 
-        modal.style.display = "flex";
-    });
+        userContact.chat.push({
+            from: "user",
+            text: text,
+            time: new Date().toLocaleString()
+        });
 
-    closeModal.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
+        localStorage.setItem("contactMessages", JSON.stringify(contacts));
 
-    saveEdit.addEventListener("click", () => {
-        const updated = {
-            name: editName.value,
-            email: editEmail.value,
-            phone: editPhone.value,
-            address: editAddress.value
-        };
-
-        localStorage.setItem("userProfile", JSON.stringify(updated));
-
-        nameDisplay.textContent = updated.name;
-        emailDisplay.textContent = updated.email;
-        phoneDisplay.textContent = updated.phone;
-        addressDisplay.textContent = updated.address;
-
-        modal.style.display = "none";
-
-        alert("Cập nhật thông tin thành công!");
+        userChatInput.value = "";
+        loadUserChat();
     });
 
 });
