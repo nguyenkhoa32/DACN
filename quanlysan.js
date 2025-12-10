@@ -1,9 +1,16 @@
 // =========================================================
-// FILE: quanlysan.js (Hoàn thiện Logic Thêm, Xóa và Sửa Sân)
+// FILE: quanlysan.js (Phiên bản ĐÃ SỬA LỖI LOCAL STORAGE)
 // =========================================================
 
-// Khởi tạo/Lấy dữ liệu sân. allCourts phải là biến toàn cục
-let allCourtsData = typeof allCourts !== 'undefined' ? allCourts : [];
+// Khởi tạo/Lấy dữ liệu sân. allCourtsData phải là mảng dữ liệu hiện tại
+// Lưu ý: Biến 'allCourts' phải được định nghĩa đâu đó trong HTML hoặc file JS khác
+// Nếu không có, ta coi nó là mảng rỗng và sẽ được nạp sau.
+const COURTS_STORAGE_KEY = 'appCourtsData'; 
+
+// Giả định: Danh sách 25 sân cố định nằm trong biến 'allCourts' (được load trước)
+// Nếu không, hãy tạo một biến COURTS_DATA_DEFAULT và đưa 25 sân vào đây.
+let initialDefaultCourts = typeof allCourts !== 'undefined' && Array.isArray(allCourts) ? allCourts : [];
+let allCourtsData = initialDefaultCourts; // Khởi tạo với dữ liệu mặc định
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -11,31 +18,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const addCourtModal = document.getElementById('addCourtModal');
     const closeAddCourtModal = document.getElementById('closeAddCourtModal');
 
-    // Hàm lưu toàn bộ mảng dữ liệu hiện tại vào Local Storage
+    // === 1. HÀM LƯU DỮ LIỆU VÀO LOCAL STORAGE (ĐÃ SỬA) ===
     function saveCourtsToLocalStorage() {
-        localStorage.setItem('customCourts', JSON.stringify(allCourtsData));
+        // LỖI ĐÃ SỬA: Lưu toàn bộ mảng dữ liệu hiện tại (allCourtsData) vào key thống nhất
+        localStorage.setItem(COURTS_STORAGE_KEY, JSON.stringify(allCourtsData));
     }
 
-    // === 1. Tải và đồng bộ dữ liệu sân (bao gồm cả dữ liệu từ Local Storage) ===
+    // === 2. Tải và đồng bộ dữ liệu sân (bao gồm cả dữ liệu từ Local Storage) (ĐÃ SỬA) ===
     function loadAndSyncCourts() {
-        const storedCourts = localStorage.getItem('customCourts');
+        const storedCourtsJson = localStorage.getItem(COURTS_STORAGE_KEY);
         
-        if (storedCourts) {
+        if (storedCourtsJson) {
             try {
-                // Ghi đè dữ liệu gốc bằng dữ liệu đã lưu trong Local Storage
-                allCourtsData = JSON.parse(storedCourts);
+                // LỖI ĐÃ SỬA: Đọc từ key thống nhất: COURTS_STORAGE_KEY ('appCourtsData')
+                const storedCourts = JSON.parse(storedCourtsJson);
+                
+                if (Array.isArray(storedCourts)) {
+                    // Ưu tiên dữ liệu đã lưu
+                    allCourtsData = storedCourts;
+                } else {
+                    // Nếu lỗi parse, dùng dữ liệu gốc và lưu lại
+                    saveCourtsToLocalStorage();
+                }
             } catch (e) {
-                console.error("Lỗi khi phân tích Local Storage, sử dụng dữ liệu gốc:", e);
+                console.error("Lỗi khi phân tích Local Storage. Sử dụng dữ liệu gốc.", e);
+                allCourtsData = initialDefaultCourts; 
+                saveCourtsToLocalStorage(); // Lưu dữ liệu gốc vào key mới
             }
-        }
-        
-        if (!Array.isArray(allCourtsData)) {
+        } else if (initialDefaultCourts.length > 0) {
+            // Lần đầu tiên chạy hoặc Local Storage trống -> Lưu dữ liệu gốc vào key thống nhất
+            allCourtsData = initialDefaultCourts; 
+            saveCourtsToLocalStorage();
+        } else {
+             // Không có Local Storage và không có dữ liệu gốc
              allCourtsData = [];
         }
     }
     loadAndSyncCourts();
     
-    // === 2. HÀM HỖ TRỢ CHO MODAL VÀ FORM ===
+    // === 3. HÀM HỖ TRỢ CHO MODAL VÀ FORM ===
 
     // Hàm điền thông tin sân vào Form Modal (Chức năng Sửa)
     function loadCourtForEdit(courtId) {
@@ -52,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('courtClose').value = courtToEdit.close;
             document.getElementById('courtTickets').value = courtToEdit.tickets;
             document.getElementById('courtImage').value = courtToEdit.image;
+            // Lưu ý: Cần thêm trường monthPrice vào form nếu bạn muốn sửa giá tháng
             document.getElementById('courtPrice').value = courtToEdit.price || ''; 
             
             document.getElementById('updateCourtBtn').textContent = 'Cập Nhật Sân';
@@ -63,14 +85,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hàm Reset Form khi đóng Modal hoặc chuẩn bị Thêm mới
     function resetModalForAdd() {
         currentEditId = null;
-        // Sử dụng ?.reset() để tránh lỗi nếu form chưa load kịp
         document.getElementById('addCourtForm')?.reset(); 
         document.querySelector('#addCourtModal h2').textContent = 'Thêm Sân Cầu Lông Mới';
-        document.getElementById('updateCourtBtn').textContent = 'Cập Nhật & Hiển Thị';
+        document.getElementById('updateCourtBtn').textContent = 'Thêm & Cập Nhật'; // Đổi tên nút cho rõ ràng hơn
     }
 
 
-    // === 3. XỬ LÝ FORM THÊM/SỬA SÂN ===
+    // === 4. XỬ LÝ FORM THÊM/SỬA SÂN ===
     
     document.getElementById('addCourtForm')?.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -84,6 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             tickets: parseInt(document.getElementById('courtTickets').value),
             image: document.getElementById('courtImage').value || 'img/default.png',
             price: document.getElementById('courtPrice').value, 
+            // monthPrice: Giả định bạn đã thêm input cho giá tháng nếu cần sửa
         };
         
         let actionMessage = "";
@@ -96,18 +118,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 allCourtsData[index] = { ...allCourtsData[index], ...courtDetails };
                 actionMessage = `Đã cập nhật sân ID: ${currentEditId} thành công!`;
             }
-            // Reset ID sau khi sửa xong
             currentEditId = null; 
 
         } else {
             // Trường hợp 2: THÊM MỚI (Add)
-            const newId = allCourtsData.length > 0 ? Math.max(...allCourtsData.map(c => c.id)) + 1 : 1;
+            // Đảm bảo ID không trùng lặp và tăng dần
+            const maxId = allCourtsData.length > 0 ? Math.max(...allCourtsData.map(c => c.id)) : 0;
+            const newId = maxId + 1;
+            
             const newCourt = { id: newId, ...courtDetails };
             allCourtsData.push(newCourt);
             actionMessage = `Đã thêm sân "${newCourt.name}" thành công!`;
         }
 
-        // Lưu dữ liệu vào Local Storage (Đồng bộ)
+        // LỖI ĐÃ SỬA: Lưu dữ liệu vào Local Storage (Đồng bộ)
         saveCourtsToLocalStorage();
         
         // Cập nhật giao diện
@@ -121,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resetModalForAdd();
     });
 
-    // === 4. LOGIC HIỂN THỊ DANH SÁCH SÂN ===
+    // === 5. LOGIC HIỂN THỊ DANH SÁCH SÂN (renderCourts giữ nguyên) ===
 
     function renderCourts() {
         const list = document.getElementById("courtList");
@@ -159,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         attachCourtActionListeners(); 
     }
     
-    // === 5. LOGIC XỬ LÝ TẤT CẢ CÁC NÚT ĐIỀU KHIỂN ===
+    // === 6. LOGIC XỬ LÝ TẤT CẢ CÁC NÚT ĐIỀU KHIỂN (attachCourtActionListeners giữ nguyên) ===
     
     function attachCourtActionListeners() {
         
@@ -169,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Xử lý nút Chỉnh sửa thông tin
         document.getElementById('editInfoButton')?.addEventListener('click', () => alert('Mở pop-up Chỉnh sửa thông tin...'));
 
-        // Xử lý nút Sửa (mini) - Đã tích hợp logic gọi loadCourtForEdit
+        // Xử lý nút Sửa (mini)
         document.querySelectorAll('.edit-court-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const courtId = Number(this.getAttribute('data-id'));
@@ -177,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Xử lý nút Xóa (mini) - Đã tích hợp logic xóa và đồng bộ
+        // Xử lý nút Xóa (mini)
         document.querySelectorAll('.delete-court-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const courtId = Number(this.getAttribute('data-id')); 
@@ -200,19 +224,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Xử lý nút Thêm (lớn) - Gọi reset form trước khi mở Modal
+        // Xử lý nút Thêm (lớn)
         document.querySelector('.action-button.primary')?.addEventListener('click', function() {
             resetModalForAdd(); 
             addCourtModal.style.display = 'block';
         });
 
-        // Đóng Modal (Nút X) - Gọi reset trạng thái
+        // Đóng Modal (Nút X)
         closeAddCourtModal?.addEventListener('click', function() {
             addCourtModal.style.display = 'none';
             resetModalForAdd();
         });
 
-        // Đóng Modal (Click ra ngoài) - Gọi reset trạng thái
+        // Đóng Modal (Click ra ngoài)
         window.onclick = function(event) {
             if (event.target == addCourtModal) {
                 addCourtModal.style.display = 'none';

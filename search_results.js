@@ -1,8 +1,9 @@
 // =========================================================
-// CẬP NHẬT FILE search_results.js - ĐÃ FIX CÚ PHÁP DẤU }
+// CẬP NHẬT FILE search_results.js - ĐÃ SỬA LỖI ĐỒNG BỘ DỮ LIỆU VÀ LỖI getPrice
+// Key thống nhất: 'appCourtsData'
 // =========================================================
 
-// 1. DỮ LIỆU CÁC SÂN GỐC
+// 1. DỮ LIỆU CÁC SÂN GỐC (Dùng làm FALLBACK)
 const COURTS_DATA = [
     // Hải Châu
     { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 10, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu", price: "80.000", monthPrice: 600000, subCourts: [{ id: 1, tickets: 10 }, { id: 2, tickets: 10 }, { id: 3, tickets: 10 }, { id: 4, tickets: 10 }, { id: 5, tickets: 10 }] },
@@ -48,35 +49,44 @@ function saveBookingsData(bookings) {
 }
 
 
-// 3. HÀM HỖ TRỢ LOCAL STORAGE (COURT DATA - CẬP NHẬT VÉ CÒN LẠI)
-function loadCustomCourts(originalCourts) {
-    const storedCourtsJson = localStorage.getItem('court_data_with_tickets');
-    if (!storedCourtsJson) return originalCourts;
-
-    try {
-        const storedCourts = JSON.parse(storedCourtsJson);
-        // Cập nhật số lượng vé từ storedCourts vào originalCourts
-        return originalCourts.map(originalCourt => {
-            const storedCourt = storedCourts.find(sc => sc.id === originalCourt.id);
-            // Chỉ cập nhật nếu tìm thấy dữ liệu đã lưu và giữ lại các thuộc tính khác
-            return storedCourt ? storedCourt : originalCourt;
-        });
-    } catch (e) {
-        console.error("Lỗi khi tải Local Storage:", e);
-        return originalCourts;
-    }
-}
+// 3. HÀM HỖ TRỢ LOCAL STORAGE (COURT DATA - ĐÃ SỬA LỖI TẢI DỮ LIỆU)
+const COURTS_STORAGE_KEY = 'appCourtsData'; 
 
 function saveCourtsData(courts) {
-    localStorage.setItem('court_data_with_tickets', JSON.stringify(courts));
+    // SỬ DỤNG KEY ĐÃ ĐỒNG BỘ: 'appCourtsData'
+    localStorage.setItem(COURTS_STORAGE_KEY, JSON.stringify(courts));
+}
+
+function loadAndSyncCourtsData(originalCourts) {
+    const storedCourtsJson = localStorage.getItem(COURTS_STORAGE_KEY);
+    let currentCourts = originalCourts; 
+
+    if (storedCourtsJson) {
+        try {
+            const storedCourts = JSON.parse(storedCourtsJson);
+            
+            // ƯU TIÊN DỮ LIỆU TỪ LOCAL STORAGE (bao gồm sân mới từ Admin)
+            if (Array.isArray(storedCourts) && storedCourts.length > 0) {
+                 currentCourts = storedCourts; 
+            }
+        } catch (e) {
+            console.error("Lỗi khi tải Local Storage, sử dụng dữ liệu gốc:", e);
+        }
+    }
+    
+    // Đảm bảo dữ liệu cuối cùng (bao gồm cả sân mới của Admin) được lưu lại
+    // để đồng bộ hóa cho Admin nếu họ vừa mới khởi tạo.
+    saveCourtsData(currentCourts); 
+    
+    return currentCourts; 
 }
 
 
 // --- DOMContentLoaded START ---
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Lấy dữ liệu sân đã cập nhật số lượng vé
-    let allCourts = loadCustomCourts(COURTS_DATA);
+    // LẤY DỮ LIỆU SÂN ĐÃ ĐƯỢC ĐỒNG BỘ/CẬP NHẬT
+    let allCourts = loadAndSyncCourtsData(COURTS_DATA);
 
     // Nút quay về trang chủ
     const backBtn = document.getElementById('backToHome');
@@ -94,15 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (locationDisplay) locationDisplay.textContent = filterLocation || 'Tất Cả Các Quận';
 
 
-    // 4. Lọc sân theo location
-    const filteredCourts = allCourts.filter(court => {
-        if (!filterLocation) return true;
-        return court.district.toLowerCase() === filterLocation.toLowerCase();
-    });
-
-    const container = document.getElementById('court-list-container');
-    const noResults = document.getElementById('no-results-message');
-
     // ======= POPUP BIẾN VÀ HÀM =======
     let currentCourt = null;
     let currentTickets = 1;
@@ -113,42 +114,65 @@ document.addEventListener('DOMContentLoaded', function() {
     const transferInput = document.getElementById("transferFile");
     const fileNameDisplay = document.getElementById("fileName");
 
+    // HÀM TÍNH GIÁ ĐÃ ĐƯỢC SỬA LỖI AN TOÀN (FIXED)
     function getPrice() {
         if (!currentCourt) return 0;
         
         const type = document.getElementById("ticketType").value;
-        // Loại bỏ dấu chấm (.) trong giá tiền rồi chuyển sang số
-        const priceHour = parseInt(currentCourt.price.replace(/\./g,''));
         
+        // Loại bỏ dấu chấm (.) trong giá tiền rồi chuyển sang số. Dùng 0 nếu bị lỗi parse.
+        const priceHourString = currentCourt.price ? currentCourt.price.replace(/\./g,'') : '0';
+        // Đảm bảo giá giờ luôn là số (hoặc 0)
+        const priceHour = parseInt(priceHourString) || 0; 
+        
+        let finalPrice = 0;
+
         if(type === "month") {
-             // Giá tháng thường là cố định
-             return currentCourt.monthPrice; 
+             // Giá tháng: Đảm bảo monthPrice là số và dùng 0 nếu nó là undefined/null
+             finalPrice = currentCourt.monthPrice || 0; 
         } else {
              // Vé giờ: Giá/giờ * số vé
-             return priceHour * currentTickets;
+             finalPrice = priceHour * currentTickets;
         }
+        
+        // Đảm bảo giá trị trả về luôn là số
+        return finalPrice;
     }
     
     function renderCourtCards() {
-        // Cập nhật lại danh sách sân theo dữ liệu mới nhất (số vé)
-        allCourts = loadCustomCourts(COURTS_DATA); 
+        // Luôn tải lại dữ liệu mới nhất từ Local Storage trước khi render
+        allCourts = loadAndSyncCourtsData(COURTS_DATA); 
         
+        // Lọc lại danh sách theo dữ liệu mới nhất (bao gồm sân mới)
+        const filteredCourtsRender = allCourts.filter(court => {
+            if (!filterLocation) return true;
+            return court.district.toLowerCase() === filterLocation.toLowerCase();
+        });
+
+
+        const container = document.getElementById('court-list-container');
+        const noResults = document.getElementById('no-results-message');
+
         if (!container || !noResults) return;
 
         container.innerHTML = '';
-        if (filteredCourts.length === 0) {
+        if (filteredCourtsRender.length === 0) {
             noResults.style.display = 'block';
             return;
         } 
         
         noResults.style.display = 'none';
 
-        filteredCourts.forEach(court => {
+        filteredCourtsRender.forEach(court => {
             const card = document.createElement('div');
             card.className = 'court-card';
             
             // Tìm số lượng vé còn lại hiện tại từ allCourts đã load
             const currentTicketsCount = allCourts.find(c => c.id === court.id)?.tickets || court.tickets;
+
+            // Xử lý giá tháng an toàn
+            const monthPriceDisplay = (court.monthPrice || 0).toLocaleString('vi-VN');
+
 
             card.innerHTML = `
                 <div class="court-img" style="background-image: url('${court.image}');"></div>
@@ -160,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="detail-item"> Vé Còn: <b>${currentTicketsCount}</b></span>
                     </div>
                     <p class="court-price">Giá: ${court.price} VNĐ/Giờ</p>
-                    <p class="court-price">Giá: ${court.monthPrice.toLocaleString('vi-VN')} VNĐ/Tháng</p>
+                    <p class="court-price">Giá: ${monthPriceDisplay} VNĐ/Tháng</p>
                     <p class="court-time">⏰ Mở: ${court.open} - Đóng: ${court.close}</p>
                     <button class="book-btn">Đặt Sân Ngay</button>
                 </div>
@@ -173,26 +197,34 @@ document.addEventListener('DOMContentLoaded', function() {
             button.addEventListener("click", e => {
                 const card = e.target.closest(".court-card");
                 const name = card.querySelector(".court-name").textContent;
+                
+                // Cần tìm trong danh sách ALLCOURTS đã được cập nhật
                 currentCourt = allCourts.find(c => c.name === name);
                 
-                if (currentCourt) {
-                    currentTickets = 1;
-                    const courtTitle = document.getElementById("courtTitle");
-                    const ticketCountDisplay = document.getElementById("ticketCount");
-                    const remainingTicketsDisplay = document.getElementById("remainingTickets");
-                    
-                    if (currentCourt.tickets === 0) {
-                        alert("Rất tiếc, sân này đã hết vé. Vui lòng chọn sân khác!");
-                        return;
-                    }
-
-                    if(courtTitle) courtTitle.textContent = name;
-                    if(ticketCountDisplay) ticketCountDisplay.textContent = "1";
-                    // Vé còn lại = Tổng vé - Vé đang đặt (1)
-                    if(remainingTicketsDisplay) remainingTicketsDisplay.textContent = currentCourt.tickets - 1; 
-                    
-                    if(bookingPopup) bookingPopup.style.display = "flex";
+                if (!currentCourt) {
+                    alert("Lỗi dữ liệu: Không tìm thấy thông tin chi tiết của sân này.");
+                    return; 
                 }
+
+                if (currentCourt.tickets <= 0) {
+                    alert("Rất tiếc, sân này đã hết vé. Vui lòng chọn sân khác!");
+                    return;
+                }
+                
+                currentTickets = 1;
+                const courtTitle = document.getElementById("courtTitle");
+                const ticketCountDisplay = document.getElementById("ticketCount");
+                const remainingTicketsDisplay = document.getElementById("remainingTickets");
+                
+                if(courtTitle) courtTitle.textContent = name;
+                if(ticketCountDisplay) ticketCountDisplay.textContent = "1";
+                // Vé còn lại = Tổng vé - Vé đang đặt (1)
+                if(remainingTicketsDisplay) remainingTicketsDisplay.textContent = currentCourt.tickets - 1; 
+                
+                if(bookingPopup) bookingPopup.style.display = "flex";
+                
+                // Gọi lại logic cập nhật loại vé để đảm bảo hiển thị đúng giá/số vé ngay lập tức
+                document.getElementById("ticketType")?.dispatchEvent(new Event('change'));
             });
         });
     }
@@ -241,11 +273,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if(payNowBtn) {
         payNowBtn.addEventListener("click", () => {
             if (!currentCourt) return;
+            
+            // Kiểm tra Ngày và Giờ có được truyền từ trang Index không (Fix lỗi 3 trước đó)
+            if (filterDate === 'N/A' || filterTime === 'N/A') {
+                alert("Vui lòng chọn Ngày và Giờ đặt sân trước khi thanh toán.");
+                return;
+            }
+
 
             // Hiển thị thông tin thanh toán
             document.getElementById("pay_ticketType").textContent = document.getElementById("ticketType").value === 'month' ? 'Vé Tháng' : 'Vé Giờ';
             document.getElementById("pay_subCourt").textContent = document.getElementById("subCourt").value;
             document.getElementById("pay_ticketCount").textContent = document.getElementById("ticketType").value === 'month' ? '1 (Tháng)' : currentTickets;
+            
+            // Dòng 177: Sử dụng getPrice() đã được sửa lỗi an toàn
             document.getElementById("pay_totalAmount").textContent = getPrice().toLocaleString('vi-VN') + " VNĐ";
 
             // Reset trạng thái thanh toán
@@ -306,10 +347,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 7. Xử lý Xác nhận Thanh toán (LƯU LỊCH SỬ BOOKING VÀO LOCAL STORAGE)
+    // 7. Xử lý Xác nhận Thanh toán (LƯU LỊCH SỬ BOOKING VÀ CẬP NHẬT SỐ VÉ)
     if (confirmBtn) {
         confirmBtn.addEventListener("click", () => {
             const paymentMethod = document.querySelector("input[name='paymentMethod']:checked")?.value;
+            const ticketType = document.getElementById("ticketType").value;
+            
+            // Kiểm tra Ngày và Giờ (lặp lại kiểm tra an toàn)
+            if (filterDate === 'N/A' || filterTime === 'N/A') {
+                alert("Lỗi hệ thống: Ngày hoặc Giờ đặt sân không được tìm thấy.");
+                return;
+            }
 
             // Kiểm tra file chuyển khoản (nếu là QR)
             if(paymentMethod === "qr" && transferInput.files.length === 0) {
@@ -317,7 +365,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const ticketType = document.getElementById("ticketType").value;
             // Số lượng vé cần trừ: 1 nếu là vé tháng, currentTickets nếu là vé giờ
             const ticketsToDeduct = ticketType === 'month' ? 1 : currentTickets;
             
@@ -344,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const courtIndex = allCourts.findIndex(c => c.id === currentCourt.id);
             if (courtIndex !== -1) {
                 allCourts[courtIndex].tickets -= ticketsToDeduct;
-                saveCourtsData(allCourts); // Lưu dữ liệu sân đã cập nhật
+                saveCourtsData(allCourts); // Lưu dữ liệu sân đã cập nhật (key đã đồng bộ)
             }
             
             alert(`Đặt sân "${newBooking.tenSan}" thành công!\nTổng tiền: ${newBooking.thanhToan}`);
