@@ -33,13 +33,30 @@ body {
 }
 
 .avatar-box {
-    text-align: center;
-    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* Căn giữa ngang */
+    justify-content: center; /* Căn giữa dọc (nếu cần) */
+    margin-top: 20px;
 }
 
-#upload-avatar {
-    margin-top: 5px;
+#avatar-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    cursor: pointer;
+    display: block;
 }
+
+
+#upload-avatar {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
 
 /* ===== INFO ===== */
 .left-panel h3,

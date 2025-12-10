@@ -165,3 +165,55 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+// Lắng nghe khi người dùng chọn file
+document.getElementById("upload-avatar").addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Kiểm tra có phải hình ảnh hay không
+    if (!file.type.startsWith("image/")) {
+        alert("Vui lòng chọn đúng file hình ảnh.");
+        return;
+    }
+
+    // Tạo URL xem trước
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById("avatar-img").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+});
+
+
+
+
+const avatarImg = document.getElementById("avatar-img");
+const uploadInput = document.getElementById("upload-avatar");
+
+// 1. Khi load trang -> lấy avatar đã lưu trong LocalStorage
+const savedAvatar = localStorage.getItem("userAvatar");
+if (savedAvatar) {
+    avatarImg.src = savedAvatar;
+}
+
+// 2. Khi chọn ảnh mới
+uploadInput.addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Chỉ cho phép file hình ảnh
+    if (!file.type.startsWith("image/")) {
+        alert("Vui lòng chọn file hình ảnh hợp lệ.");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        // Hiển thị avatar mới
+        avatarImg.src = e.target.result;
+
+        // LƯU vào LocalStorage
+        localStorage.setItem("userAvatar", e.target.result);
+    };
+    reader.readAsDataURL(file);
+});
