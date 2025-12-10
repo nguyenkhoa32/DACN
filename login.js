@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (foundUser.role === 'admin') {
                         window.location.href = 'admin_dashboard.html';
                     } else if (foundUser.role === 'staff') {
-                        window.location.href = 'staff_dashboard.html';
+                        window.location.href = 'nhanvien.html';
                     } else {
                         window.location.href = 'index.html'; // Trang chính
                     }
