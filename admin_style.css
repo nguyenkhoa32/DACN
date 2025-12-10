@@ -246,3 +246,31 @@ body {
 .back-button:hover {
     background-color: #e0e0e0;
 }
+.delete-user-btn {
+    background-color: #e74c3c; /* Đỏ tươi */
+    color: white;
+}
+
+.delete-user-btn:hover {
+    background-color: #c0392b; /* Đỏ sẫm hơn khi di chuột */
+}
+.admin-actions button {
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    white-space: nowrap; /* Ngăn nút bị xuống dòng */
+}
+
+/* Nút XEM LỊCH ĐẶT (Màu xanh lá cây là chuẩn) */
+.view-bookings-btn {
+    background-color: #2ecc71; /* Xanh lá cây */
+    color: white;
+}
+
+.view-bookings-btn:hover {
+    background-color: #27ae60;
+}

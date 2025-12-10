@@ -1,205 +1,215 @@
-
+// =========================================================
+// admin_script.js - PHIÊN BẢN ĐÃ CẬP NHẬT (FIX LỖI TẢI USER VÀ THÊM CHỨC NĂNG XÓA)
+// =========================================================
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    // ===========================================
-    // CHỨC NĂNG MỚI: XỬ LÝ NÚT QUAY LẠI
-    // ===========================================
+    // --- KHAI BÁO CÁC PHẦN TỬ CHUNG ---
     const backButton = document.getElementById('backToAdminDashboard');
+    const logoutButton = document.getElementById('logoutBtn');
+    
+    // --- CÁC HÀM HỖ TRỢ DỮ LIỆU CHUNG (Dùng key 'users') ---
+    
+    const USER_STORAGE_KEY = 'users';
+    const BOOKING_STORAGE_KEY = 'bookings';
 
+    function getUsersArray() {
+        const storedUsers = localStorage.getItem(USER_STORAGE_KEY);
+        // Lưu ý: Nếu user được lưu rải rác, cần hàm chuyển đổi 1 lần
+        return storedUsers ? JSON.parse(storedUsers) : []; 
+    }
+
+    function saveUsersArray(users) {
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+    }
+
+    function getBookingsData() {
+        const storedBookings = localStorage.getItem(BOOKING_STORAGE_KEY);
+        return storedBookings ? JSON.parse(storedBookings) : []; 
+    }
+
+    
+    // ===========================================
+    // CHỨC NĂNG CHUNG: QUAY LẠI VÀ ĐĂNG XUẤT
+    // ===========================================
+    
+    // Xử lý nút Quay Lại
     if (backButton) {
         backButton.addEventListener('click', function() {
-            // Chuyển hướng người dùng về trang Dashboard chính
+            // Giữ nguyên logic cũ của bạn
             window.location.href = 'admin_dashboard.html'; 
-            
-            // Hoặc sử dụng history.back() nếu bạn muốn quay lại trang trước đó
-            // history.back(); 
         });
     }
 
-
-    // ===========================================
-    // CHỨC NĂNG 1: XỬ LÝ ĐĂNG XUẤT (Logout)
-    // ===========================================
-    // Lưu ý: Đảm bảo phần tử này (ID: logoutBtn) tồn tại trong HTML Admin
-    const logoutButton = document.getElementById('logoutBtn');
+    // Xử lý nút Đăng Xuất
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
             console.log('Đang đăng xuất...');
-            
-            // Xóa phiên đăng nhập khỏi Local Storage
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem('currentUserEmail'); // Sửa thành key Email nếu bạn dùng
             localStorage.removeItem('currentUserRole'); 
-            
-            // Chuyển hướng người dùng về trang chính (index.html)
             window.location.href = 'index.html'; 
         });
     }
 
+
     // ===========================================
-    // CHỨC NĂNG 2: XỬ LÝ BIỂU ĐỒ DOANH THU ĐỘNG (Chart.js)
+    // CHỨC NĂNG 2: XỬ LÝ BIỂU ĐỒ DOANH THU ĐỘNG (Chart.js) - GIỮ NGUYÊN
     // ===========================================
     
-    // Dữ liệu giả định
+    // [Giữ nguyên logic Chart.js của bạn]
     const labels = ['Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11'];
     const revenueData = [25000000, 32000000, 45000000, 38000000, 55000000, 61000000]; 
 
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Doanh Thu (VNĐ)',
-            data: revenueData,
-            backgroundColor: 'rgba(52, 152, 219, 0.5)',
-            borderColor: 'rgb(52, 152, 219)', 
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4
-        }]
-    };
+    const data = { /* ... cấu hình data Chart ... */ labels: labels, datasets: [{ label: 'Doanh Thu (VNĐ)', data: revenueData, backgroundColor: 'rgba(52, 152, 219, 0.5)', borderColor: 'rgb(52, 152, 219)', borderWidth: 2, fill: true, tension: 0.4 }] };
 
-    const config = {
-        type: 'line', 
-        data: data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, 
-            plugins: {
-                legend: { display: false },
-                title: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return (value / 1000000).toFixed(0) + ' Tr';
-                        }
-                    }
-                }
-            }
-        }
-    };
+    const config = { /* ... cấu hình config Chart ... */ type: 'line', data: data, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: false } }, scales: { y: { beginAtZero: true, ticks: { callback: function(value) { return (value / 1000000).toFixed(0) + ' Tr'; } } } } } };
 
-    // Khởi tạo biểu đồ
     const revenueChartCtx = document.getElementById('revenueChart');
-    // Kiểm tra tồn tại để tránh lỗi nếu đang ở trang manage_users.html
     if (revenueChartCtx) {
         revenueChartCtx.style.height = '350px'; 
-        // Đảm bảo thư viện Chart.js đã được nhúng vào admin_dashboard.html
-        new Chart(revenueChartCtx, config); 
+         new Chart(revenueChartCtx, config); // Bỏ comment nếu đã nhúng thư viện Chart.js
     }
     
     
     // ===========================================
-    // CHỨC NĂNG 3: QUẢN LÝ NGƯỜI DÙNG VÀ LỊCH ĐẶT
+    // CHỨC NĂNG 3: QUẢN LÝ NGƯỜI DÙNG VÀ LỊCH ĐẶT (ĐÃ SỬA LỖI LỌC VÀ THÊM XÓA)
     // ===========================================
     
-    // Lấy các phần tử từ manage_users.html
     const userTableBody = document.querySelector('#user-list-table tbody');
     const bookingDetailsSection = document.getElementById('user-booking-details');
     const bookingDetailsBody = document.querySelector('#booking-details-table tbody');
     const currentUserNameSpan = document.getElementById('current-user-name');
     const noBookingsMessage = document.getElementById('no-bookings-message');
     
-    const BOOKING_STORAGE_KEY = 'bookings'; // Key lưu lịch đặt sân
+    // --- HÀM XỬ LÝ XÓA NGƯỜI DÙNG ---
+    function handleDeleteUser(email) {
+        if (!confirm(`Bạn có chắc chắn muốn xóa tài khoản ${email} không? Hành động này sẽ xóa vĩnh viễn.`)) {
+            return;
+        }
+        
+        let users = getUsersArray();
+        const initialLength = users.length;
+        
+        // Lọc ra người dùng cần xóa
+        const updatedUsers = users.filter(u => u.email !== email);
+        
+        if (updatedUsers.length < initialLength) {
+            saveUsersArray(updatedUsers);
+            alert(`Đã xóa tài khoản ${email} thành công.`);
+            
+            // Ẩn chi tiết booking và tải lại danh sách
+            if (bookingDetailsSection) bookingDetailsSection.style.display = 'none';
+            loadUserList(); 
+        } else {
+            alert('Lỗi: Không tìm thấy người dùng để xóa.');
+        }
+    }
 
-    // Hàm Hiển thị chi tiết lịch đặt của người dùng được chọn
-    function showUserBookings(event) {
-        // Kiểm tra an toàn trước khi truy cập
+    // --- HÀM GẮN SỰ KIỆN CHO CÁC NÚT ĐỘNG ---
+    function attachUserListEventListeners() {
+        // Gắn sự kiện Xem lịch đặt
+        document.querySelectorAll('.view-bookings-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                // Lấy email từ data-email thay vì fullname
+                const userEmail = this.dataset.email; 
+                const userName = this.dataset.fullname; 
+                showUserBookings(userEmail, userName);
+            });
+        });
+        
+        // Gắn sự kiện Xóa
+        document.querySelectorAll('.delete-user-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const emailToDelete = this.dataset.email;
+                handleDeleteUser(emailToDelete);
+            });
+        });
+    }
+
+    // --- HÀM HIỂN THỊ CHI TIẾT LỊCH ĐẶT ---
+    // Đã thay đổi tham số từ event sang email, fullname
+    function showUserBookings(userEmail, userName) {
         if (!bookingDetailsBody || !bookingDetailsSection) return;
 
-        const targetFullname = event.currentTarget.dataset.fullname; 
-        
         bookingDetailsBody.innerHTML = ''; 
-        currentUserNameSpan.textContent = targetFullname;
+        currentUserNameSpan.textContent = userName;
         bookingDetailsSection.style.display = 'block'; 
 
-        const bookingsRaw = localStorage.getItem(BOOKING_STORAGE_KEY);
-        let bookings = [];
+        const bookings = getBookingsData();
 
-        try {
-            bookings = bookingsRaw ? JSON.parse(bookingsRaw) : [];
-        } catch (e) {
-             console.error('Lỗi khi phân tích dữ liệu lịch đặt:', e);
-             bookings = [];
-        }
-
-        // Lọc lịch đặt chỉ thuộc về người dùng hiện tại
-        const userBookings = bookings.filter(booking => 
-            // Giả định mỗi lịch đặt có trường 'userFullname' để liên kết
-            booking.userFullname === targetFullname 
-        );
+        // ⭐️ Lọc lịch đặt bằng EMAIL (ID DUY NHẤT) ⭐️
+        const userBookings = bookings.filter(booking => booking.userId === userEmail);
 
         if (userBookings.length > 0) {
             noBookingsMessage.style.display = 'none';
+            
+            // Sắp xếp theo ngày
+            userBookings.sort((a, b) => new Date(b.ngay) - new Date(a.ngay));
+
             userBookings.forEach(booking => {
                 const row = bookingDetailsBody.insertRow();
                 
-                // Các trường dữ liệu sân
-                row.insertCell().textContent = booking.courtName || 'Chưa xác định';
-                row.insertCell().textContent = booking.location || 'N/A';
-                row.insertCell().textContent = booking.date || 'N/A';
-                row.insertCell().textContent = booking.time || 'N/A';
+                // Sử dụng các trường dữ liệu booking của bạn
+                row.insertCell().textContent = booking.tenSan || 'Chưa xác định';
+                row.insertCell().textContent = booking.diaDiem || 'N/A'; // Cần đảm bảo bạn lưu trường này
+                row.insertCell().textContent = booking.ngay || 'N/A';
+                row.insertCell().textContent = booking.gio || 'N/A';
+                // Thêm các cột khác nếu cần: số vé, thanh toán...
             });
         } else {
             noBookingsMessage.style.display = 'block';
         }
     }
 
-    // Hàm Tải và hiển thị danh sách người dùng
+    // --- HÀM TẢI VÀ HIỂN THỊ DANH SÁCH NGƯỜI DÙNG (FIX LỖI) ---
     function loadUserList() {
-        // Thoát nếu không phải trang manage_users.html (không tìm thấy bảng)
         if (!userTableBody) return; 
         
         userTableBody.innerHTML = ''; 
-        const keys = Object.keys(localStorage);
+        const usersArray = getUsersArray();
         let userCount = 0;
 
-        keys.forEach(key => {
-    if (key.startsWith('user_')) {
-        try {
-            const userData = JSON.parse(localStorage.getItem(key));
-            
-            if (!userData || !userData.fullname) return; 
+        // Lọc chỉ lấy người dùng có role 'user'
+        const usersToDisplay = usersArray.filter(u => (u.role || 'user') === 'user');
 
-            // ⭐️ CẬP NHẬT LỌC: Kiểm tra nếu role là 'user' HOẶC role không tồn tại ⭐️
-            // Nếu role không tồn tại, chúng ta mặc định coi đó là khách hàng (user).
-            const userRole = userData.role || 'user'; // Mặc định là 'user' nếu không có role
-            
-            if (userRole === 'user') {
+        if (usersToDisplay.length === 0) {
+            const row = userTableBody.insertRow();
+            const cell = row.insertCell(0);
+            cell.colSpan = 5;
+            cell.textContent = 'Chưa có tài khoản khách hàng nào được đăng ký.';
+        } else {
+            usersToDisplay.forEach(userData => {
                 userCount++;
-                    
                 const row = userTableBody.insertRow();
+                const userFullname = userData.fullname || userData.name || 'N/A';
                 
-                const fullnameCell = row.insertCell();
-                fullnameCell.textContent = userData.fullname;
+                row.insertCell().textContent = userFullname;
+                row.insertCell().textContent = userData.email || 'N/A';
+                row.insertCell().textContent = userData.phone || 'N/A';
+                row.insertCell().textContent = userData.role || 'user'; 
                 
-                row.insertCell().textContent = userData.email;
-                row.insertCell().textContent = userData.phone;
-                row.insertCell().textContent = userRole; // Hiển thị vai trò đã mặc định
-                    
                 const actionCell = row.insertCell();
+                actionCell.className = 'admin-actions';
+                
+                // Nút Xem
                 const viewBtn = document.createElement('button');
                 viewBtn.textContent = 'Xem Lịch Đặt';
                 viewBtn.className = 'view-bookings-btn';
-                viewBtn.dataset.fullname = userData.fullname; 
-                    
-                viewBtn.addEventListener('click', showUserBookings);
+                viewBtn.dataset.email = userData.email; // Lưu email để liên kết booking
+                viewBtn.dataset.fullname = userFullname;
+                
+                // Nút Xóa
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Xóa';
+                deleteBtn.className = 'delete-user-btn';
+                deleteBtn.dataset.email = userData.email;
+                
                 actionCell.appendChild(viewBtn);
-            }
-            
-        } catch (e) {
-            console.error('Bỏ qua bản ghi Local Storage bị hỏng:', key);
+                actionCell.appendChild(deleteBtn);
+            });
         }
-    }
-});
 
-        if (userCount === 0) {
-             const row = userTableBody.insertRow();
-             const cell = row.insertCell(0);
-             cell.colSpan = 5;
-             cell.textContent = 'Chưa có tài khoản khách hàng nào được đăng ký.';
-        }
+        attachUserListEventListeners(); // Gắn lại sự kiện sau khi render
     }
 
     // ⭐️ GỌI HÀM KHI TẢI TRANG ⭐️

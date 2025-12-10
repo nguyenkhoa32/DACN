@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Người Dùng</title>
-    <link rel="stylesheet" href="user_profile.css">
+    <link rel="stylesheet" href="user_profile.css"> 
 </head>
 <body>
 
 <div class="main-container">
 
-        <div class="left-panel">
+    <div class="left-panel">
 
-       <div class="avatar-box">
-    <img id="avatar-img" src="default_avatar.png" alt="Avatar">
-    <input type="file" id="upload-avatar" accept="image/*">
-</div>
+        <div class="avatar-box">
+            <img id="avatar-img" src="default_avatar.png" alt="Avatar">
+            <input type="file" id="upload-avatar" accept="image/*">
+        </div>
 
         <h3 id="username-display">Tên người dùng</h3>
         <p id="email-display">email@example.com</p>
@@ -30,22 +30,24 @@
         <button id="edit-btn" class="action-btn btn-primary">Chỉnh Sửa Thông Tin</button>
     </div>
 
-       <div class="right-panel">
-    <h2>Thông tin đặt sân</h2>
+    <div class="right-panel">
+        <h2>Thông tin đặt sân</h2>
 
-    <table class="booking-table">
-        <thead>
-            <tr id="booking-header-row">
-                <th>Ngày</th>
-                <th>Giờ</th>
-                <th>Tên sân</th>
-                <th>Số sân</th>
-                <th>Số vé</th>
-                <th>Thanh toán</th>
-            </tr>
-        </thead>
-        <tbody id="booking-body"></tbody>
-    </table>
+        <table class="booking-table">
+            <thead>
+                <tr>
+                    <th>Ngày</th>
+                    <th>Giờ</th>
+                    <th>Tên sân</th>
+                    <th>Số sân</th>
+                    <th>Số vé</th>
+                    <th>Thanh toán</th>
+                    <th>Thao tác</th> </tr>
+            </thead>
+            <tbody id="bookingHistoryBody"></tbody> 
+        </table>
+    </div>
+
 </div>
 
 
@@ -54,16 +56,14 @@
 
         <h2>Chỉnh Sửa Thông Tin</h2>
 
-        <label>Họ và tên</label>
+        <label for="edit-name">Họ và tên</label>
         <input type="text" id="edit-name">
 
-        <label>Email</label>
-        <input type="email" id="edit-email">
-
-        <label>Địa chỉ</label>
+        <label for="edit-email">Email</label>
+        <input type="email" id="edit-email" disabled> <label for="edit-address">Địa chỉ</label>
         <input type="text" id="edit-address">
 
-        <label>Số điện thoại</label>
+        <label for="edit-phone">Số điện thoại</label>
         <input type="text" id="edit-phone">
 
         <div class="modal-buttons">
