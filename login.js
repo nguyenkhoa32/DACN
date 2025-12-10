@@ -1,3 +1,53 @@
+// =========================================================
+// CODE CHUYỂN ĐỔI DỮ LIỆU CŨ SANG ĐỊNH DẠNG MỚI ('users')
+// *CHỈ CHẠY MỘT LẦN KHI BẠN TẢI TRANG ĐĂNG NHẬP*
+// =========================================================
+function migrateOldUsersData() {
+    let allUsers = [];
+    let oldUserFound = false;
+    
+    // 1. Quét Local Storage để tìm các key cũ ('user_1', 'user_2', ...)
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('user_')) {
+            const userDataRaw = localStorage.getItem(key);
+            try {
+                const userData = JSON.parse(userDataRaw);
+                allUsers.push(userData);
+                // Xóa key cũ sau khi chuyển đổi thành công
+                localStorage.removeItem(key); 
+                oldUserFound = true;
+            } catch (e) {
+                // Bỏ qua bản ghi bị hỏng
+            }
+        }
+    }
+    
+    // 2. Nếu tìm thấy dữ liệu cũ, gộp chúng và lưu vào key 'users'
+    if (oldUserFound) {
+        // Lấy dữ liệu 'users' hiện tại (để tránh ghi đè) và gộp lại
+        const currentUsers = localStorage.getItem('users');
+        if (currentUsers) {
+            try {
+                allUsers = JSON.parse(currentUsers).concat(allUsers);
+            } catch (e) {
+                // Lỗi phân tích cú pháp JSON của key 'users', bỏ qua dữ liệu đó
+            }
+        }
+
+        // Lưu mảng gộp cuối cùng
+        localStorage.setItem('users', JSON.stringify(allUsers));
+        console.log(`[MIGRATION]: Đã chuyển đổi thành công ${allUsers.length} người dùng sang key 'users'.`);
+    }
+}
+
+// Chạy hàm chuyển đổi ngay lập tức
+migrateOldUsersData(); 
+
+// =========================================================
+// LOGIC CHÍNH BẮT ĐẦU TỪ ĐÂY
+// =========================================================
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // === PHẦN TỬ CHUNG ===
@@ -38,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             messageElement.textContent = message;
             messageElement.className = 'message'; // Reset class
             
-            // Đặt màu dựa trên type (bạn cần định nghĩa các class .success/.error trong CSS)
+            // Đặt màu dựa trên type 
             if (type === 'error') {
                  messageElement.style.color = 'red';
             } else if (type === 'success') {
@@ -187,6 +237,4 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Lỗi hệ thống: Không tìm thấy tài khoản để cập nhật.');
         }
     });
-
-   
 });
