@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doanh Thu</title>
+    <link rel="stylesheet" href="nhanvien.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+        <h2 class="brand">Quản Lý Sân</h2>
+
+        <ul class="nav">
+            <li><a href="dat_san.html">Thông tin đặt sân</a></li>
+            <li><a href="doanh_thu.html" class="active">Doanh thu</a></li>
+            <li><a href="lien_he.html">Liên hệ</a></li>
+            <li><a href="nhanvien.html">Quay lại nhân viên</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <h1>Doanh Thu</h1>
+
+        <!-- 3 THẺ -->
+        <div class="revenue-cards">
+            <div class="rev-card">
+                <h3>Doanh thu ngày</h3>
+                <p id="doanhThuNgay">0 đ</p>
+            </div>
+
+            <div class="rev-card">
+                <h3>Đơn đặt sân trong ngày</h3>
+                <p id="donNgay">0 đơn</p>
+            </div>
+
+            <div class="rev-card">
+    <h3>Lượt truy cập khách hàng</h3>
+    <p id="luotTruyCap">0 lượt</p>
+</div>
+        </div>
+
+        <!-- BIỂU ĐỒ -->
+       <section class="card chart-box">
+    <h2>Biểu đồ Doanh Thu 7 Ngày Gần Nhất</h2>
+    <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
+    </div>
+</section>
+
+
+    </main>
+
+</div>
+
+<script src="doanh_thu.js"></script>
+</body>
+</html>

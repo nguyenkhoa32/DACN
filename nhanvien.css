@@ -1,0 +1,376 @@
+/* ====== Layout tổng ====== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+    width: 240px;
+    background: hwb(135 2% 49%);
+    color: #fff;
+    padding: 20px 0;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li {
+    margin-bottom: 10px;
+}
+
+.nav a {
+    display: block;
+    padding: 12px 20px;
+    color: #ddd;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav a:hover {
+    background: #27293d;
+    color: #fff;
+}
+
+/* ====== Main content ====== */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+.main h1 {
+    margin-top: 0;
+}
+
+/* ====== Employee Info Card ====== */
+.employee-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #4c84ff;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    margin-right: 20px;
+}
+
+/* ====== Shifts Card ====== */
+.shifts-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ====== Bảng lịch làm ====== */
+.shifts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.shifts-table th,
+.shifts-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Đảm bảo thẳng hàng theo cột */
+.shifts-table th:nth-child(1),
+.shifts-table td:nth-child(1) {
+    width: 20%;
+}
+
+.shifts-table th:nth-child(2),
+.shifts-table td:nth-child(2) {
+    width: 25%;
+}
+
+.shifts-table th:nth-child(3),
+.shifts-table td:nth-child(3) {
+    width: 35%;
+}
+
+.shifts-table tr:hover {
+    background: #f0f4ff;
+}
+/* ====== Bảng đặt sân ====== */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.booking-table th,
+.booking-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.booking-table th {
+    background: #f0f2f5;
+}
+
+.booking-table tr:hover {
+    background: #f7faff;
+}
+/* ====== Revenue Cards ====== */
+.revenue-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.rev-card {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.rev-card h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.rev-card p {
+    font-size: 26px;
+    font-weight: bold;
+    color: #2b59ff;
+}
+
+/* Biểu đồ */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+/* ====== Chart Box ====== */
+.chart-box {
+    margin-top: 25px;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 330px;
+}
+
+canvas {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    padding: 10px;
+}
+/* ====== Layout tổng ====== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f6;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+    width: 240px;
+    background: #0c8a08;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li {
+    margin-bottom: 10px;
+}
+
+.nav a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #f1f1f1;
+    color: #000;
+}
+
+/* ====== Main content ====== */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+.main h1 {
+    margin-top: 0;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+/* ====== Card thông tin nhân viên liên hệ ====== */
+.staff-card {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* ====== DANH SÁCH LIÊN HỆ ====== */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-card {
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.contact-card:hover {
+    background: #eef7ee;
+}
+
+.contact-card strong {
+    font-size: 17px;
+    color: #0c8a08;
+}
+
+/* ====== CHAT BOX ====== */
+.chat-box {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.chat-messages {
+    height: 260px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.chat-message-user {
+    background: #d1f7c4;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    max-width: 70%;
+}
+
+.chat-message-staff {
+    background: #cfe4ff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-left: auto;
+    max-width: 70%;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.chat-input button {
+    padding: 12px 20px;
+    background: #0c8a08;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.chat-input button:hover {
+    background: #0a6f06;
+}
+
