@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function displayUserInfo() {
-        // Logic hiển thị giữ nguyên
-        document.getElementById('username-display').textContent = currentUser.name || currentUser.fullname || 'Chưa cập nhật'; // Thêm fallback cho fullname
+        // Sử dụng 'name' hoặc 'fullname' tùy thuộc vào cấu trúc dữ liệu người dùng
+        document.getElementById('username-display').textContent = currentUser.name || currentUser.fullname || 'Chưa cập nhật'; 
         document.getElementById('email-display').textContent = currentUser.email || 'N/A';
         document.getElementById('phone-display').textContent = currentUser.phone || 'Chưa cập nhật';
         document.getElementById('address-display').textContent = currentUser.address || 'Chưa cập nhật';
@@ -50,30 +50,55 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 3. TẢI VÀ HIỂN THỊ LỊCH SỬ ĐẶT SÂN (OK) ---
+    // --- 3. TẢI VÀ HIỂN THỊ LỊCH SỬ ĐẶT SÂN (ĐÃ THÊM LOGIC VAI TRÒ) ---
 
     function displayBookingHistory() {
         const bookingBody = document.getElementById('booking-body');
-        bookingBody.innerHTML = ''; 
+        const bookingHeaderRow = document.getElementById('booking-header-row');
+        bookingBody.innerHTML = ''; // Xóa dữ liệu cũ
         
         const allBookings = getBookingsData();
-        // Lọc các booking thuộc về người dùng hiện tại
-        const userBookings = allBookings.filter(b => b.userId === currentUserEmail);
+        let bookingsToShow = [];
         
-        if (userBookings.length === 0) {
-            bookingBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #777;">Chưa có lịch sử đặt sân nào.</td></tr>';
+        const userRole = currentUser.role || 'user'; // Lấy vai trò (user, staff, admin)
+
+        // Lọc/Chọn booking dựa trên vai trò
+        if (userRole === 'staff' || userRole === 'admin') {
+            // Staff/Admin: Hiển thị TẤT CẢ booking
+            bookingsToShow = allBookings;
+
+            // Cập nhật tiêu đề bảng cho Nhân viên/Admin
+            document.querySelector('.right-panel h2').textContent = 'Quản Lý Đơn Đặt Sân Của Khách Hàng';
+            // Đảm bảo cột Tên KH được hiển thị (nếu bạn đã thêm nó vào HTML)
+        } else {
+            // User: Chỉ hiển thị booking của mình
+            bookingsToShow = allBookings.filter(b => b.userId === currentUserEmail);
+
+            // Cập nhật tiêu đề bảng cho người dùng
+            document.querySelector('.right-panel h2').textContent = 'Thông Tin Đặt Sân Của Bạn';
+            // Ẩn cột Tên KH nếu có trong HTML (ví dụ: bằng cách thêm class staff-only vào cột)
+        }
+        
+        if (bookingsToShow.length === 0) {
+            bookingBody.innerHTML = `<tr><td colspan="${userRole === 'user' ? 6 : 7}" style="text-align: center; color: #777;">Chưa có lịch sử đặt sân nào.</td></tr>`;
             return;
         }
 
         // Sắp xếp theo ngày (mới nhất lên đầu)
-        userBookings.sort((a, b) => new Date(b.ngay) - new Date(a.ngay));
+        bookingsToShow.sort((a, b) => new Date(b.ngay) - new Date(a.ngay));
 
-        userBookings.forEach(booking => {
+        bookingsToShow.forEach(booking => {
             const row = bookingBody.insertRow();
-            
-            // Định dạng ngày: YYYY-MM-DD -> DD/MM/YYYY
             const formattedDate = booking.ngay ? booking.ngay.split('-').reverse().join('/') : 'N/A';
             
+            // 1. THÊM CỘT TÊN KH (Dành riêng cho Staff/Admin)
+            if (userRole === 'staff' || userRole === 'admin') {
+                // Tạm thời lấy phần trước @ của email nếu không lưu tên đầy đủ trong booking
+                const customerName = booking.fullname || booking.userId.split('@')[0];
+                row.insertCell().textContent = customerName; 
+            }
+            
+            // 2. Các cột còn lại
             row.insertCell().textContent = formattedDate; 
             row.insertCell().textContent = booking.gio;
             row.insertCell().textContent = booking.tenSan;
@@ -85,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- 4. LOGIC POPUP CHỈNH SỬA ĐÃ SỬA ĐỔI ---
+    // --- 4. LOGIC POPUP CHỈNH SỬA (ĐÃ SỬA ĐỂ LƯU VÀO MẢNG) ---
     
     const editModal = document.getElementById('edit-modal');
     const editBtn = document.getElementById('edit-btn');
@@ -94,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mở Modal
     editBtn.addEventListener('click', () => {
-        document.getElementById('edit-name').value = currentUser.name || currentUser.fullname || ''; // Dùng name/fullname
+        document.getElementById('edit-name').value = currentUser.name || currentUser.fullname || ''; 
         document.getElementById('edit-email').value = currentUser.email || '';
         document.getElementById('edit-address').value = currentUser.address || '';
         document.getElementById('edit-phone').value = currentUser.phone || '';
@@ -121,21 +146,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const newAddress = document.getElementById('edit-address').value.trim();
         const newPhone = document.getElementById('edit-phone').value.trim();
 
-        // Cập nhật đối tượng currentUser (đang trỏ đến đối tượng trong mảng)
-        currentUser.name = newName; // Sửa trường name
-        currentUser.fullname = newName; // Sửa thêm trường fullname (nếu có)
+        currentUser.name = newName; 
+        currentUser.fullname = newName; 
         currentUser.address = newAddress;
         currentUser.phone = newPhone;
 
-        // Tìm index trong mảng
         const userIndex = usersArray.findIndex(u => u.email === currentUserEmail);
 
         if (userIndex !== -1) {
-            // Cập nhật lại đối tượng trong mảng (thực ra đã được cập nhật ở trên)
-            // usersArray[userIndex] = currentUser; 
-            saveUsersArray(usersArray); // Lưu toàn bộ mảng đã được sửa đổi
+            saveUsersArray(usersArray); 
         
-            // Cập nhật giao diện và đóng Modal
             displayUserInfo();
             editModal.style.display = 'none';
             alert('Thông tin cá nhân đã được cập nhật thành công!');
@@ -145,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // --- 5. LOGIC THAY ĐỔI AVATAR (Đã sửa để lưu vào MẢNG) ---
+    // --- 5. LOGIC THAY ĐỔI AVATAR (ĐÃ SỬA ĐỂ LƯU VÀO MẢNG) ---
 
     const uploadAvatarInput = document.getElementById('upload-avatar');
 
@@ -156,17 +176,13 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.onload = function(event) {
                 const base64Image = event.target.result;
 
-                // Lưu ảnh vào currentUser
                 currentUser.avatar = base64Image;
                 
-                // Tìm index và lưu MẢNG
                 const userIndex = usersArray.findIndex(u => u.email === currentUserEmail);
                 if (userIndex !== -1) {
-                    // usersArray[userIndex] = currentUser; // Đã cập nhật
                     saveUsersArray(usersArray);
                 }
 
-                // Cập nhật ngay trên giao diện
                 document.getElementById('avatar-img').src = base64Image;
                 alert('Ảnh đại diện đã được cập nhật!');
             };
