@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Lịch Đặt | Nhân Viên</title>
+    <link rel="stylesheet" href="staff_dashboard.css"> 
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>👨‍🔧 </h3>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="staff_dashboard.html">📊 Dashboard</a></li>
+                    <li><a href="#" class="active">📋 Lịch Đặt Chi Tiết</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Xin chào, <span id="staffNameDisplay">Nhân Viên</span></p>
+                <button id="logoutBtn" class="btn-logout">Đăng Xuất</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <h1>📋 Danh Sách Lịch Đặt Chi Tiết</h1>
+
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Tên KH</th>
+                            <th>Liên Hệ</th>
+                            <th>Tên Sân</th>
+                            <th>Ngày Đặt</th>
+                            <th>Khung Giờ</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsListBody"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="staff_script.js"></script>
+</body>
+</html>
