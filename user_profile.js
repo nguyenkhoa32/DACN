@@ -1,148 +1,110 @@
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // ===============================================
-    // KHAI BÁO BIẾN (ELEMENTS)
-    // ===============================================
-    const usernameDisplay = document.getElementById("username-display");
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ============================
+    // NÚT QUAY LẠI TRANG TRƯỚC
+    // ============================
+    const backBtn = document.getElementById("back-btn");
+    backBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+
+    // ============================
+    // HIỂN THỊ THÔNG TIN NGƯỜI DÙNG
+    // ============================
+    const nameDisplay = document.getElementById("username-display");
     const emailDisplay = document.getElementById("email-display");
     const phoneDisplay = document.getElementById("phone-display");
-    const joinDateDisplay = document.getElementById("join-date");
-    const backButton = document.getElementById("back-btn"); // <--- Đã đổi ID
+    const addressDisplay = document.getElementById("address-display");
+
+    const user = JSON.parse(localStorage.getItem("userProfile")) || {
+        name: "Tên người dùng",
+        email: "email@example.com",
+        phone: "0123456789",
+        address: ""
+    };
+
+    nameDisplay.textContent = user.name;
+    emailDisplay.textContent = user.email;
+    phoneDisplay.textContent = user.phone;
+    addressDisplay.textContent = user.address;
+
+    // ============================
+    // HIỂN THỊ DANH SÁCH ĐẶT SÂN
+    // ============================
+    const bookingBody = document.getElementById("booking-body");
+
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+    if (bookings.length === 0) {
+        bookingBody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center; color:#777;">
+                    Chưa có lịch đặt sân nào.
+                </td>
+            </tr>
+        `;
+    } else {
+        bookingBody.innerHTML = "";
+        bookings.forEach(item => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${item.date || "-"}</td>
+                <td>${item.time || "-"}</td>
+                <td>${item.fieldName}</td>
+                <td>${item.fieldNumber}</td>
+                <td>${item.ticket}</td>
+                <td>${item.payment}</td>
+            `;
+
+            bookingBody.appendChild(row);
+        });
+    }
+
+    // ============================
+    // CHỈNH SỬA THÔNG TIN NGƯỜI DÙNG
+    // ============================
     const editBtn = document.getElementById("edit-btn");
     const modal = document.getElementById("edit-modal");
     const closeModal = document.getElementById("close-modal");
-    const saveEditBtn = document.getElementById("save-edit");
-    const avatarInput = document.getElementById("upload-avatar");
-    const avatarImg = document.getElementById("avatar-img");
-    const bookingBody = document.getElementById("booking-body");
-    const addressDisplay = document.getElementById("address-display");
-    
-    // ===============================================
-    // ----- LOAD USER INFORMATION & AVATAR -----
-    // ===============================================
-    
-    // Hiển thị thông tin người dùng
-    if(usernameDisplay) usernameDisplay.innerText = localStorage.getItem("username") || "User";
-    if(emailDisplay) emailDisplay.innerText = localStorage.getItem("email") || "email@gmail.com";
-    if(phoneDisplay) phoneDisplay.innerText = localStorage.getItem("phone") || "0123456789";
-    if(joinDateDisplay) joinDateDisplay.innerText = localStorage.getItem("joinDate") || "10/12/2025";
-    if(addressDisplay) addressDisplay.innerText = localStorage.getItem("address") || "Chưa có";
 
+    const editName = document.getElementById("edit-name");
+    const editEmail = document.getElementById("edit-email");
+    const editAddress = document.getElementById("edit-address");
+    const editPhone = document.getElementById("edit-phone");
+    const saveEdit = document.getElementById("save-edit");
 
-    // Load avatar nếu stored
-    if (localStorage.getItem("avatar") && avatarImg) {
-        avatarImg.src = localStorage.getItem("avatar");
-    }
+    editBtn.addEventListener("click", () => {
+        editName.value = user.name;
+        editEmail.value = user.email;
+        editAddress.value = user.address;
+        editPhone.value = user.phone;
 
-    // Xử lý upload avatar
-    if(avatarInput && avatarImg) {
-        avatarInput.addEventListener("change", function () {
-            const file = avatarInput.files[0];
-            const reader = new FileReader();
+        modal.style.display = "flex";
+    });
 
-            reader.onload = function (e) {
-                avatarImg.src = e.target.result;
-                localStorage.setItem("avatar", e.target.result);
-            };
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
 
-            reader.readAsDataURL(file);
-        });
-    }
+    saveEdit.addEventListener("click", () => {
+        const updated = {
+            name: editName.value,
+            email: editEmail.value,
+            phone: editPhone.value,
+            address: editAddress.value
+        };
 
-    // ===============================================
-    // ----- LOAD BOOKING INFORMATION -----
-    // ===============================================
-    
-    let bookingList = JSON.parse(localStorage.getItem("bookings")) || [];
+        localStorage.setItem("userProfile", JSON.stringify(updated));
 
-    function loadBookings() {
-        if (!bookingBody) return;
-        bookingBody.innerHTML = "";
+        nameDisplay.textContent = updated.name;
+        emailDisplay.textContent = updated.email;
+        phoneDisplay.textContent = updated.phone;
+        addressDisplay.textContent = updated.address;
 
-        bookingList.forEach(item => {
-            bookingBody.innerHTML += `
-                <tr>
-                    <td>${item.date}</td>
-                    <td>${item.time}</td>
-                    <td>${item.fieldName}</td>
-                    <td>${item.fieldNumber}</td>
-                    <td>${item.ticket}</td>
-                    <td>${item.payment}</td>
-                </tr>
-            `;
-        });
-    }
+        modal.style.display = "none";
 
-    loadBookings();
-
-    // ===============================================
-    // ----- QUAY LẠI (THAY THẾ ĐĂNG XUẤT) -----
-    // ===============================================
-    if (backButton) {
-        backButton.addEventListener("click", () => {
-            // Quay lại trang trước đó trong lịch sử trình duyệt
-            window.history.back(); 
-        });
-    }
-
-    // ===============================================
-    // ====== MODAL VÀ LƯU THAY ĐỔI ======
-    // ===============================================
-    
-    // Mở modal
-    if(editBtn && modal) {
-        editBtn.addEventListener("click", () => {
-            modal.style.display = "block";
-            
-            // Tải dữ liệu vào form
-            document.getElementById("edit-name").value = localStorage.getItem("username") || "";
-            document.getElementById("edit-email").value = localStorage.getItem("email") || "";
-            document.getElementById("edit-address").value = localStorage.getItem("address") || "";
-            document.getElementById("edit-phone").value = localStorage.getItem("phone") || "";
-        });
-    }
-
-    // Đóng modal
-    if(closeModal && modal) {
-        closeModal.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-
-    // Click ra ngoài để đóng
-    if(modal) {
-        window.addEventListener("click", (e) => {
-            if (e.target === modal) modal.style.display = "none";
-        });
-    }
-
-    // Lưu thay đổi
-    if(saveEditBtn && modal) {
-        saveEditBtn.addEventListener("click", () => {
-            const newName = document.getElementById("edit-name").value;
-            const newEmail = document.getElementById("edit-email").value;
-            const newAddress = document.getElementById("edit-address").value;
-            const newPhone = document.getElementById("edit-phone").value;
-
-            // Lưu vào localStorage
-            localStorage.setItem("username", newName);
-            localStorage.setItem("email", newEmail);
-            localStorage.setItem("address", newAddress);
-            localStorage.setItem("phone", newPhone);
-
-            // Cập nhật lại giao diện
-            if(usernameDisplay) usernameDisplay.innerText = newName;
-            if(emailDisplay) emailDisplay.innerText = newEmail;
-            if(phoneDisplay) phoneDisplay.innerText = newPhone;
-            if(addressDisplay) addressDisplay.innerText = newAddress;
-
-
-            modal.style.display = "none";
-            alert("Cập nhật thông tin thành công!");
-        });
-    }
-    document.getElementById("back-btn").addEventListener("click", function () {
-    window.location.href = "index.html";  // Hoặc trang bạn muốn quay về
-});
+        alert("Cập nhật thông tin thành công!");
+    });
 
 });
