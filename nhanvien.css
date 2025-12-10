@@ -188,3 +188,189 @@ body {
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+/* ====== Chart Box ====== */
+.chart-box {
+    margin-top: 25px;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 330px;
+}
+
+canvas {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    padding: 10px;
+}
+/* ====== Layout tổng ====== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7f6;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ====== Sidebar ====== */
+.sidebar {
+    width: 240px;
+    background: #0c8a08;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li {
+    margin-bottom: 10px;
+}
+
+.nav a {
+    display: block;
+    padding: 12px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #f1f1f1;
+    color: #000;
+}
+
+/* ====== Main content ====== */
+.main {
+    flex: 1;
+    padding: 30px;
+}
+
+.main h1 {
+    margin-top: 0;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+/* ====== Card thông tin nhân viên liên hệ ====== */
+.staff-card {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* ====== DANH SÁCH LIÊN HỆ ====== */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-card {
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.contact-card:hover {
+    background: #eef7ee;
+}
+
+.contact-card strong {
+    font-size: 17px;
+    color: #0c8a08;
+}
+
+/* ====== CHAT BOX ====== */
+.chat-box {
+    margin-top: 25px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.chat-messages {
+    height: 260px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.chat-message-user {
+    background: #d1f7c4;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    max-width: 70%;
+}
+
+.chat-message-staff {
+    background: #cfe4ff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-left: auto;
+    max-width: 70%;
+}
+
+.chat-input {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.chat-input button {
+    padding: 12px 20px;
+    background: #0c8a08;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.chat-input button:hover {
+    background: #0a6f06;
+}
+
