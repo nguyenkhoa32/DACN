@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Đặt Sân</title>
+    <link rel="stylesheet" href="nhanvien.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+        <h2 class="brand">Quản Lý Sân</h2>
+
+        <ul class="nav">
+            <li><a href="dat_san.html" class="active">Thông tin đặt sân</a></li>
+            <li><a href="doanh_thu.html">Doanh thu</a></li>
+            <li><a href="lien_he.html">Liên hệ</a></li>
+            <li><a href="nhanvien.html">Quay lại nhân viên</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <h1>Thông Tin Đặt Sân</h1>
+
+        <section class="card">
+            <table class="booking-table">
+                <thead>
+                    <tr>
+                        <th>Tên KH</th>
+                        <th>Ngày</th>
+                        <th>Giờ</th>
+                        <th>Tên sân</th>
+                        <th>Số sân</th>
+                        <th>Thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingBody">
+                    <!-- Dữ liệu sẽ được load tự động từ LocalStorage -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</div>
+
+<script src="dat_san.js"></script>
+</body>
+</html>
