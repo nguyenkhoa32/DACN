@@ -24,21 +24,27 @@ body {
 .right-panel { flex: 1; }
 
 /* ===== AVATAR ===== */
-.avatar-box img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
+.avatar-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.avatar-box {
-    text-align: center;
-    margin-bottom: 10px;
+.avatar-box img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    cursor: pointer;
 }
 
 #upload-avatar {
-    margin-top: 5px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
 /* ===== INFO ===== */
@@ -48,7 +54,6 @@ body {
     margin: 5px 0;
 }
 
-/* Vùng thông tin gọn – cân đối */
 .info-list {
     background: #fafafa;
     padding: 10px 14px;
@@ -58,21 +63,18 @@ body {
     border-left: 3px solid #28c76f;
 }
 
-/* Mỗi dòng thông tin */
 .info-list p {
-    margin: 4px 0;
-    line-height: 1.25;
+    margin: 3px 0;
+    line-height: 1.2;
     display: flex;
     justify-content: space-between;
 }
 
-/* Nhãn */
 .info-list strong {
     font-weight: 600;
     color: #333;
 }
 
-/* Giá trị */
 .info-list span {
     font-weight: 500;
     color: #555;
@@ -106,7 +108,7 @@ body {
 /* ===== TABLE ===== */
 .booking-table {
     width: 100%;
-    margin-top: 15px;
+    margin-top: 5px;
     border-collapse: collapse;
     font-size: 14px;
 }
@@ -174,20 +176,16 @@ body {
     font-size: 0.95em;
 }
 
-/* Thu gọn khoảng cách 3 dòng trong info-list */
-.info-list p {
-    margin: 3px 0;
-    line-height: 1.2;
+/* ===== CHAT & CONTACT ===== */
+.contact-target {
+    margin-bottom: 15px;
 }
 
-/* ===== FIX: ĐƯA BẢNG THÔNG TIN ĐẶT SÂN SÁT LÊN ===== */
-.right-panel h2 {
-    margin-top: 0;
-    margin-bottom: 6px;
-}
-
-.booking-table {
-    margin-top: 5px !important;   /* Giảm khoảng cách sát lên */
+.contact-target select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
 .chat-box {
