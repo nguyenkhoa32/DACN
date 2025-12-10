@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập Tài Khoản</title>
-    <link rel="stylesheet" href="style_login.css">
+    <link rel="stylesheet" href="style_login.css"> 
 </head>
 <body>
     
@@ -31,23 +31,53 @@
                 <label for="password">Mật khẩu (*)</label>
                 <div class="input-wrapper">
                     <input type="password" id="password" name="password" placeholder="Nhập mật khẩu (*)" required>
-                    <span class="input-icon password-icon">👁️‍🗨️</span>
+                    <span class="input-icon password-icon">👁️‍🗨️</span> 
                 </div>
+            </div>
+            
+            <div class="forgot-password-link-container">
+                <a href="#" id="forgotPasswordLink" class="forgot-link">Quên mật khẩu?</a>
             </div>
 
             <button type="submit" class="submit-btn">ĐĂNG NHẬP</button>
 
-            <div id="loginMessage" style="margin-top: 15px; text-align: center; font-weight: bold; color: red;"></div>
+            <div id="loginMessage" style="margin-top: 15px; text-align: center; font-weight: bold;"></div>
             
-            <div class="forgot-password">
-                Bạn quên mật khẩu? <a href="#" class="forgot-link">Quên mật khẩu</a>
-            </div>
-
+        </form>
+        
+        <div class="register-link-container">
             <div class="register-link">
                 Bạn chưa có tài khoản? <a href="register.html" class="register-link">Đăng ký</a>
             </div>
+        </div>
+
+    </div>
+    
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeForgotModal">&times;</span>
+            <h2 id="forgotModalTitle">Quên Mật Khẩu</h2>
             
-        </form>
+            <form id="verifyEmailForm">
+                <p>Vui lòng nhập email đã đăng ký của bạn để đặt lại mật khẩu.</p>
+                <label for="forgotEmail">Email:</label>
+                <input type="email" id="forgotEmail" required>
+                <button type="submit" id="verifyEmailBtn">Xác Nhận Email</button>
+                <p id="emailError" style="color: red; margin-top: 10px; display: none;">Email không tồn tại trong hệ thống.</p>
+            </form>
+
+            <form id="resetPasswordForm" style="display: none;">
+                <p>Đặt lại mật khẩu mới cho tài khoản <span id="resetEmailDisplay" style="font-weight: bold;"></span></p>
+                <label for="newPassword">Mật khẩu mới:</label>
+                <input type="password" id="newPassword" required>
+
+                <label for="confirmNewPassword">Xác nhận Mật khẩu:</label>
+                <input type="password" id="confirmNewPassword" required>
+
+                <button type="submit" id="resetPasswordBtn">Đặt Lại Mật Khẩu</button>
+                <p id="passwordError" style="color: red; margin-top: 10px; display: none;">Mật khẩu xác nhận không khớp.</p>
+            </form>
+        </div>
     </div>
     
     <script src="login.js"></script> 

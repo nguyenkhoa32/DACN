@@ -1,53 +1,80 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // === PHẦN TỬ CHUNG ===
     const loginForm = document.getElementById('loginForm');
     const messageElement = document.getElementById('loginMessage');
     
+    // === PHẦN TỬ MODAL QUÊN MẬT KHẨU ===
+    const forgotModal = document.getElementById('forgotPasswordModal');
+    const forgotLink = document.getElementById('forgotPasswordLink'); 
+    const closeForgotModal = document.getElementById('closeForgotModal');
+    
+    const verifyEmailForm = document.getElementById('verifyEmailForm');
+    const resetPasswordForm = document.getElementById('resetPasswordForm');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const resetEmailDisplay = document.getElementById('resetEmailDisplay');
+    const forgotEmailInput = document.getElementById('forgotEmail');
+    
+    let userEmailToReset = ''; // Biến lưu email người dùng đang đặt lại mật khẩu
+
+
+    // --- HÀM HỖ TRỢ DỮ LIỆU VÀ GIAO DIỆN ---
+    
+    // Hàm mô phỏng lấy dữ liệu người dùng (từ Local Storage, key 'users')
+    function getUsersData() {
+        const storedUsers = localStorage.getItem('users');
+        return storedUsers ? JSON.parse(storedUsers) : []; 
+    }
+
+    // Hàm lưu dữ liệu người dùng (vào Local Storage, key 'users')
+    function saveUsersData(users) {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    // Hàm hiển thị thông báo
+    function showMessage(message, type) {
+        if (messageElement) {
+            messageElement.textContent = message;
+            messageElement.className = 'message'; // Reset class
+            
+            // Đặt màu dựa trên type (bạn cần định nghĩa các class .success/.error trong CSS)
+            if (type === 'error') {
+                 messageElement.style.color = 'red';
+            } else if (type === 'success') {
+                 messageElement.style.color = 'green';
+            }
+            
+            messageElement.style.display = 'block';
+        }
+    }
+
+
+    // === 1. LOGIC XỬ LÝ ĐĂNG NHẬP ===
+    
     if (loginForm) {
         loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Ngăn chặn form submit truyền thống
+            event.preventDefault(); 
 
-            // 1. Lấy dữ liệu đăng nhập bằng Email
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-
-            // ⭐️ CẬP NHẬT: Lấy giá trị email và mật khẩu ⭐️
-            const inputEmail = emailInput.value.trim(); 
-            const inputPassword = passwordInput.value.trim();
+            const inputEmail = document.getElementById('email').value.trim(); 
+            const inputPassword = document.getElementById('password').value.trim();
 
             if (!inputEmail || !inputPassword) {
                 showMessage('Vui lòng nhập đầy đủ Email và Mật khẩu.', 'error');
                 return;
             }
 
-            let foundUser = null;
-            let targetKey = null;
+            // Lấy toàn bộ mảng người dùng từ Local Storage
+            const users = getUsersData();
+            
+            // Tìm tài khoản khớp trong mảng
+            const foundUser = users.find(userData => 
+                userData.email === inputEmail && userData.password === inputPassword
+            );
 
-            // 2. Lặp qua Local Storage để tìm tài khoản khớp
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-
-                // Chỉ kiểm tra các key được lưu cho người dùng
-                if (key.startsWith('user_')) {
-                    const userDataRaw = localStorage.getItem(key);
-                    try {
-                        const userData = JSON.parse(userDataRaw);
-                        
-                        // ⭐️ CẬP NHẬT LOGIC: So sánh inputEmail với userData.email ⭐️
-                        if (userData.email === inputEmail && userData.password === inputPassword) {
-                            foundUser = userData;
-                            targetKey = key;
-                            break; // Tìm thấy tài khoản, thoát vòng lặp
-                        }
-                    } catch (e) {
-                        console.error('Lỗi khi phân tích dữ liệu từ Local Storage:', e);
-                        // Bỏ qua bản ghi bị hỏng
-                    }
-                }
-            }
-
-            // 3. Xử lý kết quả đăng nhập
+            // Xử lý kết quả đăng nhập
             if (foundUser) {
-                // Đăng nhập thành công
+                // Đăng nhập thành công: Lưu trạng thái và chuyển hướng
                 localStorage.setItem('currentUser', foundUser.fullname); 
                 localStorage.setItem('currentUserRole', foundUser.role || 'user');
 
@@ -57,10 +84,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     if (foundUser.role === 'admin') {
                         window.location.href = 'admin_dashboard.html';
-                        } else if (foundUser.role === 'staff') {
-                             window.location.href = 'staff_dashboard.html';
+                    } else if (foundUser.role === 'staff') {
+                        window.location.href = 'staff_dashboard.html';
                     } else {
-                        window.location.href = 'index.html';
+                        window.location.href = 'index.html'; // Trang chính
                     }
                 }, 500);
 
@@ -70,13 +97,96 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // === 2. LOGIC XỬ LÝ QUÊN MẬT KHẨU ===
+
+    // Mở Modal Quên Mật Khẩu
+    forgotLink?.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Reset trạng thái form trước khi mở
+        verifyEmailForm.style.display = 'block';
+        resetPasswordForm.style.display = 'none';
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+        forgotEmailInput.value = '';
+        
+        forgotModal.style.display = 'block';
+    });
+
+    // Đóng Modal (Nút X)
+    closeForgotModal?.addEventListener('click', function() {
+        forgotModal.style.display = 'none';
+    });
     
-    // Hàm hiển thị thông báo (Giữ nguyên)
-    function showMessage(message, type) {
-        if (messageElement) {
-            messageElement.textContent = message;
-            messageElement.className = 'message ' + type;
-            messageElement.style.display = 'block';
+    // Đóng Modal (Click ra ngoài)
+    window.onclick = function(event) {
+        if (event.target == forgotModal) {
+            forgotModal.style.display = 'none';
         }
-    }
+    };
+
+
+    // Xử lý Form 1: Xác nhận Email
+    verifyEmailForm?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = forgotEmailInput.value;
+        const users = getUsersData();
+
+        const user = users.find(u => u.email === email);
+
+        if (user) {
+            // Email hợp lệ: Chuyển sang Form 2
+            userEmailToReset = email;
+            resetEmailDisplay.textContent = email;
+            
+            verifyEmailForm.style.display = 'none';
+            resetPasswordForm.style.display = 'block';
+            passwordError.style.display = 'none';
+            emailError.style.display = 'none';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+
+        } else {
+            // Email không hợp lệ: Hiển thị lỗi
+            emailError.style.display = 'block';
+        }
+    });
+
+
+    // Xử lý Form 2: Đặt lại Mật khẩu
+    resetPasswordForm?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const newPass = document.getElementById('newPassword').value;
+        const confirmPass = document.getElementById('confirmNewPassword').value;
+
+        if (newPass !== confirmPass) {
+            // Mật khẩu không khớp
+            passwordError.style.display = 'block';
+            return;
+        }
+
+        // Mật khẩu khớp: Tiến hành đặt lại
+        let users = getUsersData();
+        const userIndex = users.findIndex(u => u.email === userEmailToReset);
+
+        if (userIndex !== -1) {
+            // Cập nhật mật khẩu mới
+            users[userIndex].password = newPass; 
+            saveUsersData(users);
+
+            // Thông báo thành công và đóng Modal
+            forgotModal.style.display = 'none';
+            alert('Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.');
+            
+            // Xóa email đang đặt lại
+            userEmailToReset = ''; 
+
+        } else {
+            // Lỗi hiếm gặp
+            alert('Lỗi hệ thống: Không tìm thấy tài khoản để cập nhật.');
+        }
+    });
+
+   
 });
