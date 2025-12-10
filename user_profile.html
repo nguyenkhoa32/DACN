@@ -30,7 +30,7 @@
         <button id="edit-btn" class="action-btn btn-primary">Chỉnh Sửa Thông Tin</button>
     </div>
 
-        <div class="right-panel">
+       <div class="right-panel">
     <h2>Thông tin đặt sân</h2>
 
     <table class="booking-table">
@@ -46,10 +46,17 @@
         </thead>
         <tbody id="booking-body"></tbody>
     </table>
-
     <hr style="margin: 30px 0;">
 
     <h2>Liên hệ hỗ trợ</h2>
+
+    <div class="contact-target">
+        <label for="supportTarget"><strong>Liên hệ tới:</strong></label>
+        <select id="supportTarget">
+            <option value="admin">Admin</option>
+            <option value="staff">Nhân viên</option>
+        </select>
+    </div>
 
     <div class="chat-box">
         <div id="userChatMessages" class="chat-messages"></div>
@@ -61,7 +68,6 @@
     </div>
 </div>
 
-</div>
 
 <div id="edit-modal" class="modal">
     <div class="modal-content">
