@@ -185,3 +185,47 @@ document.addEventListener('DOMContentLoaded', function() {
     displayUserInfo();
     displayBookingHistory();
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const userId = localStorage.getItem('currentUserEmail'); // ID user
+    const chatBox = document.getElementById('userChatMessages');
+    const chatInput = document.getElementById('userChatInput');
+    const sendBtn = document.getElementById('userSendBtn');
+
+    if (!userId) {
+        alert("Vui lòng đăng nhập để sử dụng chat.");
+        return;
+    }
+
+    // Load chat từ localStorage
+    function loadChat() {
+        const allChats = JSON.parse(localStorage.getItem('chats') || '{}');
+        const userChats = allChats[userId] || [];
+        chatBox.innerHTML = '';
+        userChats.forEach(c => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = c.sender === 'user' ? 'chat-message-user' : 'chat-message-staff';
+            msgDiv.textContent = c.message;
+            chatBox.appendChild(msgDiv);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Gửi tin nhắn
+    sendBtn.addEventListener('click', () => {
+        const text = chatInput.value.trim();
+        if (!text) return;
+        const allChats = JSON.parse(localStorage.getItem('chats') || '{}');
+        if (!allChats[userId]) allChats[userId] = [];
+        allChats[userId].push({sender: 'user', message: text, timestamp: Date.now()});
+        localStorage.setItem('chats', JSON.stringify(allChats));
+        chatInput.value = '';
+        loadChat();
+    });
+
+    // Tự động load khi mở trang
+    loadChat();
+
+});

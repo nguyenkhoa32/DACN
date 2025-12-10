@@ -247,3 +247,32 @@ body {
     border-radius: 6px;
     cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+.chat-message-user {
+    text-align: right;
+    background: #d9fdd3;
+    padding: 7px 10px;
+    display: inline-block;
+    margin: 5px 0;
+    border-radius: 8px;
+    max-width: 80%;
+}
+
+.chat-message-staff {
+    text-align: left;
+    background: #e8e8e8;
+    padding: 7px 10px;
+    display: inline-block;
+    margin: 5px 0;
+    border-radius: 8px;
+    max-width: 80%;
+}
