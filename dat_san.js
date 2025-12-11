@@ -60,11 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function updateDashboard() {
-        document.getElementById('revenue-day').textContent = revenueData.day.toLocaleString();
-        document.getElementById('revenue-month').textContent = revenueData.month.toLocaleString();
-        document.getElementById('revenue-year').textContent = revenueData.year.toLocaleString();
-        document.getElementById('orders-count').textContent = revenueData.orders;
-        document.getElementById('visits-count').textContent = revenueData.visits;
+        if (document.getElementById('revenue-day')) {
+            document.getElementById('revenue-day').textContent = revenueData.day.toLocaleString();
+            document.getElementById('revenue-month').textContent = revenueData.month.toLocaleString();
+            document.getElementById('revenue-year').textContent = revenueData.year.toLocaleString();
+            document.getElementById('orders-count').textContent = revenueData.orders;
+            document.getElementById('visits-count').textContent = revenueData.visits;
+        }
 
         if (typeof revenueChart !== 'undefined') {
             revenueChart.data.datasets[0].data = [
@@ -78,25 +80,30 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDashboard();
 
     // --- 4. BIỂU ĐỒ CHART.JS ---
-    const ctx = document.getElementById('revenueChart')?.getContext('2d');
-    const revenueChart = ctx ? new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6'],
-            datasets:[{
-                label:'Doanh Thu (VNĐ)',
-                data:[0,0,0,0,0,0],
-                backgroundColor:'rgba(54,162,235,0.2)',
-                borderColor:'rgba(54,162,235,1)',
-                borderWidth:2,
-                fill:true
-            }]
-        },
-        options:{responsive:true,plugins:{legend:{display:false}}}
-    }) : undefined;
+    let revenueChart;
+    const ctx = document.getElementById('revenueChart');
+    if (ctx) {
+        revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6'],
+                datasets:[{
+                    label:'Doanh Thu (VNĐ)',
+                    data:[0,0,0,0,0,0],
+                    backgroundColor:'rgba(54,162,235,0.2)',
+                    borderColor:'rgba(54,162,235,1)',
+                    borderWidth:2,
+                    fill:true
+                }]
+            },
+            options:{responsive:true,plugins:{legend:{display:false}}}
+        });
+    }
 
     // --- 5. HÀM KHI KHÁCH ĐẶT SÂN THÀNH CÔNG ---
     function customerBooking(amount) {
+        amount = Number(amount) || 0;
+
         revenueData.day += amount;
         revenueData.month += amount;
         revenueData.year += amount;
@@ -107,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDashboard();
     }
 
-    // --- 6. TỰ ĐỘNG TÍNH TỔNG TỪ BOOKINGS HIỆN CÓ ---
+    // --- 6. TÍNH TỔNG DOANH THU TỪ BOOKINGS ---
     const allBookings = getBookingsData();
     let totalDay = 0, totalMonth = 0, totalYear = 0, totalOrders = 0, totalVisits = 0;
     const today = new Date().toISOString().split('T')[0];
@@ -125,13 +132,5 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('revenueData', JSON.stringify(revenueData));
     updateDashboard();
 
-    // --- 7. QUAY LẠI DASHBOARD ---
-    document.querySelector('.nav a[href="nhanvien.html"]')?.addEventListener('click',function(e){
-        // window.location.href='nhanvien.html';
-    });
-
-    // --- 8. Xuất hàm ra global để file đặt sân gọi ---
     window.customerBooking = customerBooking;
 });
-const thanhToan = Number(document.getElementById('thanhToan').value);
-window.customerBooking(thanhToan);

@@ -9,13 +9,13 @@
 </head>
 <body>
     <div class="dashboard-container">
+
         <!-- Sidebar -->
         <aside class="sidebar">
             <h3><b>Thống Kê Doanh Thu</b></h3>
             <ul class="nav">
                 <li class="nav-item">
                     <a href="admin_dashboard.html" class="nav-link">
-                        <i class="icon-staff"></i> 
                         ------ Quay Lại Dashboard ------
                     </a>
                 </li>
@@ -26,170 +26,54 @@
         <main class="main-content">
             <h1>Dashboard Doanh Thu</h1>
 
-            <!-- Hàng 1: 3 thẻ -->
+            <!-- HÀNG 1: 4 THẺ -->
             <div class="cards-container row-top">
+
+                <!-- Doanh thu ngày -->
                 <div class="card">
-                    <h3>Doanh Thu</h3>
-                    <p>Ngày: <span id="revenue-day">0</span> VNĐ</p>
-                    <p>Tháng: <span id="revenue-month">0</span> VNĐ</p>
-                    <p>Năm: <span id="revenue-year">0</span> VNĐ</p>
+                    <h3>Doanh Thu Ngày</h3>
+                    <p><span id="revenue-day">0</span> VNĐ</p>
                 </div>
+
+                <!-- Doanh thu tháng -->
+                <div class="card">
+                    <h3>Doanh Thu Tháng</h3>
+                    <p><span id="revenue-month">0</span> VNĐ</p>
+                </div>
+
+                <!-- Doanh thu năm -->
+                <div class="card">
+                    <h3>Doanh Thu Năm</h3>
+                    <p><span id="revenue-year">0</span> VNĐ</p>
+                </div>
+
+                <!-- Đơn đặt -->
                 <div class="card">
                     <h3>Số Đơn Đặt Sân</h3>
                     <p><span id="orders-count">0</span> đơn</p>
                 </div>
+
+                <!-- Lượt truy cập -->
                 <div class="card">
-                    <h3>Lượt Truy Cập Khách Hàng</h3>
+                    <h3>Lượt Truy Cập</h3>
                     <p><span id="visits-count">0</span> lượt</p>
                 </div>
+
             </div>
 
-            <!-- Hàng 2: Biểu đồ -->
+            <!-- HÀNG 2: Biểu đồ -->
             <div class="cards-container row-bottom">
                 <div class="card chart-card">
                     <h3>Biểu Đồ Doanh Thu</h3>
+                    <!-- Chỉ còn 1 canvas -->
                     <canvas id="revenueChart"></canvas>
                 </div>
             </div>
+
         </main>
     </div>
 
-    <script>
-   document.addEventListener('DOMContentLoaded', function() {
-    // --- 1. HÀM HỖ TRỢ DỮ LIỆU ---
-    
-    function getBookingsData() {
-        const storedBookings = localStorage.getItem('bookings');
-        return storedBookings ? JSON.parse(storedBookings) : [];
-    }
-
-    function getUsersArray() {
-        const storedUsers = localStorage.getItem('users');
-        return storedUsers ? JSON.parse(storedUsers) : [];
-    }
-
-    function getUserMap() {
-        const usersArray = getUsersArray();
-        const userMap = {};
-        usersArray.forEach(user => {
-            userMap[user.email] = user;
-        });
-        return userMap;
-    }
-
-    // --- 2. HIỂN THỊ BOOKING ---
-    function displayAllBookings() {
-        const bookingBody = document.getElementById('bookingBody');
-        if (!bookingBody) return; // Nếu chưa có table thì bỏ qua
-        bookingBody.innerHTML = '';
-        
-        const allBookings = getBookingsData();
-        const userMap = getUserMap();
-        
-        if (allBookings.length === 0) {
-            bookingBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#777;">Chưa có đơn đặt sân nào.</td></tr>';
-            return;
-        }
-
-        allBookings.sort((a,b)=>new Date(b.ngay)-new Date(a.ngay));
-
-        allBookings.forEach(booking => {
-            const row = bookingBody.insertRow();
-            const formattedDate = booking.ngay ? booking.ngay.split('-').reverse().join('/') : 'N/A';
-            const customer = userMap[booking.userId];
-            const customerName = customer ? (customer.name || customer.fullname) : booking.userId.split('@')[0];
-            
-            row.insertCell().textContent = customerName;
-            row.insertCell().textContent = formattedDate;
-            row.insertCell().textContent = booking.gio;
-            row.insertCell().textContent = booking.tenSan;
-            row.insertCell().textContent = booking.soSan;
-            row.insertCell().textContent = booking.thanhToan;
-            row.classList.add(booking.loaiVe==='month'?'booking-month':'booking-hour');
-        });
-    }
-
-    displayAllBookings();
-
-    // --- 3. DOANH THU ---
-    let revenueData = JSON.parse(localStorage.getItem('revenueData')) || {
-        day: 0, month: 0, year: 0, orders: 0, visits: 0
-    };
-
-    function updateDashboard() {
-        document.getElementById('revenue-day').textContent = revenueData.day.toLocaleString();
-        document.getElementById('revenue-month').textContent = revenueData.month.toLocaleString();
-        document.getElementById('revenue-year').textContent = revenueData.year.toLocaleString();
-        document.getElementById('orders-count').textContent = revenueData.orders;
-        document.getElementById('visits-count').textContent = revenueData.visits;
-
-        if (typeof revenueChart !== 'undefined') {
-            revenueChart.data.datasets[0].data = [
-                revenueData.month, revenueData.month*1.1, revenueData.month*1.2,
-                revenueData.month*1.3, revenueData.month*1.4, revenueData.month*1.5
-            ];
-            revenueChart.update();
-        }
-    }
-
-    updateDashboard();
-
-    // --- Biểu đồ ---
-    const ctx = document.getElementById('revenueChart')?.getContext('2d');
-    const revenueChart = ctx ? new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6'],
-            datasets:[{
-                label:'Doanh Thu (VNĐ)',
-                data:[0,0,0,0,0,0],
-                backgroundColor:'rgba(54,162,235,0.2)',
-                borderColor:'rgba(54,162,235,1)',
-                borderWidth:2,
-                fill:true
-            }]
-        },
-        options:{responsive:true,plugins:{legend:{display:false}}}
-    }) : undefined;
-
-    // --- 4. KHI KHÁCH ĐẶT SÂN THÀNH CÔNG ---
-    function customerBooking(amount) {
-        revenueData.day += amount;
-        revenueData.month += amount;
-        revenueData.year += amount;
-        revenueData.orders += 1;
-        revenueData.visits += 1;
-
-        localStorage.setItem('revenueData', JSON.stringify(revenueData));
-        updateDashboard();
-    }
-
-    // --- 5. TỰ ĐỘNG NHẬN DỮ LIỆU MỚI TỪ BOOKING ---
-    // Khi load dashboard, tính tổng từ bookings để đồng bộ
-    const allBookings = getBookingsData();
-    let totalDay = 0, totalMonth = 0, totalYear = 0, totalOrders = 0, totalVisits = 0;
-    const today = new Date().toISOString().split('T')[0];
-    allBookings.forEach(b=>{
-        const bAmount = Number(b.thanhToan) || 0;
-        totalMonth += bAmount;
-        totalYear += bAmount;
-        totalOrders += 1;
-        totalVisits += 1;
-        if(b.ngay===today) totalDay += bAmount;
-    });
-    revenueData = { day: totalDay, month: totalMonth, year: totalYear, orders: totalOrders, visits: totalVisits };
-    localStorage.setItem('revenueData', JSON.stringify(revenueData));
-    updateDashboard();
-
-    // --- 6. QUAY LẠI DASHBOARD ---
-    document.querySelector('.nav a[href="admin_dashboard.html"]')?.addEventListener('click',function(e){
-        // window.location.href='admin_dashboard.html';
-    });
-
-    // --- 7. Xuất hàm ra global để file đặt sân gọi ---
-    window.customerBooking = customerBooking;
-});
-</script>
-
+    <!-- File xử lý -->
+    <script src="doanhthu.js"></script>
 </body>
 </html>
