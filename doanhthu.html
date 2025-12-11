@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Doanh Thu</title>
+    <link rel="stylesheet" href="doanhthu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3><b>Thống Kê Doanh Thu</b></h3>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="admin_dashboard.html" class="nav-link">
+                        ------ Quay Lại Dashboard ------
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <h1>Dashboard Doanh Thu</h1>
+
+            <!-- HÀNG 1: 4 THẺ -->
+            <div class="cards-container row-top">
+
+                <!-- Doanh thu ngày -->
+                <div class="card">
+                    <h3>Doanh Thu Ngày</h3>
+                    <p><span id="revenue-day">0</span> VNĐ</p>
+                </div>
+
+                <!-- Doanh thu tháng -->
+                <div class="card">
+                    <h3>Doanh Thu Tháng</h3>
+                    <p><span id="revenue-month">0</span> VNĐ</p>
+                </div>
+
+                <!-- Doanh thu năm -->
+                <div class="card">
+                    <h3>Doanh Thu Năm</h3>
+                    <p><span id="revenue-year">0</span> VNĐ</p>
+                </div>
+
+                <!-- Đơn đặt -->
+                <div class="card">
+                    <h3>Số Đơn Đặt Sân</h3>
+                    <p><span id="orders-count">0</span> đơn</p>
+                </div>
+
+                <!-- Lượt truy cập -->
+                <div class="card">
+                    <h3>Lượt Truy Cập</h3>
+                    <p><span id="visits-count">0</span> lượt</p>
+                </div>
+
+            </div>
+
+            <!-- HÀNG 2: Biểu đồ -->
+            <div class="cards-container row-bottom">
+                <div class="card chart-card">
+                    <h3>Biểu Đồ Doanh Thu</h3>
+                    <!-- Chỉ còn 1 canvas -->
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- File xử lý -->
+    <script src="doanhthu.js"></script>
+</body>
+</html>

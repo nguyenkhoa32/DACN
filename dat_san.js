@@ -1,21 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     // --- 1. HÀM HỖ TRỢ DỮ LIỆU ---
-    
-    // Hàm lấy toàn bộ dữ liệu đặt sân từ Local Storage
     function getBookingsData() {
         const storedBookings = localStorage.getItem('bookings');
-        // Trả về mảng rỗng nếu không có dữ liệu
-        return storedBookings ? JSON.parse(storedBookings) : []; 
+        return storedBookings ? JSON.parse(storedBookings) : [];
     }
 
-    // Hàm lấy toàn bộ dữ liệu người dùng (cần để tra cứu tên đầy đủ nếu cần)
     function getUsersArray() {
         const storedUsers = localStorage.getItem('users');
-        return storedUsers ? JSON.parse(storedUsers) : []; 
+        return storedUsers ? JSON.parse(storedUsers) : [];
     }
-    
-    // Chuyển đổi mảng users thành Object Map để tra cứu nhanh hơn
+
     function getUserMap() {
         const usersArray = getUsersArray();
         const userMap = {};
@@ -25,73 +20,117 @@ document.addEventListener('DOMContentLoaded', function() {
         return userMap;
     }
 
-    // --- 2. TẢI VÀ HIỂN THỊ TẤT CẢ BOOKING ---
-
+    // --- 2. HIỂN THỊ TẤT CẢ BOOKING ---
     function displayAllBookings() {
         const bookingBody = document.getElementById('bookingBody');
-        bookingBody.innerHTML = ''; // Xóa dữ liệu cũ
-        
+        if (!bookingBody) return;
+        bookingBody.innerHTML = '';
+
         const allBookings = getBookingsData();
-        const userMap = getUserMap(); // Map để tra cứu tên khách hàng
-        
+        const userMap = getUserMap();
+
         if (allBookings.length === 0) {
-            bookingBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #777;">Chưa có đơn đặt sân nào trong hệ thống.</td></tr>';
+            bookingBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#777;">Chưa có đơn đặt sân nào.</td></tr>';
             return;
         }
 
-        // Sắp xếp theo ngày (mới nhất lên đầu)
-        allBookings.sort((a, b) => new Date(b.ngay) - new Date(a.ngay));
+        allBookings.sort((a,b)=>new Date(b.ngay)-new Date(a.ngay));
 
         allBookings.forEach(booking => {
             const row = bookingBody.insertRow();
-            
-            // Định dạng ngày: YYYY-MM-DD -> DD/MM/YYYY
             const formattedDate = booking.ngay ? booking.ngay.split('-').reverse().join('/') : 'N/A';
-            
-            // Tra cứu thông tin người dùng
             const customer = userMap[booking.userId];
-            // Tên Khách Hàng: Ưu tiên tên đầy đủ, nếu không thì dùng phần trước @ của email
-            const customerName = customer 
-                ? (customer.name || customer.fullname) 
-                : booking.userId.split('@')[0];
-            
-            
-            // Cột Tên KH
-            row.insertCell().textContent = customerName; 
-            
-            // Các cột dữ liệu còn lại
-            row.insertCell().textContent = formattedDate; 
+            const customerName = customer ? (customer.name || customer.fullname) : booking.userId.split('@')[0];
+
+            row.insertCell().textContent = customerName;
+            row.insertCell().textContent = formattedDate;
             row.insertCell().textContent = booking.gio;
             row.insertCell().textContent = booking.tenSan;
             row.insertCell().textContent = booking.soSan;
             row.insertCell().textContent = booking.thanhToan;
-            
-            // Thêm class để dễ dàng styling (ví dụ: tháng, giờ)
-            row.classList.add(booking.loaiVe === 'month' ? 'booking-month' : 'booking-hour');
+            row.classList.add(booking.loaiVe==='month'?'booking-month':'booking-hour');
         });
     }
-    
-    // --- 3. KIỂM TRA QUYỀN TRUY CẬP (Nếu cần) ---
-    
-    // Bạn nên thêm logic kiểm tra vai trò người dùng đã đăng nhập (staff) tại đây.
-    // Nếu bạn đã đảm bảo việc kiểm tra này được thực hiện trước khi chuyển hướng đến dat_san.html,
-    // thì có thể bỏ qua bước này.
-    
-    /* const currentUserRole = localStorage.getItem('currentUserRole');
-    if (currentUserRole !== 'staff' && currentUserRole !== 'admin') {
-        alert("Bạn không có quyền truy cập trang này.");
-        window.location.href = 'index.html';
-        return;
-    }
-    */
-    
-    // --- 4. KHỞI CHẠY ---
+
     displayAllBookings();
-    
-    // --- 5. QUAY LẠI TRANG NHÂN VIÊN ---
-    document.querySelector('.nav a[href="nhanvien.html"]').addEventListener('click', function(e) {
-        // Có thể cần logic quay lại dashboard nhân viên
-        // e.preventDefault();
-        // window.location.href = 'nhanvien.html';
+
+    // --- 3. DOANH THU ---
+    let revenueData = JSON.parse(localStorage.getItem('revenueData')) || {
+        day: 0, month: 0, year: 0, orders: 0, visits: 0
+    };
+
+    function updateDashboard() {
+        if (document.getElementById('revenue-day')) {
+            document.getElementById('revenue-day').textContent = revenueData.day.toLocaleString();
+            document.getElementById('revenue-month').textContent = revenueData.month.toLocaleString();
+            document.getElementById('revenue-year').textContent = revenueData.year.toLocaleString();
+            document.getElementById('orders-count').textContent = revenueData.orders;
+            document.getElementById('visits-count').textContent = revenueData.visits;
+        }
+
+        if (typeof revenueChart !== 'undefined') {
+            revenueChart.data.datasets[0].data = [
+                revenueData.month, revenueData.month*1.1, revenueData.month*1.2,
+                revenueData.month*1.3, revenueData.month*1.4, revenueData.month*1.5
+            ];
+            revenueChart.update();
+        }
+    }
+
+    updateDashboard();
+
+    // --- 4. BIỂU ĐỒ CHART.JS ---
+    let revenueChart;
+    const ctx = document.getElementById('revenueChart');
+    if (ctx) {
+        revenueChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6'],
+                datasets:[{
+                    label:'Doanh Thu (VNĐ)',
+                    data:[0,0,0,0,0,0],
+                    backgroundColor:'rgba(54,162,235,0.2)',
+                    borderColor:'rgba(54,162,235,1)',
+                    borderWidth:2,
+                    fill:true
+                }]
+            },
+            options:{responsive:true,plugins:{legend:{display:false}}}
+        });
+    }
+
+    // --- 5. HÀM KHI KHÁCH ĐẶT SÂN THÀNH CÔNG ---
+    function customerBooking(amount) {
+        amount = Number(amount) || 0;
+
+        revenueData.day += amount;
+        revenueData.month += amount;
+        revenueData.year += amount;
+        revenueData.orders += 1;
+        revenueData.visits += 1;
+
+        localStorage.setItem('revenueData', JSON.stringify(revenueData));
+        updateDashboard();
+    }
+
+    // --- 6. TÍNH TỔNG DOANH THU TỪ BOOKINGS ---
+    const allBookings = getBookingsData();
+    let totalDay = 0, totalMonth = 0, totalYear = 0, totalOrders = 0, totalVisits = 0;
+    const today = new Date().toISOString().split('T')[0];
+
+    allBookings.forEach(b=>{
+        const bAmount = Number(b.thanhToan) || 0;
+        totalMonth += bAmount;
+        totalYear += bAmount;
+        totalOrders += 1;
+        totalVisits += 1;
+        if(b.ngay===today) totalDay += bAmount;
     });
+
+    revenueData = { day: totalDay, month: totalMonth, year: totalYear, orders: totalOrders, visits: totalVisits };
+    localStorage.setItem('revenueData', JSON.stringify(revenueData));
+    updateDashboard();
+
+    window.customerBooking = customerBooking;
 });
