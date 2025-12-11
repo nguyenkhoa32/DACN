@@ -34,20 +34,19 @@
             </div>
         </section>
 
+        <!-- LỊCH LÀM VIỆC (TỰ ĐỘNG LOAD) -->
         <section class="shifts-card">
-            <h2>Lịch công ca tháng 12/2025</h2>
+            <h2>Lịch Công Ca</h2>
             <table class="shifts-table">
                 <thead>
                     <tr>
                         <th>Ngày</th>
                         <th>Ca</th>
-                        <th>Thời gian</th>
+                        <th>Thời Gian</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr><td>01/12</td><td>Ca sáng</td><td>08:00 - 12:00</td></tr>
-                    <tr><td>03/12</td><td>Ca chiều</td><td>14:00 - 18:00</td></tr>
-                    <tr><td>05/12</td><td>Ca tối</td><td>18:00 - 22:00</td></tr>
+                <tbody id="employeeShiftList">
+                    <!-- load bằng JS -->
                 </tbody>
             </table>
         </section>
@@ -55,6 +54,8 @@
     </main>
 
 </div>
+
+<script src="nhanvien.js"></script>
 
 </body>
 </html>

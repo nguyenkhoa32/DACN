@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #eef2f6;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    margin: 20px 0 25px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* ===== 2 THẺ NẰM NGANG ===== */
+.row {
+    display: flex;
+    gap: 20px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* ===== THẺ BO GỌN ===== */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.small-card {
+    width: 50%;
+}
+
+/* THÔNG TIN NHÂN VIÊN */
+.info-box p {
+    margin: 4px 0;
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+/* ===== FORM ===== */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* Hiển thị giờ ca */
+.shift-time {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+/* Nút */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #2a82da;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #1d6ebd;
+}
+
+/* DANH SÁCH CA LÀM VIỆC */
+.list-card {
+    width: 90%;
+    margin: 25px auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #2a82da;
+    color: white;
+    text-align: left;
+}
+
+tr:hover {
+    background: #f1f5fb;
+}
+
+
+
+button.action-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.edit-btn {
+    background: #ffa500;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #e59400;
+}
+
+.delete-btn {
+    background: #d9534f;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #c0392b;
+}
+/* Nút quay lại */
+.back-btn {
+    margin-left: auto;
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: #2a82da;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.back-btn:hover {
+    background: red;
+}
