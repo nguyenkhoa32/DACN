@@ -1,6 +1,63 @@
-document.addEventListener('DOMContentLoaded', function() {
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Doanh Thu</title>
+    <link rel="stylesheet" href="doanhthu.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3><b>Thống Kê Doanh Thu</b></h3>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a href="admin_dashboard.html" class="nav-link">
+                        <i class="icon-staff"></i> 
+                        ------ Quay Lại Dashboard ------
+                    </a>
+                </li>
+            </ul>
+        </aside>
 
+        <!-- Main content -->
+        <main class="main-content">
+            <h1>Dashboard Doanh Thu</h1>
+
+            <!-- Hàng 1: 3 thẻ -->
+            <div class="cards-container row-top">
+                <div class="card">
+                    <h3>Doanh Thu</h3>
+                    <p>Ngày: <span id="revenue-day">0</span> VNĐ</p>
+                    <p>Tháng: <span id="revenue-month">0</span> VNĐ</p>
+                    <p>Năm: <span id="revenue-year">0</span> VNĐ</p>
+                </div>
+                <div class="card">
+                    <h3>Số Đơn Đặt Sân</h3>
+                    <p><span id="orders-count">0</span> đơn</p>
+                </div>
+                <div class="card">
+                    <h3>Lượt Truy Cập Khách Hàng</h3>
+                    <p><span id="visits-count">0</span> lượt</p>
+                </div>
+            </div>
+
+            <!-- Hàng 2: Biểu đồ -->
+            <div class="cards-container row-bottom">
+                <div class="card chart-card">
+                    <h3>Biểu Đồ Doanh Thu</h3>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+   document.addEventListener('DOMContentLoaded', function() {
     // --- 1. HÀM HỖ TRỢ DỮ LIỆU ---
+    
     function getBookingsData() {
         const storedBookings = localStorage.getItem('bookings');
         return storedBookings ? JSON.parse(storedBookings) : [];
@@ -20,15 +77,15 @@ document.addEventListener('DOMContentLoaded', function() {
         return userMap;
     }
 
-    // --- 2. HIỂN THỊ TẤT CẢ BOOKING ---
+    // --- 2. HIỂN THỊ BOOKING ---
     function displayAllBookings() {
         const bookingBody = document.getElementById('bookingBody');
-        if (!bookingBody) return;
+        if (!bookingBody) return; // Nếu chưa có table thì bỏ qua
         bookingBody.innerHTML = '';
-
+        
         const allBookings = getBookingsData();
         const userMap = getUserMap();
-
+        
         if (allBookings.length === 0) {
             bookingBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#777;">Chưa có đơn đặt sân nào.</td></tr>';
             return;
@@ -41,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const formattedDate = booking.ngay ? booking.ngay.split('-').reverse().join('/') : 'N/A';
             const customer = userMap[booking.userId];
             const customerName = customer ? (customer.name || customer.fullname) : booking.userId.split('@')[0];
-
+            
             row.insertCell().textContent = customerName;
             row.insertCell().textContent = formattedDate;
             row.insertCell().textContent = booking.gio;
@@ -77,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateDashboard();
 
-    // --- 4. BIỂU ĐỒ CHART.JS ---
+    // --- Biểu đồ ---
     const ctx = document.getElementById('revenueChart')?.getContext('2d');
     const revenueChart = ctx ? new Chart(ctx, {
         type: 'line',
@@ -95,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         options:{responsive:true,plugins:{legend:{display:false}}}
     }) : undefined;
 
-    // --- 5. HÀM KHI KHÁCH ĐẶT SÂN THÀNH CÔNG ---
+    // --- 4. KHI KHÁCH ĐẶT SÂN THÀNH CÔNG ---
     function customerBooking(amount) {
         revenueData.day += amount;
         revenueData.month += amount;
@@ -107,11 +164,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDashboard();
     }
 
-    // --- 6. TỰ ĐỘNG TÍNH TỔNG TỪ BOOKINGS HIỆN CÓ ---
+    // --- 5. TỰ ĐỘNG NHẬN DỮ LIỆU MỚI TỪ BOOKING ---
+    // Khi load dashboard, tính tổng từ bookings để đồng bộ
     const allBookings = getBookingsData();
     let totalDay = 0, totalMonth = 0, totalYear = 0, totalOrders = 0, totalVisits = 0;
     const today = new Date().toISOString().split('T')[0];
-
     allBookings.forEach(b=>{
         const bAmount = Number(b.thanhToan) || 0;
         totalMonth += bAmount;
@@ -120,18 +177,19 @@ document.addEventListener('DOMContentLoaded', function() {
         totalVisits += 1;
         if(b.ngay===today) totalDay += bAmount;
     });
-
     revenueData = { day: totalDay, month: totalMonth, year: totalYear, orders: totalOrders, visits: totalVisits };
     localStorage.setItem('revenueData', JSON.stringify(revenueData));
     updateDashboard();
 
-    // --- 7. QUAY LẠI DASHBOARD ---
-    document.querySelector('.nav a[href="nhanvien.html"]')?.addEventListener('click',function(e){
-        // window.location.href='nhanvien.html';
+    // --- 6. QUAY LẠI DASHBOARD ---
+    document.querySelector('.nav a[href="admin_dashboard.html"]')?.addEventListener('click',function(e){
+        // window.location.href='admin_dashboard.html';
     });
 
-    // --- 8. Xuất hàm ra global để file đặt sân gọi ---
+    // --- 7. Xuất hàm ra global để file đặt sân gọi ---
     window.customerBooking = customerBooking;
 });
-const thanhToan = Number(document.getElementById('thanhToan').value);
-window.customerBooking(thanhToan);
+</script>
+
+</body>
+</html>
