@@ -1,14 +1,10 @@
 // =========================================================
-// CẬP NHẬT FILE search_results.js - ĐÃ SỬA LỖI ĐỒNG BỘ DỮ LIỆU VÀ LỖI getPrice
-// Key thống nhất: 'appCourtsData'
+// FILE: search_results.js
+// CHỨC NĂNG: Quản lý đặt sân, đồng bộ dữ liệu sân và lưu booking
 // =========================================================
+
 // ==================== HÀM GHI DOANH THU KHI THANH TOÁN ====================
 window.customerBooking = function(amount) {
-
-    // Lấy danh sách booking (đã lưu theo chuẩn của bạn)
-    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
-
-    // Tạo booking ảo chỉ để trang doanh thu đọc realtime
     const today = new Date();
     const todayStr = today.toISOString().slice(0, 10);
 
@@ -19,13 +15,12 @@ window.customerBooking = function(amount) {
         tien: Number(amount) || 0
     };
 
-    // Lưu vào localStorage để trang doanh thu đọc lên
     let revenueLog = JSON.parse(localStorage.getItem("revenueLog")) || [];
     revenueLog.push(log);
     localStorage.setItem("revenueLog", JSON.stringify(revenueLog));
 };
 
-// 1. DỮ LIỆU CÁC SÂN GỐC (Dùng làm FALLBACK)
+// 1. DỮ LIỆU CÁC SÂN GỐC (Fallback nếu Local Storage trống)
 const COURTS_DATA = [
     // Hải Châu
     { id: 1, name: "Sân Hải Châu Premium A", type: "Thảm PVC", tickets: 5, open: "04:30", close: "22:00", image: "img/haichau1.png", district: "Hải Châu", price: "80.000", monthPrice: 600000, subCourts: [{ id: 1, tickets: 5 }, { id: 2, tickets: 5 }, { id: 3, tickets: 5 }, { id: 4, tickets: 5 }, { id: 5, tickets: 5 }] },
@@ -58,7 +53,6 @@ const COURTS_DATA = [
     { id: 24, name: "Sân Nguyễn Hữu Thọ", type: "Thảm PVC", tickets: 5, open: "05:30", close: "23:30", image: "img/camle2.png", district: "Cẩm Lệ", price: "80.000", monthPrice: 600000, subCourts: [{ id: 1, tickets: 5 }, { id: 2, tickets: 5 }, { id: 3, tickets: 5 }, { id: 4, tickets: 5 }, { id: 5, tickets: 5 }] },
     { id: 25, name: "Sân Hòa Xuân", type: "Sàn Gỗ", tickets: 5, open: "05:00", close: "22:30", image: "img/camle3.png", district: "Cẩm Lệ", price: "100.000", monthPrice: 750000, subCourts: [{ id: 1, tickets: 5 }, { id: 2, tickets: 5 }, { id: 3, tickets: 5 }, { id: 4, tickets: 5 }, { id: 5, tickets: 5 }] },
 ];
-
 
 // 2. HÀM HỖ TRỢ LOCAL STORAGE (BOOKING)
 function getBookingsData() {
@@ -94,14 +88,11 @@ function loadAndSyncCourtsData(originalCourts) {
 // --- DOMContentLoaded START ---
 document.addEventListener('DOMContentLoaded', function() {
 
-    // LẤY DỮ LIỆU SÂN ĐÃ ĐỒNG BỘ
     let allCourts = loadAndSyncCourtsData(COURTS_DATA);
 
-    // Nút quay về trang chủ
     const backBtn = document.getElementById('backToHome');
     if (backBtn) backBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
 
-    // Lấy thông tin tìm kiếm từ URL
     const urlParams = new URLSearchParams(window.location.search);
     const filterLocation = urlParams.get('location') || '';
     const filterDate = urlParams.get('date') || 'N/A';
@@ -109,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const locationDisplay = document.getElementById('location-display');
     if (locationDisplay) locationDisplay.textContent = filterLocation || 'Tất Cả Các Quận';
 
-    // POPUP VARS
     let currentCourt = null;
     let currentTickets = 1;
 
@@ -119,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const transferInput = document.getElementById("transferFile");
     const fileNameDisplay = document.getElementById("fileName");
 
-    // HÀM TÍNH GIÁ AN TOÀN
     function getPrice() {
         if (!currentCourt) return 0;
         const typeEl = document.getElementById("ticketType");
@@ -135,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return finalPrice;
     }
 
-    // RENDER COURT CARDS
     function renderCourtCards() {
         allCourts = loadAndSyncCourtsData(COURTS_DATA);
         const filteredCourtsRender = allCourts.filter(court => {
@@ -178,7 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(card);
         });
 
-        // Listener cho các nút Đặt Sân Ngay
         document.querySelectorAll(".book-btn").forEach(button => {
             button.addEventListener("click", e => {
                 const card = e.target.closest(".court-card");
@@ -204,7 +191,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (remainingTicketsDisplay) remainingTicketsDisplay.textContent = currentCourt.tickets - 1;
                 if (bookingPopup) bookingPopup.style.display = "flex";
 
-                // Cập nhật dropdown subCourt nếu cần (nếu bạn có)
                 const subCourtSelect = document.getElementById("subCourt");
                 if (subCourtSelect && currentCourt.subCourts && currentCourt.subCourts.length > 0) {
                     subCourtSelect.innerHTML = '';
@@ -221,13 +207,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- POPUP EVENTS ---
-
-    // Đóng popup booking
     const closePopupBtn = document.getElementById("closePopup");
     if (closePopupBtn) closePopupBtn.addEventListener("click", () => { if (bookingPopup) bookingPopup.style.display = "none"; });
 
-    // Nút tăng/giảm vé
     const plusBtn = document.getElementById("plusBtn");
     const minusBtn = document.getElementById("minusBtn");
     const ticketCountDisplay = document.getElementById("ticketCount");
@@ -253,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Chuyển sang Thanh toán
     const payNowBtn = document.getElementById("payNow");
     if (payNowBtn) {
         payNowBtn.addEventListener("click", () => {
@@ -275,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pay_ticketType) pay_ticketType.textContent = ticketTypeValue === 'month' ? ' Tháng' : ' Giờ';
             if (pay_subCourt) pay_subCourt.textContent = subCourtEl ? subCourtEl.value : 'N/A';
             if (pay_ticketCount) pay_ticketCount.textContent = ticketTypeValue === 'month' ? '1 (Tháng)' : currentTickets;
-
             if (pay_totalAmount) pay_totalAmount.textContent = getPrice().toLocaleString('vi-VN') + " VNĐ";
 
             if (paymentPopup) paymentPopup.style.display = "flex";
@@ -289,11 +269,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Đóng thanh toán
     const closePaymentBtn = document.getElementById("closePayment");
     if (closePaymentBtn) closePaymentBtn.addEventListener("click", () => { if (paymentPopup) paymentPopup.style.display = "none"; });
 
-    // Xử lý phương thức thanh toán (QR/Tiền mặt)
     document.querySelectorAll("input[name='paymentMethod']").forEach(radio => {
         radio.addEventListener("change", function() {
             const qrBox = document.getElementById("qrBox");
@@ -310,7 +288,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Xử lý upload file chuyển khoản
     if (transferInput) {
         transferInput.addEventListener("change", function() {
             if (this.files.length > 0) {
@@ -327,7 +304,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Xử lý Xác nhận Thanh toán (lưu booking và cập nhật vé)
+    // =========================================================
+    // PHẦN QUAN TRỌNG: XỬ LÝ XÁC NHẬN THANH TOÁN & LƯU SỐ SÂN TRỐNG
+    // =========================================================
     if (confirmBtn) {
         confirmBtn.addEventListener("click", () => {
             const paymentMethod = document.querySelector("input[name='paymentMethod']:checked")?.value;
@@ -344,6 +323,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const ticketsToDeduct = ticketType === 'month' ? 1 : currentTickets;
 
+            // 1. Cập nhật số vé trên allCourts và tính số sân còn trống
+            const courtIndex = allCourts.findIndex(c => c.id === currentCourt.id);
+            let remainingAfterBooking = 0;
+            if (courtIndex !== -1) {
+                allCourts[courtIndex].tickets -= ticketsToDeduct;
+                if (allCourts[courtIndex].tickets < 0) allCourts[courtIndex].tickets = 0;
+                remainingAfterBooking = allCourts[courtIndex].tickets;
+                saveCourtsData(allCourts); // Lưu trạng thái mới vào LocalStorage
+            }
+
+            // 2. Tạo object booking và Lưu trường sanConTrong
             const newBooking = {
                 id: Date.now(),
                 ngay: filterDate,
@@ -352,43 +342,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 soSan: document.getElementById("subCourt") ? document.getElementById("subCourt").value : 'N/A',
                 soVe: ticketsToDeduct,
                 thanhToan: getPrice().toLocaleString('vi-VN') + " VNĐ",
-                loaiVe: ticketType === 'month' ? ' Tháng' : ' Giờ',
+                loaiVe: ticketType === 'month' ? 'Vé Tháng' : 'Vé Giờ',
                 paymentMethod: paymentMethod === 'qr' ? 'QR Code' : 'Tiền mặt',
-                userId: localStorage.getItem('currentUserEmail') || 'guest'
+                userId: localStorage.getItem('currentUserEmail') || 'guest',
+                sanConTrong: remainingAfterBooking // Lưu số lượng sân còn lại vào đây
             };
 
-            // Lưu lịch sử đặt sân
+            // 3. Lưu lịch sử đặt sân
             let bookings = getBookingsData();
             bookings.push(newBooking);
             saveBookingsData(bookings);
-
-            // Cập nhật số vé còn lại trên allCourts và localStorage
-            const courtIndex = allCourts.findIndex(c => c.id === currentCourt.id);
-            if (courtIndex !== -1) {
-                allCourts[courtIndex].tickets -= ticketsToDeduct;
-                if (allCourts[courtIndex].tickets < 0) allCourts[courtIndex].tickets = 0;
-                saveCourtsData(allCourts);
-            }
 
             alert(`Đặt sân "${newBooking.tenSan}" thành công!\nTổng tiền: ${newBooking.thanhToan}`);
 
             if (paymentPopup) paymentPopup.style.display = "none";
             if (bookingPopup) bookingPopup.style.display = "none";
 
-            // Render lại để hiển thị vé còn
+            // Render lại giao diện
             renderCourtCards();
 
-            // Nếu bạn có hàm dashboard để cập nhật doanh thu, gọi ở đây:
             if (window.customerBooking) {
                 window.customerBooking(Number(getPrice()));
             }
         });
     }
 
-    // Dropdown loại vé: ẩn/hiện bộ đếm và cập nhật remaining tickets
     const ticketTypeSelect = document.getElementById("ticketType");
     if (ticketTypeSelect) {
-        // tìm parent element chứa remainingTickets (an toàn hơn dùng :has)
         const remainingTicketsEl = document.getElementById("remainingTickets");
         const remainingTicketsParent = remainingTicketsEl ? remainingTicketsEl.closest('p') : null;
         const ticketCounter = document.querySelector('.ticket-counter');
@@ -412,7 +392,5 @@ document.addEventListener('DOMContentLoaded', function() {
         ticketTypeSelect.dispatchEvent(new Event('change'));
     }
 
-    // Khởi chạy
     renderCourtCards();
 });
-// --- DOMContentLoaded END ---

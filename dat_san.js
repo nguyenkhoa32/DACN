@@ -30,25 +30,40 @@ document.addEventListener('DOMContentLoaded', function() {
         const userMap = getUserMap();
 
         if (allBookings.length === 0) {
-            bookingBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#777;">Chưa có đơn đặt sân nào.</td></tr>';
+            // Cập nhật colspan lên 7 vì bảng có 7 cột
+            bookingBody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#777;">Chưa có đơn đặt sân nào.</td></tr>';
             return;
         }
 
-        allBookings.sort((a,b)=>new Date(b.ngay)-new Date(a.ngay));
+        // Sắp xếp đơn hàng mới nhất lên đầu
+        allBookings.sort((a, b) => new Date(b.id) - new Date(a.id));
 
         allBookings.forEach(booking => {
             const row = bookingBody.insertRow();
+            
+            // Định dạng ngày
             const formattedDate = booking.ngay ? booking.ngay.split('-').reverse().join('/') : 'N/A';
+            
+            // Lấy tên khách hàng
             const customer = userMap[booking.userId];
-            const customerName = customer ? (customer.name || customer.fullname) : booking.userId.split('@')[0];
+            const customerName = customer ? (customer.name || customer.fullname) : (booking.userId ? booking.userId.split('@')[0] : 'Khách');
 
+            // Đổ dữ liệu vào từng ô (td)
             row.insertCell().textContent = customerName;
             row.insertCell().textContent = formattedDate;
             row.insertCell().textContent = booking.gio;
             row.insertCell().textContent = booking.tenSan;
-            row.insertCell().textContent = booking.soSan;
+            row.insertCell().textContent = "Sân " + (booking.soSan || 'N/A');
             row.insertCell().textContent = booking.thanhToan;
-            row.classList.add(booking.loaiVe==='month'?'booking-month':'booking-hour');
+            
+            // --- CẬP NHẬT Ô SÂN TRỐNG (Cột thứ 7) ---
+            const emptyCell = row.insertCell();
+            emptyCell.textContent = booking.sanConTrong !== undefined ? booking.sanConTrong : '5';
+            emptyCell.style.fontWeight = "bold";
+            emptyCell.style.color = "#e67e22"; // Màu cam để dễ quan sát
+
+            // Thêm class để phân biệt loại vé (nếu cần CSS)
+            row.classList.add(booking.loaiVe === 'Vé Tháng' ? 'booking-month' : 'booking-hour');
         });
     }
 
@@ -70,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (typeof revenueChart !== 'undefined') {
             revenueChart.data.datasets[0].data = [
-                revenueData.month, revenueData.month*1.1, revenueData.month*1.2,
-                revenueData.month*1.3, revenueData.month*1.4, revenueData.month*1.5
+                revenueData.month, revenueData.month * 1.1, revenueData.month * 1.2,
+                revenueData.month * 1.3, revenueData.month * 1.4, revenueData.month * 1.5
             ];
             revenueChart.update();
         }
@@ -86,17 +101,17 @@ document.addEventListener('DOMContentLoaded', function() {
         revenueChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6'],
-                datasets:[{
-                    label:'Doanh Thu (VNĐ)',
-                    data:[0,0,0,0,0,0],
-                    backgroundColor:'rgba(54,162,235,0.2)',
-                    borderColor:'rgba(54,162,235,1)',
-                    borderWidth:2,
-                    fill:true
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+                datasets: [{
+                    label: 'Doanh Thu (VNĐ)',
+                    data: [0, 0, 0, 0, 0, 0],
+                    backgroundColor: 'rgba(54,162,235,0.2)',
+                    borderColor: 'rgba(54,162,235,1)',
+                    borderWidth: 2,
+                    fill: true
                 }]
             },
-            options:{responsive:true,plugins:{legend:{display:false}}}
+            options: { responsive: true, plugins: { legend: { display: false } } }
         });
     }
 
@@ -119,13 +134,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let totalDay = 0, totalMonth = 0, totalYear = 0, totalOrders = 0, totalVisits = 0;
     const today = new Date().toISOString().split('T')[0];
 
-    allBookings.forEach(b=>{
-        const bAmount = Number(b.thanhToan) || 0;
+    allBookings.forEach(b => {
+        // Chuyển đổi chuỗi "80.000 VNĐ" thành số để tính toán
+        const bAmount = b.thanhToan ? Number(b.thanhToan.replace(/\D/g, '')) : 0;
         totalMonth += bAmount;
         totalYear += bAmount;
         totalOrders += 1;
         totalVisits += 1;
-        if(b.ngay===today) totalDay += bAmount;
+        if (b.ngay === today) totalDay += bAmount;
     });
 
     revenueData = { day: totalDay, month: totalMonth, year: totalYear, orders: totalOrders, visits: totalVisits };
