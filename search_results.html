@@ -49,9 +49,9 @@
     <div class="popup-box">
         <h2>Thanh toán</h2>
 
-        <p>Loại vé: <span id="pay_ticketType"></span></p>
+        <p>Loại Sân: <span id="pay_ticketType"></span></p>
         <p>Sân số: <span id="pay_subCourt"></span></p>
-        <p>Số vé: <span id="pay_ticketCount"></span></p>
+        <p>Số đã đặt: <span id="pay_ticketCount"></span></p>
         <h3 style="color: #2ecc71; margin-top: 15px;">Tổng tiền: <span id="pay_totalAmount">0 VNĐ</span></h3>
 <!-- CHỌN PHƯƠNG THỨC THANH TOÁN -->
 <h3 style="margin-top: 15px;">Phương thức thanh toán:</h3>
@@ -88,10 +88,10 @@
             <h2 id="courtTitle">Đặt sân</h2>
 
             <!-- LOẠI VÉ -->
-            <label>Loại vé:</label>
+            <label>Loại sân:</label>
             <select id="ticketType">
-                <option value="social">Vé Giờ</option>
-                <option value="month">Vé Tháng</option>
+                <option value="social">Giờ</option>
+                <option value="month">Tháng</option>
             </select>
 
             <!-- CHỌN SÂN CON -->
@@ -106,13 +106,13 @@
 
             <!-- SỐ LƯỢNG VÉ -->
             <div class="ticket-counter" style="margin-top:12px;">
-                <label>Số vé:</label>
+                <label>Sân:</label>
                 <button id="minusBtn">–</button>
                 <span id="ticketCount">1</span>
                 <button id="plusBtn">+</button>
             </div>
 
-            <p style="margin-top: 5px;">Vé còn lại: <b id="remainingTickets"></b></p>
+            <p style="margin-top: 5px;">Sân còn trống: <b id="remainingTickets"></b></p>
 
              <!-- MAP -->
             <h3 style="margin-top: 12px;">Bản đồ:</h3>
