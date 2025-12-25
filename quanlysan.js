@@ -212,7 +212,7 @@ document.querySelectorAll('.delete-court-btn').forEach(button => {
         let isCourtBooked = bookings.some(b => b.courtId === courtId);
 
         if (isCourtBooked) {
-            alert(`❌ Không thể xóa sân ID ${courtId} vì sân đã có người đặt.`);
+            alert(`❌ Không thể xóa sân vì sân đã có người đặt.`);
             return;
         }
         // ===== HẾT RÀNG BUỘC =====
