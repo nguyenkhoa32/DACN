@@ -336,6 +336,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 2. Tạo object booking và Lưu trường sanConTrong
             const newBooking = {
                 id: Date.now(),
+                
+                 courtId: Number(currentCourt.id),   // 🔥 DÒNG QUYẾT ĐỊNH
+
                 ngay: filterDate,
                 gio: filterTime,
                 tenSan: currentCourt.name,
