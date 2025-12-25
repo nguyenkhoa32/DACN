@@ -201,28 +201,40 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Xử lý nút Xóa (mini)
-        document.querySelectorAll('.delete-court-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const courtId = Number(this.getAttribute('data-id')); 
-                
-                if (confirm(`Bạn có chắc chắn muốn XÓA sân ID: ${courtId} không? Hành động này sẽ cập nhật cả giao diện khách hàng!`)) {
-                    
-                    const initialLength = allCourtsData.length;
-                    
-                    // Lọc và loại bỏ sân khỏi mảng dữ liệu
-                    allCourtsData = allCourtsData.filter(court => court.id !== courtId);
-                    
-                    if (allCourtsData.length < initialLength) {
-                        saveCourtsToLocalStorage();
-                        renderCourts();
-                        alert(`Đã xóa thành công sân ID: ${courtId}.`);
-                    } else {
-                        alert(`Lỗi: Không tìm thấy sân ID: ${courtId} để xóa.`);
-                    }
-                }
-            });
-        });
+       // Xử lý nút Xóa (mini) — CÓ RÀNG BUỘC BOOKING
+document.querySelectorAll('.delete-court-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const courtId = Number(this.getAttribute('data-id'));
+
+        // ===== RÀNG BUỘC: KIỂM TRA BOOKING =====
+        let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+        let isCourtBooked = bookings.some(b => b.courtId === courtId);
+
+        if (isCourtBooked) {
+            alert(`❌ Không thể xóa sân ID ${courtId} vì sân đã có người đặt.`);
+            return;
+        }
+        // ===== HẾT RÀNG BUỘC =====
+
+        if (confirm(`Bạn có chắc chắn muốn XÓA sân ID: ${courtId} không? Hành động này sẽ cập nhật cả giao diện khách hàng!`)) {
+
+            const initialLength = allCourtsData.length;
+
+            // Lọc và loại bỏ sân khỏi mảng dữ liệu
+            allCourtsData = allCourtsData.filter(court => court.id !== courtId);
+
+            if (allCourtsData.length < initialLength) {
+                saveCourtsToLocalStorage();
+                renderCourts();
+                alert(`Đã xóa thành công sân ID: ${courtId}.`);
+            } else {
+                alert(`Lỗi: Không tìm thấy sân ID: ${courtId} để xóa.`);
+            }
+        }
+    });
+});
+
         
         // Xử lý nút Thêm (lớn)
         document.querySelector('.action-button.primary')?.addEventListener('click', function() {

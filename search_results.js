@@ -346,6 +346,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const newBooking = {
                 id: Date.now(),
+                
+                 courtId: Number(currentCourt.id),   // 🔥 DÒNG QUYẾT ĐỊNH
+
                 ngay: filterDate,
                 gio: filterTime,
                 tenSan: currentCourt.name,
